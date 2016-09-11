@@ -36,3 +36,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/', 'HomeController@welcome');
     Route::get('/add', 'HomeController@add');
 });
+
+//item's pic upload
+Route::post('upload', 'uploadController@imgupload');
