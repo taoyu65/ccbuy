@@ -38,4 +38,5 @@ Route::group(['middleware' => 'web'], function () {
 });
 
 //item's pic upload
-Route::post('upload', 'uploadController@imgupload');
+Route::post('additemupload', 'uploadController@imgupload');
+Route::post('additemdelete', 'uploadController@imgDelete');

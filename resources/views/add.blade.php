@@ -3,27 +3,27 @@
 @section('content')
 
     <link href="css/additem.css" rel="stylesheet" type="text/css">
-
+    <script type="text/javascript" src="js/uploadimg.js"></script>
     <script type="text/javascript">
-        function showsuccess()
-        {
-            $().toastmessage('showSuccessToast','添加成功');
-        }
         function selectPic()
         {
-            document.getElementById('uploadpic').click();
+            document.getElementById('image_file').click();
+        }
+        function showerrorinfo()
+        {
+            showMessage('warning','更新图片请先删除此图片');
         }
     </script>
 
 
 
-<div id="additemdiv">
-    <div><img src="images/addtop.jpg" /></div>
-    <div class="width100">
-        {{--<form class="register" style="width:100%">--}}
+    <div id="additemdiv">
+        <div><img src="images/addtop.jpg" /></div>
+        <div class="width100">
+            {{--<form class="register" style="width:100%">--}}
             <div id="skipsomeheight"></div>
-        <form>
-           <div class="width100">
+
+            <div class="width100">
                 <div class="txt">
                     <div class="twohang">出售金额</div>
                     <div class="sanhang">
@@ -34,13 +34,24 @@
                 </div>
                 <div class="twohang"><input type="number" required class="register-input" id="money" placeholder="物品金额" title="金额" value="0.00"></div>
                 <div class="sanhang">
-                    <input type="file" id="uploadpic">
-                    <div class="sanhang"><img src="images/paizhao.png" alt="选择图片" onclick="selectPic()"/></div>
-                    <div class="sanhang"><img src="images/upload.png" alt="上传图片" id="addpic" onclick="showsuccess()"/></div>
-                    <div class="sanhang"><img src="images/removepic.png" alt="删除图片" id="removepic" style="display: block" /></div>
+                    <form id="upload_form" enctype="multipart/form-data" method="post" action="uploadItemPic">
+                        <input type="file" name="image_file" id="image_file" onchange="fileSelected()" />
+                    </form>
+                    <div class="sanhang">
+                        <img src="images/paizhao.png" width="48" height="48" alt="选择图片" onclick="selectPic()" id="selectimg"/>
+                        <img width="48" height="48" id="preshowimg" style="display:none" title="更新图片请先删除此图片" onclick="showerrorinfo()" />
+                    </div>
+                    <div class="sanhang"><img src="images/upload.png" width="48" height="48" alt="上传图片" id="addpic" onclick="startUploading()"/></div>
+                    <div class="sanhang"><img src="images/removepic.png" width="48" height="48" alt="删除图片" id="removepic" onclick="deleteImg()"/></div>
                 </div>
             </div>
-        </form>
+            <form id="delete_form" enctype="multipart/form-data" method="post">
+                <input hidden id="deleteImgId" name="deleteImgId">
+            </form>
+            <div id="showinfo">
+
+            </div>
+
 
             <div class="width100">
                 <div class="txt">
@@ -103,9 +114,9 @@
 
             {{--<div class="width100"><input type="submit" value="添加记录" class="register-button"></div>--}}
             <input class="button orange" style="width: 100%" type="submit" value="添加记录">
-        {{--</form>--}}
+            {{--</form>--}}
+        </div>
     </div>
-</div>
 
 
 @endsection
