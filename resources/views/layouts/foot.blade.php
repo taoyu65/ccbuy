@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="css/jquery.toastmessage.css">
     <!--微网站模板88样式-->
     {{--<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>--}}
-    <script type="text/javascript" src="js/jquery-1.5.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.8.3.mini.js"></script>
     <script type="text/javascript" src="js/jquery.toastmessage.js"></script>
     <script>
         $(function(){

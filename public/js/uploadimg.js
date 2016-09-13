@@ -53,6 +53,7 @@ function deleteImg()
 			showMessage('success', '删除图片成功');
 		}
 	}
+
 }
 
 function fileSelected() {

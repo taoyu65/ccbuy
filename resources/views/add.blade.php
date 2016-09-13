@@ -3,15 +3,41 @@
 @section('content')
 
     <link href="css/additem.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="layer/layer.js"></script>
     <script type="text/javascript" src="js/uploadimg.js"></script>
+
     <script type="text/javascript">
+        var marked = true;//确保在激活状态不能再点击
         function selectPic()
         {
             document.getElementById('image_file').click();
         }
         function showerrorinfo()
         {
-            showMessage('warning','更新图片请先删除此图片');
+
+            if(marked) {
+                marked = false;
+                layer.open({
+                    type: 1,
+                    shade: [0.8, '#393D49'],
+                    //shadeClose: true,
+                    title: false, //不显示标题
+                    time: 5000,
+                    scrollbar: false,
+                    content: $('#preshowimg'), //捕获的元素
+                    success: function(layero, index){
+                        //console.log(layero, index);
+                        showMessage('warning', '更新图片请先删除此图片');
+                    },
+                    cancel: function (index) {
+                        layer.close(index);
+                        this.content.show();
+                        marked = true;
+                        //layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', {time: 5000, icon:6});
+                    }
+                });
+            }
         }
     </script>
 
@@ -35,11 +61,11 @@
                 <div class="twohang"><input type="number" required class="register-input" id="money" placeholder="物品金额" title="金额" value="0.00"></div>
                 <div class="sanhang">
                     <form id="upload_form" enctype="multipart/form-data" method="post" action="uploadItemPic">
-                        <input type="file" name="image_file" id="image_file" onchange="fileSelected()" />
+                        <input type="file" name="image_file" id="image_file" onchange="fileSelected()" style="display: none"/>
                     </form>
                     <div class="sanhang">
                         <img src="images/paizhao.png" width="48" height="48" alt="选择图片" onclick="selectPic()" id="selectimg"/>
-                        <img width="48" height="48" id="preshowimg" style="display:none" title="更新图片请先删除此图片" onclick="showerrorinfo()" />
+                        <div id="layerid"><img  id="preshowimg" style="display:none" title="更新图片请先删除此图片" onclick="showerrorinfo()" /></div>
                     </div>
                     <div class="sanhang"><img src="images/upload.png" width="48" height="48" alt="上传图片" id="addpic" onclick="startUploading()"/></div>
                     <div class="sanhang"><img src="images/removepic.png" width="48" height="48" alt="删除图片" id="removepic" onclick="deleteImg()"/></div>
@@ -56,7 +82,7 @@
             <div class="width100">
                 <div class="txt">
                     <div class="twohang">物品名称</div>
-                    <div class="sanhang">订单ID <input type="button" value="点击查询订单" class="button small green"></div>
+                    <div class="sanhang">订单ID <input type="button" value="查询订单" class="button small green"></div>
                 </div>
                 <div class="twohang"><input type="text" required class="register-input" placeholder="物品名称" ></div>
                 <div class="sanhang"> <input type="number"  class="register-input" placeholder="如果是新订单保留为空"></div>
@@ -117,6 +143,8 @@
             {{--</form>--}}
         </div>
     </div>
+<script type="text/javascript">
 
+</script>
 
 @endsection

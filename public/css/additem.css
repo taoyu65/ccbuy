@@ -9,7 +9,7 @@
 #skipsomeheight{
     margin-top:15px;
 }
-
+#layerid{max-width: 48px;max-height: 48px;}
 .txt{
   width:100%;
   float: left;
