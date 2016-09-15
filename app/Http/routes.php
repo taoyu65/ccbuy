@@ -1,5 +1,8 @@
 <?php
-
+Event::listen('404', function() {
+    return Response::error('404');
+});
+$router->pattern('id', '[0-9]+');
 /*
 |--------------------------------------------------------------------------
 | Routes File
@@ -40,3 +43,6 @@ Route::group(['middleware' => 'web'], function () {
 //item's pic upload
 Route::post('additemupload', 'uploadController@imgupload');
 Route::post('additemdelete', 'uploadController@imgDelete');
+
+Route::controller('cart', 'CartController');
+//Route::get('showcustom', 'CartController@showCustom')->name('a/b'); //use new method to route controller and action related cart

@@ -10,7 +10,6 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Support\Facades\Input;
-
 use Illuminate\Support\Facades\Storage;
 
 class UploadController extends Controller

@@ -4,8 +4,9 @@
 
     <link href="css/additem.css" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="layer/layer.js"></script>
+    <script type="text/javascript" src="ui/layer/layer.js"></script>
     <script type="text/javascript" src="js/uploadimg.js"></script>
+    <script type="text/javascript" src="ui/laydate/laydate.js"></script>
 
     <script type="text/javascript">
         var marked = true;//确保在激活状态不能再点击
@@ -13,6 +14,8 @@
         {
             document.getElementById('image_file').click();
         }
+
+        //显示预览已经上传的图片   //layer插件
         function showerrorinfo()
         {
 
@@ -38,6 +41,42 @@
                     }
                 });
             }
+        }
+
+        //弹出 新加订单窗口 //layer插件
+        function createCartinfor()
+        {
+            layer.open({
+                type: 2,
+                shade: [0.8, '#393D49'],
+                area:['850px','500px'],
+                title: ['添加新订单', 'font-size:12px;color:white;background-color:#6a5a8c'],
+                scrollbar: false,
+                content: ['cart/showcustom', 'no'],
+                closeBtn:1,
+                success: function(layero, index){
+                },
+                cancel:function(index){
+                }
+            });
+        }
+
+        //弹出 查询订单窗口 //layer插件
+        function getCartInfor()
+        {
+            layer.open({
+                type: 1,
+                shade:[0.8, '#393D49'],
+                title: ['选择所属于的订单','font-size:12px;color:grey'],
+                scrollbar: false,
+                content:'',
+                success:function(layero, index){
+
+                },
+                cancel:function(index){
+
+                }
+            });
         }
     </script>
 
@@ -72,6 +111,7 @@
                 </div>
             </div>
             <form id="delete_form" enctype="multipart/form-data" method="post">
+                {{--判断是否删除图片(或者只是选择了图片) 来决定是否执行后台的删除图片操作--}}
                 <input hidden id="deleteImgId" name="deleteImgId">
             </form>
             <div id="showinfo">
@@ -82,7 +122,11 @@
             <div class="width100">
                 <div class="txt">
                     <div class="twohang">物品名称</div>
-                    <div class="sanhang">订单ID <input type="button" value="查询订单" class="button small green"></div>
+                    <div class="sanhang">
+                        订单ID
+                        <input type="button" value="查询订单" class="button small green" onclick="getCartInfor()">
+                        <input type="button" value="新开订单" class="button small green" onclick="createCartinfor()">
+                    </div>
                 </div>
                 <div class="twohang"><input type="text" required class="register-input" placeholder="物品名称" ></div>
                 <div class="sanhang"> <input type="number"  class="register-input" placeholder="如果是新订单保留为空"></div>
@@ -125,7 +169,7 @@
                     <div class="sanhang">备注信息</div>
                     <div class="sanhang">是否付款</div>
                 </div>
-                <div class="sanhang"><input type="date" required class="register-input2" placeholder="" ></div>
+                <div class="sanhang"><input required class="register-input2 laydate-icon" id="showDate" onclick="laydate()"></div>
                 <div class="sanhang"><input type="text" required class="register-input2" placeholder="备注" ></div>
                 <div class="sanhang">
                     <div class="switch">
@@ -143,8 +187,16 @@
             {{--</form>--}}
         </div>
     </div>
-<script type="text/javascript">
 
+    {{--隐藏:添加表单--}}
+    <div></div>
+
+<script type="text/javascript">
+/*;!function(){
+    laydate({
+        elem: '#showDate'
+    })
+};*/
 </script>
 
 @endsection
