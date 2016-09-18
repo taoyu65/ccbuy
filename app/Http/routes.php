@@ -44,5 +44,11 @@ Route::group(['middleware' => 'web'], function () {
 Route::post('additemupload', 'uploadController@imgupload');
 Route::post('additemdelete', 'uploadController@imgDelete');
 
-Route::controller('cart', 'CartController');
-//Route::get('showcustom', 'CartController@showCustom')->name('a/b'); //use new method to route controller and action related cart
+//cart
+Route::get('showcart', 'CartController@showCustomList');
+Route::post('addcart', 'CartController@add');
+
+//customs
+Route::get('showcustomwindow', function(){
+    return view('view/customShow');
+});

@@ -52,7 +52,7 @@
                 area:['850px','500px'],
                 title: ['添加新订单', 'font-size:12px;color:white;background-color:#6a5a8c'],
                 scrollbar: false,
-                content: ['cart/showcustom', 'no'],
+                content: ['showcart', 'no'],
                 closeBtn:1,
                 success: function(layero, index){
                 },
@@ -125,11 +125,11 @@
                     <div class="sanhang">
                         订单ID
                         <input type="button" value="查询订单" class="button small green" onclick="getCartInfor()">
-                        <input type="button" value="新开订单" class="button small green" onclick="createCartinfor()">
+                        <input type="button" value="新开订单" class="button small green" onclick="createCartinfor()" name="newopencart" id="newopencart">
                     </div>
                 </div>
                 <div class="twohang"><input type="text" required class="register-input" placeholder="物品名称" ></div>
-                <div class="sanhang"> <input type="number"  class="register-input" placeholder="如果是新订单保留为空"></div>
+                <div class="sanhang"> <input type="number" value="31" class="register-input" placeholder="如果是新订单保留为空" id="CartId" name="CartId"></div>
             </div>
 
             <div class="width100">
