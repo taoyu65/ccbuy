@@ -28,11 +28,18 @@ class CartController extends Controller
     public function add()
     {
         $cart = new Cart;   //dd($cart);
-        $cart->customs_id = Input::get('customsNameList');
+        //set different way to save id
+        $idmodel = Input::get('idModel');
+        if($idmodel == 'name') {
+            $cart->customs_id = Input::get('customsNameList');
+        }
+        if($idmodel == 'id'){
+            $cart->customs_id = Input::get('customId');
+        }
         $cart->rename = Input::get('reName');
         $cart->date=  Input::get('dateInput');
         if($cart->save()){
-
+            return $cart->id;
         }else{
 
         }

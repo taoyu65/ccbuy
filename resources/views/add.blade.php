@@ -129,7 +129,7 @@
                     </div>
                 </div>
                 <div class="twohang"><input type="text" required class="register-input" placeholder="物品名称" ></div>
-                <div class="sanhang"> <input type="number" value="31" class="register-input" placeholder="如果是新订单保留为空" id="CartId" name="CartId"></div>
+                <div class="sanhang"> <input type="number" class="register-input" placeholder="如果是新订单保留为空" id="CartId" name="CartId"></div>
             </div>
 
             <div class="width100">

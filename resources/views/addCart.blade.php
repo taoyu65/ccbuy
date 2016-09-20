@@ -19,7 +19,6 @@
     <link type="text/css" rel="stylesheet" href="ui/icheck/skins/square/purple.css">
     <style type="text/css">
         .addheight{height:40px}
-        #hello{height:28px}
         .submitButton{border-color: #A295BB;background-color:#6a5a8c;width:150px;height:30px;}
         .submitButton span{color:white}
         .warning{background-color: #A295BB;padding-top:10px;}
@@ -51,47 +50,45 @@
                 var showToday = myDate.format('yyyy-MM-dd');
                 document.getElementById('dateInput').value = showToday;
             });
-            //下拉选择和输入ID只能激活其中之一
+            //下拉选择和输入ID只能激活其中之一     //icheck
             $('#icheck1').on('ifClicked', function(event){
                 var isChecked = document.getElementById('icheck1').checked;
                 if(!isChecked)
                 {
                     document.getElementById('customsNameList').setAttribute('disabled', 'true');
                     document.getElementById('customId').removeAttribute('disabled');
+                    jQuery('#idModel').val('id'); //set hidden input to let back end know to use dropdown list data
                 }
                 else
                 {
                     document.getElementById('customId').setAttribute('disabled', 'true');
                     document.getElementById('customsNameList').removeAttribute('disabled');
+                    jQuery('#idModel').val('name');   //set hidden input to let back end know to use text box data
                 }
             });
 
-            //异步提交 添加客户信息
+            //异步提交 添加订单信息
             var options = {
-                target: '#showResult',
+                //target: '#showResult',
                 url: 'addcart',
                 type: 'post',
                 //dataType: 'json', //http://jquery.malsup.com/form/#json
                 beforeSubmit:function(){
-                    if(!checkData()){
-                        return false;
-                    }
+                    //if(!checkData()){
+                        //return false;
+                   // }
                 },
                 success: function(data){
                     //layer.alert('添加成功! 页面自动返回并添加此订单ID', {icon:1});
-                    layer.confirm('添加成功!返回上一层继续 或者 在继续添加客户', {
-                        btn: ['确认离开','再添客户'] //按钮
+                    layer.confirm('添加成功!返回上一层继续 或者 在继续添加订单', {
+                        btn: ['确认离开','再添订单'] //按钮
                     }, function(){
                         jQuery('#CartId',window.parent.document).val(data);
                         closeWindos();
                     }, function(){
                         jQuery('#customsNameList').val('0');
                         jQuery('#reName').val('');
-                        //jQuery('#dateInput').val('');
-                        /*layer.msg('也可以这样', {
-                            time: 20000, //20s后自动关闭
-                            btn: ['明白了', '知道了']
-                        });*/
+                        jQuery('#customId').val('');
                     });
                 },
                 error: function () {
@@ -99,7 +96,9 @@
                 }
             };
             $('#addCartForm').submit(function () {
-                $(this).ajaxSubmit(options);
+                if(checkData()) {
+                    $(this).ajaxSubmit(options);
+                }
                 return false;
             });
 
@@ -123,35 +122,84 @@
                                     ("00"+ o[k]).substr((""+ o[k]).length));
                 return format;
             }
+            //实时监听输入动作 并且显示     //学习用  项目无关
+            //$('#customId').bind('input propertychange', function() {
+                //$('#showCustomName').html($(this).val().length + ' characters');
+            //});
+        });
+
+        //输入数字并ajax加载客户名字
+        var flag;  //全局变量用于标识是否延时执行keyup事件
+        function myFunc1(){
+            //不管存不存在flag这个延时执行函数，先清除
+            clearTimeout(flag);
+            //延时500ms执行请求事件，如果感觉时间长了，就用合适的时间
+            //只要有输入则不执行keyup事件
+            flag = setTimeout(function(){
+                //ajax 获取数据
+                var uid = jQuery('#customId').val();
+                uid = uid.trim();
+                if(uid)
+                    jQuery('#showCustomName').html('不能为空格');
+                if(isNaN(uid)){
+                    jQuery('#showCustomName').html('一个ID必然是数字, 请不要尝试黑客的行为');
+                    jQuery('#customId').val('');
+                    return;
+                }
+                //return para[custom's name, is in the database]
+                $.get('getcustomname/'+uid, function (data, status) {
+                    if(data[1]) {
+                        jQuery('#showCustomName').html('客户ID:' + uid + '的姓名是: ' + '<p style="color: green;font-weight:bold ">' + data[0] + '</p>');
+                    }else {
+                        jQuery('#showCustomName').html('客户ID:' + uid + '的姓名是: ' + '<p style="color: red;font-weight:bold ">' + data[0] + '</p>');
+                        jQuery('#customId').val('');
+                    }
+                });
+            }, 500);
+        }
+        $(function(){
+            $("#customId").keyup(function(){
+                jQuery('#showCustomName').html('<img src="images/loading.gif">');
+                myFunc1();
+            });
         });
 
         //判断数据是否为空
         function checkData()
         {
             var customId = jQuery('#customsNameList').val();
+            var customId2 = jQuery('#customId').val();
             var rename = jQuery('#reName').val();
             var date = jQuery('#dateInput').val();
-
-            if(customId == 0)
-            {
-                layer.tips('小样! 你还没有选择ID', '#customsNameList', {
-                    tips: [1, '#78BA32']
-                });
-                return false;
+            var isChecked = document.getElementById('icheck1').checked;
+            if(isChecked){
+                if(customId2 == '') {
+                    layer.tips('小样! 你还没有选择ID', '#customId', {
+                        tips: [1, '#78BA32']
+                    });
+                    return;
+                }
+            }else{
+                if(customId == 0) {
+                    layer.tips('小样! 你还没有选择ID', '#customsNameList', {
+                        tips: [1, '#78BA32']
+                    });
+                    return;
+                }
             }
             if(rename == '')
             {
                 layer.tips('小样! 写些什么啊. 懒死了.', '#reName', {
                     tips: [3, '#78BA32']
                 });
-                return false;
+                return;
             }
             if(date == '')
             {
                 layer.tips('小样! 点这个可以快速设置日期为今天.', '#selectDate', {
                     tips: [3, '#78BA32']
                 });
-                return false;
+                return;
             }
             return true;
         }
@@ -178,6 +226,11 @@
                 }
             });
         }
+
+        //
+        function findCustom() {
+           // alert(jQuery('#customId').val());
+        }
     </script>
 </head>
 
@@ -187,11 +240,11 @@
     <div class="addheight"></div>
 
     <div class="form-group">
-        <label class="col-xs-2 control-label" for="customId">客户选择</label>
+        <label class="col-xs-2 control-label" for="customsNameList">客户选择</label>
         <div class="col-xs-2">
             {{--<input class="form-control input-sm" type="text" id="customsNameList">--}}
             <select class="form-control input-sm" id="customsNameList" name="customsNameList">
-                <option selected value="0">选择客户</option>
+                <option  value="0">选择客户</option>
                 @foreach($customs as $custom)
                 <option value="{{$custom->id}}" title="{{$custom->dgFrom}}'的'{{$custom->relationship}}">{{$custom->customName}}</option>
                 @endforeach
@@ -204,10 +257,10 @@
         </div>
 
         <div class="col-xs-1" >
-            <input class="form-control input-sm" type="text" id="customId" disabled>
+            <input class="form-control input-sm" type="text" id="customId" name="customId"  disabled>
         </div>
         <div class="col-xs-4" >
-            <div class="warning"><p>请确认客户ID在输入,以免数据混乱</p></div>
+            <div class="warning" id="showCustomName">请确认客户ID在输入,以免数据混乱</div>
         </div>
     </div>
 
@@ -254,6 +307,7 @@
         <div class="col-xs-5 text-left"><p><button class="submitButton" onclick="closeWindos()"><span>关闭窗口</span></button></p></div>
     </div>
 
+    <input type="hidden" id="idModel" name="idModel" value="name">
 </form>
 
 </body>
