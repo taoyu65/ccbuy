@@ -19,22 +19,46 @@
     <script type="text/javascript">
 
         $(document).ready(function() {
+            //get dropdown data from json
+            $.getJSON('json/ccbuy1.json').done(function (data) { //js 读取
+                //relationship dropdrow list
+                var relationshipData = new Array();
+                relationshipData = data.custom.relationship;
+                var relationshipCount = relationshipData.length;
+                for(var i = 0; i < relationshipCount; i++) {
+                    jQuery('#dropdownMenu').append('<li><a href="#" onclick="setNameRelationship(\''+relationshipData[i]+'\')">'+relationshipData[i]+'</a></li>');
+                }
+                //dgFrom dropdrow list
+                var dgFromData = data.custom.from;
+                var dgFromCount = dgFromData.length;
+                for (var i = 0; i < dgFromCount; i++) {
+                    jQuery('#dropdownMenu2').append('<li><a href="#" onclick="setNameFrom(\''+dgFromData[i]+'\')">'+dgFromData[i]+'</a></li>');
+                }
+            });
+            //aviod a bug when new open this window and press ENTER the form will be submit
+            jQuery('#customName').focus();
             //异步提交 添加客户信息
             var options = {
-                //target: '',   //返回值呈现在target处
+                target: '#showResult',   //返回值呈现在target处
                 url: 'addcustom',
                 type: 'post',
+               // dataType: 'json',
                 beforeSubmit:function(){
                     checkCustomData();
                 },
-                success: function(){
-                    layer.msg('添加成功.');
-                    goback();
+                success: function() {
+                    layer.alert('添加成功',  {
+                        skin: 'layui-layer-molv', //样式类名
+                        closeBtn: 0
+                    }, function () {
+                        goback();
+                    });
                 },
                 error: function(){
                     layer.alert('发生未知错误, 请联系涛哥', {icon:2});
                 }
             };
+
             $('#addCustomForm').submit(function () {
                 $(this).ajaxSubmit(options);
                 return false;
@@ -62,9 +86,13 @@
         }
 
         //从dropdown选择一个客户关系
-        function setName(setName)
+        function setNameRelationship(setName)
         {
             jQuery('#relationship').val(setName);
+        }
+        //set dgFrom name for textbox when select dropdown
+        function setNameFrom(setName) {
+            jQuery('#dgFrom').val(setName);
         }
         //添加新的客户关系
         function addNewRelationship()
@@ -91,10 +119,32 @@
             layer.tips('<strong>此功能暂时被取消, 录入信息后直接点击添加客户即可</strong>', '#customsubmit', {
                 tips: [1, '#78BA32']
             });
-            //添加
-            /*$.get('json/ccbuy.json').done(function (data) { //js 读取
-                //alert(data.custom.relationship[1]);
-            });*/
+        }
+        //添加新的客户来源
+        function addNewFrom()
+        {
+            var dgFrom = jQuery('#dgFrom').val();
+            if(dgFrom.trim() == ''){
+                layer.tips('小样! 还想用空名字?', '#dgFrom', {
+                    tips: [1, '#78BA32']
+                });
+                return;
+            }
+            var list = jQuery('#dropdownMenu2 li');
+            var count = list.length;
+            for(var i = 0; i<count; i++)
+            {
+                //判断是否已经存在这个名称
+                if(dgFrom == list[i].getAttribute('value')){
+                    layer.tips('小样! 这个名字已经存在了', '#dgFrom', {
+                        tips: [1, '#78BA32']
+                    });
+                    return;
+                }
+            }
+            layer.tips('<strong>此功能暂时被取消, 录入信息后直接点击添加客户即可</strong>', '#customsubmit', {
+                tips: [1, '#78BA32']
+            });
         }
     </script>
 </head>
@@ -125,10 +175,6 @@
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <ul class="dropdown-menu" id="dropdownMenu">
-                    @for($i = 0; $i<$count; $i++)
-                    <li value="{{$relationship[$i]}}"><a href='#' onclick="setName('{{$relationship[$i]}}')">{{$relationship[$i]}}</a></li>
-                    @endfor
-                    {{--<li role="separator" class="divider"></li>--}}
                 </ul>
             </div>
         </div>
@@ -136,15 +182,27 @@
 
     <div class="form-group">
         <label class="col-xs-2 control-label" for="dgFrom">客户来源</label>
-        <div class="col-xs-9">
-            <input class="form-control input-sm" type="text" name="dgFrom" id="dgFrom" placeholder="比如 涛哥 灿灿" value="{{$from[1]}}" required>
+        <div class="col-xs-6">
+            <input class="form-control input-sm" type="text" name="dgFrom" id="dgFrom" placeholder="比如 涛哥 灿灿" required>
+        </div>
+        <div class="col-xs-4">
+            <!-- Split button -->
+            <div class="btn-group">
+                <button type="button" class="btn btn-warning" onclick="addNewFrom()">确认添加新客户来源</button>
+                <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu" id="dropdownMenu2">
+                </ul>
+            </div>
         </div>
     </div>
 
     <div class="form-group">
         <label class="col-xs-2 control-label" for="info">备注</label>
         <div class="col-xs-9">
-            <input class="form-control input-sm" type="text" name="info" id="info" placeholder="额外信息" required>
+            <input class="form-control input-sm" type="text" name="info" id="info" placeholder="额外信息">
         </div>
     </div>
 
@@ -155,7 +213,6 @@
         <div class="col-xs-2"></div>
         <div class="col-xs-5 text-left"><p><button class="submitButton" onclick="closeWindos()"><strong>关闭窗口</strong></button></p></div>
     </div>
-
 </form>
 
 </body>

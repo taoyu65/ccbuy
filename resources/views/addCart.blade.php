@@ -218,7 +218,7 @@
                 area: ['850px', '500px'],
                 title: ['添加新客户', 'font-size:12px;color:white;background-color:#F90'],
                 scrollbar: false,
-                content: ['showcustomwindow', 'no'],
+                content: ['showcustomwindow', 'yes'],
                 closeBtn:1,
                 success: function(layero, index){
                 },

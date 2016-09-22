@@ -7,8 +7,5 @@
  */
 
 return [
-    'custom' => [
-        'relationship' => ['家人', '朋友'],
-        'from' =>['涛哥', '灿灿']
-    ],
+    'json' => 'json/ccbuy1.json'
 ];
