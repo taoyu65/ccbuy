@@ -30,10 +30,12 @@ class CustomController extends Controller
         $custom->dgFrom = Input::get('dgFrom');
         $custom->info = Input::get('info');
         $custom->save();
-        //relationship dropdown
-        $this->addRelationshipToJson($jsonPath,$custom->relationship);
-        //from dropdown
-        $this->addFromToJson($jsonPath, $custom->dgFrom);
+        if ($custom->save()) {
+            //relationship dropdown
+            $this->addRelationshipToJson($jsonPath,$custom->relationship);
+            //from dropdown
+            $this->addFromToJson($jsonPath, $custom->dgFrom);
+        }
     }
 
     /**

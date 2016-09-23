@@ -7,5 +7,5 @@
  */
 
 return [
-    'json' => 'json/ccbuy1.json'
+    'json' => 'json/ccbuy.json'
 ];

@@ -28,7 +28,7 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-24.310345">
+            <state vertical-scroll-proportion="-0.0">
               <caret line="54" column="59" selection-start-line="54" selection-start-column="49" selection-end-line="54" selection-end-column="59" />
               <folding>
                 <element signature="e#113#491#0#PHP" expanded="false" />
@@ -37,30 +37,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CustomController.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CustomController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/CustomController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.310345">
-              <caret line="22" column="47" selection-start-line="22" selection-start-column="47" selection-end-line="22" selection-end-column="47" />
+            <state vertical-scroll-proportion="0.4074074">
+              <caret line="23" column="18" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
               <folding>
                 <element signature="e#40#62#0#PHP" expanded="true" />
-                <element signature="e#1202#1325#0#PHP" expanded="false" />
-                <element signature="e#1330#1931#0#PHP" expanded="false" />
-                <element signature="e#1937#2050#0#PHP" expanded="false" />
-                <element signature="e#2055#2608#0#PHP" expanded="false" />
-                <element signature="e#2628#3039#0#PHP" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ccbuy.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/ccbuy.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.586207">
-              <caret line="10" column="2" selection-start-line="10" selection-start-column="2" selection-end-line="10" selection-end-column="2" />
-              <folding>
-                <element signature="e#6#89#0#PHP" expanded="true" />
+                <element signature="e#321#621#0#PHP" expanded="false" />
+                <element signature="e#1259#1382#0#PHP" expanded="false" />
+                <element signature="e#1387#1988#0#PHP" expanded="false" />
+                <element signature="e#1994#2107#0#PHP" expanded="false" />
+                <element signature="e#2112#2665#0#PHP" expanded="false" />
+                <element signature="e#2685#3096#0#PHP" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -69,18 +58,9 @@
       <file leaf-file-name="add.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/add.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-65.24138">
+            <state vertical-scroll-proportion="0.0">
               <caret line="163" column="0" selection-start-line="163" selection-start-column="0" selection-end-line="163" selection-end-column="0" />
-              <folding>
-                <element signature="e#2107#2479#0#HTML" expanded="false" />
-                <element signature="e#2725#4229#0#HTML" expanded="false" />
-                <element signature="e#4242#4457#0#HTML" expanded="false" />
-                <element signature="e#4470#4509#0#HTML" expanded="false" />
-                <element signature="e#4524#5288#0#HTML" expanded="false" />
-                <element signature="e#5302#6044#0#HTML" expanded="false" />
-                <element signature="e#6058#7028#0#HTML" expanded="false" />
-                <element signature="e#7042#8125#0#HTML" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -88,12 +68,9 @@
       <file leaf-file-name="addCart.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/addCart.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-20.82258">
-              <caret line="220" column="53" selection-start-line="220" selection-start-column="53" selection-end-line="220" selection-end-column="53" />
+            <state vertical-scroll-proportion="-6.827586">
+              <caret line="108" column="40" selection-start-line="108" selection-start-column="32" selection-end-line="108" selection-end-column="40" />
               <folding>
-                <element signature="e#4662#5562#0#HTML" expanded="false" />
-                <element signature="e#8652#8767#0#HTML" expanded="false" />
-                <element signature="n#div#3;n#form#0;n#body#0;n#html#0;n#!!top" expanded="false" />
                 <marker date="1474520559908" expanded="true" signature="6742:6772" placeholder="..." />
                 <marker date="1474520559908" expanded="true" signature="6918:6946" placeholder="..." />
               </folding>
@@ -101,14 +78,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="customShow.blade.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="customShow.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/view/customShow.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.663573">
-              <caret line="191" column="127" selection-start-line="191" selection-start-column="127" selection-end-line="191" selection-end-column="127" />
+            <state vertical-scroll-proportion="-20.48276">
+              <caret line="36" column="15" selection-start-line="36" selection-start-column="15" selection-end-line="36" selection-end-column="15" />
               <folding>
-                <element signature="e#3566#4420#0#HTML" expanded="false" />
-                <element signature="e#4478#5297#0#HTML" expanded="false" />
+                <element signature="e#2922#3037#0#HTML" expanded="false" />
+                <element signature="e#3095#3247#0#HTML" expanded="false" />
+                <element signature="e#3331#3392#0#HTML" expanded="false" />
+                <element signature="e#3490#3545#0#HTML" expanded="false" />
+                <element signature="e#3611#4465#0#HTML" expanded="false" />
+                <element signature="e#4523#5342#0#HTML" expanded="false" />
+                <element signature="e#5404#5503#0#HTML" expanded="false" />
+                <element signature="n#div#2;n#form#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#3;n#form#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#4;n#form#0;n#body#0;n#html#0;n#!!top" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -155,10 +140,10 @@
         <option value="$PROJECT_DIR$/resources/views/add.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/CartController.php" />
-        <option value="$PROJECT_DIR$/config/ccbuy.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/CustomController.php" />
         <option value="$PROJECT_DIR$/resources/views/addCart.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/CustomController.php" />
         <option value="$PROJECT_DIR$/resources/views/view/customShow.blade.php" />
+        <option value="$PROJECT_DIR$/config/ccbuy.php" />
       </list>
     </option>
   </component>
@@ -181,10 +166,9 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="735" />
-    <option name="y" value="1" />
-    <option name="width" value="1829" />
-    <option name="height" value="1037" />
+    <option name="x" value="802" />
+    <option name="width" value="1918" />
+    <option name="height" value="1039" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -217,8 +201,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -293,6 +275,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -384,25 +368,25 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="735" y="1" width="1829" height="1037" extended-state="0" />
+    <frame x="802" y="0" width="1918" height="1039" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15168229" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14458464" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="版本控制" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="调试" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.32826087" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0952381" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="运行" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="调试" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="运行" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -502,7 +486,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.7">
           <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -567,7 +550,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-18.965517">
           <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -575,7 +557,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="24" column="18" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -583,7 +564,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.39909297">
           <caret line="25" column="7" selection-start-line="25" selection-start-column="7" selection-end-line="25" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -591,7 +571,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-13.4827585">
           <caret line="509" column="23" selection-start-line="509" selection-start-column="23" selection-end-line="509" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -607,7 +586,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -629,7 +607,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-12.862069">
           <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -637,7 +614,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.102564104">
           <caret line="33" column="46" selection-start-line="33" selection-start-column="46" selection-end-line="33" selection-end-column="46" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -645,7 +621,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.025229357">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -661,14 +636,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.21077845">
           <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding>
-            <element signature="e#126#163#0#PHP" expanded="false" />
-            <element signature="e#312#668#0#PHP" expanded="false" />
-            <element signature="e#673#869#0#PHP" expanded="false" />
-            <element signature="e#895#1787#0#PHP" expanded="false" />
-            <element signature="e#1810#2239#0#PHP" expanded="false" />
-            <element signature="e#2274#3006#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -676,7 +643,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.63073397">
           <caret line="2" column="21" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -684,7 +650,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="4.364679">
           <caret line="173" column="36" selection-start-line="173" selection-start-column="36" selection-end-line="173" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -692,7 +657,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8738532">
           <caret line="61" column="6" selection-start-line="61" selection-start-column="6" selection-end-line="61" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -700,9 +664,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5344037">
           <caret line="131" column="30" selection-start-line="131" selection-start-column="30" selection-end-line="131" selection-end-column="30" />
-          <folding>
-            <element signature="e#46#58#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -726,7 +687,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.38283062">
           <caret line="15" column="49" selection-start-line="15" selection-start-column="49" selection-end-line="15" selection-end-column="49" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -734,7 +694,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2345679">
           <caret line="1191" column="26" selection-start-line="1191" selection-start-column="26" selection-end-line="1191" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -742,7 +701,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.34491017">
           <caret line="531" column="9" selection-start-line="531" selection-start-column="9" selection-end-line="531" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -750,7 +708,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.34491017">
           <caret line="707" column="9" selection-start-line="707" selection-start-column="9" selection-end-line="707" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -766,10 +723,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4860789">
           <caret line="33" column="62" selection-start-line="33" selection-start-column="62" selection-end-line="33" selection-end-column="62" />
-          <folding>
-            <element signature="e#6#89#0#PHP" expanded="true" />
-            <element signature="e#124#158#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -777,30 +730,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.15313224">
           <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/add.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-65.24138">
+        <state vertical-scroll-proportion="0.0">
           <caret line="163" column="0" selection-start-line="163" selection-start-column="0" selection-end-line="163" selection-end-column="0" />
-          <folding>
-            <element signature="e#2107#2479#0#HTML" expanded="false" />
-            <element signature="e#2725#4229#0#HTML" expanded="false" />
-            <element signature="e#4242#4457#0#HTML" expanded="false" />
-            <element signature="e#4470#4509#0#HTML" expanded="false" />
-            <element signature="e#4524#5288#0#HTML" expanded="false" />
-            <element signature="e#5302#6044#0#HTML" expanded="false" />
-            <element signature="e#6058#7028#0#HTML" expanded="false" />
-            <element signature="e#7042#8125#0#HTML" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-24.310345">
+        <state vertical-scroll-proportion="0.0">
           <caret line="54" column="59" selection-start-line="54" selection-start-column="49" selection-end-line="54" selection-end-column="59" />
           <folding>
             <element signature="e#113#491#0#PHP" expanded="false" />
@@ -808,39 +751,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/ccbuy.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.586207">
-          <caret line="10" column="2" selection-start-line="10" selection-start-column="2" selection-end-line="10" selection-end-column="2" />
-          <folding>
-            <element signature="e#6#89#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/CustomController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.310345">
-          <caret line="22" column="47" selection-start-line="22" selection-start-column="47" selection-end-line="22" selection-end-column="47" />
-          <folding>
-            <element signature="e#40#62#0#PHP" expanded="true" />
-            <element signature="e#1202#1325#0#PHP" expanded="false" />
-            <element signature="e#1330#1931#0#PHP" expanded="false" />
-            <element signature="e#1937#2050#0#PHP" expanded="false" />
-            <element signature="e#2055#2608#0#PHP" expanded="false" />
-            <element signature="e#2628#3039#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/addCart.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-20.82258">
-          <caret line="220" column="53" selection-start-line="220" selection-start-column="53" selection-end-line="220" selection-end-column="53" />
+        <state vertical-scroll-proportion="-6.827586">
+          <caret line="108" column="40" selection-start-line="108" selection-start-column="32" selection-end-line="108" selection-end-column="40" />
           <folding>
-            <element signature="e#4662#5562#0#HTML" expanded="false" />
-            <element signature="e#8652#8767#0#HTML" expanded="false" />
-            <element signature="n#div#3;n#form#0;n#body#0;n#html#0;n#!!top" expanded="false" />
             <marker date="1474520559908" expanded="true" signature="6742:6772" placeholder="..." />
             <marker date="1474520559908" expanded="true" signature="6918:6946" placeholder="..." />
           </folding>
@@ -849,11 +764,45 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/view/customShow.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.663573">
-          <caret line="191" column="127" selection-start-line="191" selection-start-column="127" selection-end-line="191" selection-end-column="127" />
+        <state vertical-scroll-proportion="-20.48276">
+          <caret line="36" column="15" selection-start-line="36" selection-start-column="15" selection-end-line="36" selection-end-column="15" />
           <folding>
-            <element signature="e#3566#4420#0#HTML" expanded="false" />
-            <element signature="e#4478#5297#0#HTML" expanded="false" />
+            <element signature="e#2922#3037#0#HTML" expanded="false" />
+            <element signature="e#3095#3247#0#HTML" expanded="false" />
+            <element signature="e#3331#3392#0#HTML" expanded="false" />
+            <element signature="e#3490#3545#0#HTML" expanded="false" />
+            <element signature="e#3611#4465#0#HTML" expanded="false" />
+            <element signature="e#4523#5342#0#HTML" expanded="false" />
+            <element signature="e#5404#5503#0#HTML" expanded="false" />
+            <element signature="n#div#2;n#form#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#3;n#form#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#4;n#form#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/ccbuy.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.22916667">
+          <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
+          <folding>
+            <element signature="e#6#89#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/CustomController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4074074">
+          <caret line="23" column="18" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
+          <folding>
+            <element signature="e#40#62#0#PHP" expanded="true" />
+            <element signature="e#321#621#0#PHP" expanded="false" />
+            <element signature="e#1259#1382#0#PHP" expanded="false" />
+            <element signature="e#1387#1988#0#PHP" expanded="false" />
+            <element signature="e#1994#2107#0#PHP" expanded="false" />
+            <element signature="e#2112#2665#0#PHP" expanded="false" />
+            <element signature="e#2685#3096#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>

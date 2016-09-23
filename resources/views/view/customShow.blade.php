@@ -19,11 +19,11 @@
     <script type="text/javascript">
 
         $(document).ready(function() {
-            //get dropdown data from json
-            $.getJSON('json/ccbuy1.json').done(function (data) { //js 读取
+            //get dropdown data from json   //plus time stamp to maake sure be loaded everytime
+            var url = 'json/ccbuy.json?time='+getTimeStamp();
+            jQuery.getJSON(url, function (data){
                 //relationship dropdrow list
-                var relationshipData = new Array();
-                relationshipData = data.custom.relationship;
+                var relationshipData = data.custom.relationship;
                 var relationshipCount = relationshipData.length;
                 for(var i = 0; i < relationshipCount; i++) {
                     jQuery('#dropdownMenu').append('<li><a href="#" onclick="setNameRelationship(\''+relationshipData[i]+'\')">'+relationshipData[i]+'</a></li>');
@@ -35,6 +35,7 @@
                     jQuery('#dropdownMenu2').append('<li><a href="#" onclick="setNameFrom(\''+dgFromData[i]+'\')">'+dgFromData[i]+'</a></li>');
                 }
             });
+
             //aviod a bug when new open this window and press ENTER the form will be submit
             jQuery('#customName').focus();
             //异步提交 添加客户信息
@@ -146,6 +147,13 @@
                 tips: [1, '#78BA32']
             });
         }
+
+        //time + random num
+        function getTimeStamp() {
+            var myData = new Date();
+            return myData.getTime()+Math.random();
+        }
+
     </script>
 </head>
 
