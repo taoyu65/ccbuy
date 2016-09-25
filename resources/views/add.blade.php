@@ -65,16 +65,15 @@
         function getCartInfor()
         {
             layer.open({
-                type: 1,
+                type: 2,
                 shade:[0.8, '#393D49'],
-                title: ['选择所属于的订单','font-size:12px;color:grey'],
+                area: ['850px', '650px'],
+                title: ['选择所属于的订单','font-size:12px;color:white;background-color:#6ABB52'],
                 scrollbar: false,
-                content:'',
+                content:['{{url("searchCart/all")}}', 'no'],
                 success:function(layero, index){
-
                 },
                 cancel:function(index){
-
                 }
             });
         }
@@ -114,10 +113,7 @@
                 {{--判断是否删除图片(或者只是选择了图片) 来决定是否执行后台的删除图片操作--}}
                 <input hidden id="deleteImgId" name="deleteImgId">
             </form>
-            <div id="showinfo">
-
-            </div>
-
+            <div id="showinfo"></div>
 
             <div class="width100">
                 <div class="txt">
@@ -191,12 +187,7 @@
     {{--隐藏:添加表单--}}
     <div></div>
 
-<script type="text/javascript">
-/*;!function(){
-    laydate({
-        elem: '#showDate'
-    })
-};*/
-</script>
+    <script type="text/javascript">
+    </script>
 
 @endsection

@@ -47,6 +47,7 @@ Route::post('additemdelete', 'uploadController@imgDelete');
 //cart
 Route::get('showcart', 'CartController@showCustomList');
 Route::post('addcart','CartController@add');
+Route::get('searchCart/{custom?}', 'CartController@search');
 
 //customs
 /*Route::get('showcustomwindow', function(){

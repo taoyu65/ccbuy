@@ -66,6 +66,20 @@ return [
             'engine' => null,
         ],
 
+        'mysql_online' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', 'sql3.freemysqlhosting.net'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'sql3137304'),
+            'username' => env('DB_USERNAME', 'sql3137304'),
+            'password' => env('DB_PASSWORD', 'NCIzk7pRky'),
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+            'strict' => false,
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', 'localhost'),

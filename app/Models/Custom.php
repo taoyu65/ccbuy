@@ -8,4 +8,9 @@ class Custom extends Model
 {
     //
 	public $timestamps = false;
+
+    /*public function carts()
+    {
+        return $this->hasMany('App\Models\Cart');
+    }*/
 }

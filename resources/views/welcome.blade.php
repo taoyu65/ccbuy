@@ -1,12 +1,8 @@
 
 @extends('layouts.foot')
 @section('content')
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <link href="css/welcome.css" rel="stylesheet" type="text/css">
-    </head>
-    <body>
+    <link href="css/welcome.css" rel="stylesheet" type="text/css">
+
     <a href="#">
         <div class="c02" ><img src="images/example_head.png" alt="" id="headfack" /></div>
         <div id="bian"></div>
@@ -29,8 +25,5 @@
             @endforeach()
         </dl>
     </div>
-
-    </body>
-    </html>
 
 @endsection

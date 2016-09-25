@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+//use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use App\Models\Cart;
@@ -41,9 +42,26 @@ class CartController extends Controller
         if($cart->save()){
             return $cart->id;
         }else{
-
         }
     }
 
+    //search and select to return cart id
+    /**
+     * @param get|string $customId get all cart by custom id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function search($customId = '')
+    {
+        //show custom name dropdown list
+        $customName = DB::table('customs')->get();
 
+        //page
+        $perPage = 5;
+        $obj = DB::table('view_carts_customs');
+        if(is_numeric($customId))
+            $obj = $obj->where('customs_id', '=', $customId);
+        $totalPage = $obj->count();
+        $re = $obj->paginate($perPage);//simplePaginate(num)  will be showing << >>
+        return view('view/cartSelect', ['customs'=> $customName, 'carts' => $re, 'count' => ceil($totalPage/$perPage)]);
+    }
 }
