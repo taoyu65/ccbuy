@@ -1,4 +1,5 @@
 <?php
+
 Event::listen('404', function() {
     return Response::error('404');
 });
@@ -28,31 +29,29 @@ $router->pattern('id', '[0-9]+');
 | kernel and includes session state, CSRF protection, and more.
 |
 */
-
 Route::group(['middleware' => ['web']], function () {
     //
 });
 
 Route::group(['middleware' => 'web'], function () {
     //Route::auth();
-
     Route::get('/', 'HomeController@welcome');
     Route::get('/add', 'HomeController@add');
+
+    //customs
+    Route::get('showcustomwindow', 'CustomController@showWindow');
+    Route::post('addcustom', 'CustomController@add');
+    Route::get('getcustomname/{id}','CustomController@getCustomName');
+
+    //item
+    Route::resource('item', 'ItemController');
+
+    //cart
+    Route::get('showcart', 'CartController@showCustomList');
+    Route::post('addcart','CartController@add');
+    Route::get('searchCart/{custom?}', 'CartController@search');
+
+    //item's pic upload
+    Route::post('additemupload', 'UploadController@imgupload');
+    Route::post('additemdelete', 'UploadController@imgDelete');
 });
-
-//item's pic upload
-Route::post('additemupload', 'uploadController@imgupload');
-Route::post('additemdelete', 'uploadController@imgDelete');
-
-//cart
-Route::get('showcart', 'CartController@showCustomList');
-Route::post('addcart','CartController@add');
-Route::get('searchCart/{custom?}', 'CartController@search');
-
-//customs
-/*Route::get('showcustomwindow', function(){
-    return view('view/customShow');
-});*/
-Route::get('showcustomwindow', 'CustomController@showWindow');
-Route::post('addcustom', 'CustomController@add');
-Route::get('getcustomname/{id}','CustomController@getCustomName');

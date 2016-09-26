@@ -24,14 +24,13 @@
     <meta content="telephone=no, address=no" name="format-detection">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link href="css/reset.css" rel="stylesheet" type="text/css">
     <!--手机端重置样式-->
-    <link href="css/mod88.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="css/jquery.toastmessage.css">
+    <link href='{{url("css/mod88.css")}}' rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href='{{url("css/jquery.toastmessage.css")}}'>
     <!--微网站模板88样式-->
     {{--<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>--}}
-    <script type="text/javascript" src="js/jquery-1.8.3.mini.js"></script>
-    <script type="text/javascript" src="js/jquery.toastmessage.js"></script>
+    <script type="text/javascript" src='{{url("js/jquery-1.8.3.mini.js")}}'></script>
+    <script type="text/javascript" src='{{url("js/jquery.toastmessage.js")}}'></script>
     <script>
         $(function(){
             $('.blankwhite').css('height','0px');

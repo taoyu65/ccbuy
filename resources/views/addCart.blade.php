@@ -70,7 +70,7 @@
             //异步提交 添加订单信息
             var options = {
                 //target: '#showResult',
-                url: 'addcart',
+                url: "{{url('addcart')}}",
                 type: 'post',
                 //dataType: 'json', //http://jquery.malsup.com/form/#json
                 beforeSubmit:function(){
@@ -218,7 +218,7 @@
                 area: ['850px', '500px'],
                 title: ['添加新客户', 'font-size:12px;color:white;background-color:#F90'],
                 scrollbar: false,
-                content: ['showcustomwindow', 'yes'],
+                content: ["{{url('showcustomwindow')}}", 'yes'],
                 closeBtn:1,
                 success: function(layero, index){
                 },
@@ -236,7 +236,7 @@
 
 <body>
 <form class="form-horizontal" id="addCartForm">
-
+    {!! csrf_field() !!}
     <div class="addheight"></div>
 
     <div class="form-group">
@@ -308,6 +308,7 @@
     </div>
 
     <input type="hidden" id="idModel" name="idModel" value="name">
+
 </form>
 
 </body>

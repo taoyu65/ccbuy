@@ -44,7 +44,7 @@ EOF;
             return ['error' => 'You may only upload png, jpg or gif.'];
         }
 
-        $destinationPath = 'uploads/images/';
+        $destinationPath = public_path('uploads/images/');
         $extension = $file->getClientOriginalExtension();
         //$fileName = str_random(10).'.'.$extension;
         $fileName = date('Ymd').".".date('His').".".$extension;
@@ -53,7 +53,8 @@ EOF;
         return [
             'success' => true,
             //'pic' => asset($destinationPath.$fileName) //path is HTTP://... cannot be delete by unlink
-            'pic' => $destinationPath.$fileName
+            'pic' => $destinationPath.$fileName,
+            'filename' => $fileName
         ];
     }
 
@@ -61,8 +62,8 @@ EOF;
     public function imgDelete()
     {
         $filename = Input::get('deleteImgId');
-
-        fopen(public_path($filename),'r');
+        $filename = str_replace('\\', '/', $filename);
+        fopen($filename,'r');
         if(!unlink($filename))
         {
             return [

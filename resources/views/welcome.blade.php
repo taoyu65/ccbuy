@@ -8,7 +8,7 @@
         <div id="bian"></div>
     </a>
     <!--/*add*/-->
-    <div class="c03" > <a href="add"><img id="addimg" src="images/add.png"></a> </div>
+    <div class="c03" > <a href="{{url('/item/create')}}"><img id="addimg" src="images/add.png"></a> </div>
 
     <div class="nav-left">
         <dl>

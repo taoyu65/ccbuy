@@ -1,7 +1,10 @@
 @charset "utf-8";
 /*手机端样式*/
 #wrap {display:block;min-width: 320px; margin:0 auto; max-width:750px; width: 100%;overflow: hidden;-webkit-box-sizing: border-box; -moz-box-sizing:border-box; padding-bottom:17%;background-color:white /*72px*/ }
-
+#gg1{ position:fixed; bottom:0; width:100%; z-index:9999; _bottom:auto; _width:100%;
+    _top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-
+(parseInt(this.currentStyle.marginTop, 10)||0)-(parseInt(this.currentStyle.marginBottom, 10)||0)));
+}
 .nav{display:block;position:fixed; bottom:0; width:100%; max-width:750px; margin:0 auto; background:url(../images/nav.jpg) repeat center; overflow:hidden;z-index:9;}
 .menu{display:inline-block; float:left; width:25%; color:#fff;text-align:center; font-size:14px; padding:10% 0 2%; -moz-box-sizing:border-box; -o-box-sizing:border-box; -webkit-box-sizing:border-box;box-sizing:border-box; border-right:1px solid rgba(235,234,234,0.5); border-left:1px solid rgba(0,0,0,1.0);}
 .i01{background:url(../images/icon01.png) no-repeat center 25%; background-size:25%;}

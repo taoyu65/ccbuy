@@ -41,7 +41,7 @@
             //异步提交 添加客户信息
             var options = {
                 target: '#showResult',   //返回值呈现在target处
-                url: 'addcustom',
+                url: "{{url('addcustom')}}",
                 type: 'post',
                // dataType: 'json',
                 beforeSubmit:function(){
@@ -220,7 +220,7 @@
         <div class="col-xs-5 text-right"><p><button class="submitButton" name="customsubmit" id="customsubmit" type="submit"><strong>添加客户</strong></button></p></div>
         <div class="col-xs-2"></div>
         <div class="col-xs-5 text-left"><p><button class="submitButton" onclick="closeWindos()"><strong>关闭窗口</strong></button></p></div>
-    </div>
+    </div>{!! csrf_field() !!}
 </form>
 
 </body>
