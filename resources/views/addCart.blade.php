@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title></title>
     <!-- 支持icheck(或者加载jquery1.7+) -->
     <script type="text/javascript" src="js/jquery-1.8.3.mini.js"></script>
@@ -26,6 +27,11 @@
     <script type="text/javascript">
         //使用iCheck插件
         $(document).ready(function() {
+            $.ajaxSetup({
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
             //客户ID输入模式开启
             $('input').each(function () {
                 var self = $(this),
@@ -236,7 +242,7 @@
 
 <body>
 <form class="form-horizontal" id="addCartForm">
-    {!! csrf_field() !!}
+
     <div class="addheight"></div>
 
     <div class="form-group">

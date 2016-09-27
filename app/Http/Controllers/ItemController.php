@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Models\Item;
+use App\Models\Store;
 
 class ItemController extends Controller
 {
@@ -17,7 +18,9 @@ class ItemController extends Controller
 
     public function create()
     {
-        return view('add');
+        //get stores
+        $stores = Store::all();
+        return view('add',['stores' => $stores]);
     }
 
     public function store(Request $request)
@@ -38,7 +41,7 @@ class ItemController extends Controller
         $item->info = $request->get('info');
 
         if ($item->save()) {
-            return redirect('item/create');
+            return redirect('item/create')->with('status', '添加记录成功');
         } else {
             return redirect()->back()->withInput()->withErrors('保存失败！');
         }

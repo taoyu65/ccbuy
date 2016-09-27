@@ -16,6 +16,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+            //
             $('#add_form').submit(function(){
 
             });
@@ -98,11 +99,24 @@
                 }
             });
         }
+
+        //show the message
+        function showReturnMessage(str) {
+            layer.alert(str,{
+                skin: 'layui-layer-molv',
+                title:'用户添加',
+                closeBtn:0}
+            );
+        }
+
     </script>
 
     <div id="additemdiv">
         <div><img src='{{url("images/addtop.jpg")}}' /></div>
         @include('error')
+        @if(session('status'))
+            <script>showReturnMessage('{{session("status")}}');</script>
+        @endif
         <form id="add_form" method="post" action="{{url('item')}}">
             {!! csrf_field() !!}
             <div class="width100">
@@ -118,7 +132,7 @@
                             <div class="sanhang">删除图片</div>
                         </div>
                     </div>
-                    <div class="twohang"><input type="number" name="sellPrice" class="register-input" id="money" placeholder="物品金额" title="金额" value="0.00"></div>
+                    <div class="twohang"><input type="number" required name="sellPrice" class="register-input" id="money" placeholder="物品金额" title="金额" value="0.00"></div>
                     <div class="sanhang">
                         <div class="sanhang">
                             <img src='{{url("images/paizhao.png")}}' width="48" height="48" alt="选择图片" onclick="selectPic()" id="selectimg"/>
@@ -141,8 +155,8 @@
                             <input type="button" value="新开订单" class="button small green" onclick="createCartinfor()" name="newopencart" id="newopencart">
                         </div>
                     </div>
-                    <div class="twohang"><input type="text"  class="register-input" placeholder="物品名称" id="itemName" name="itemName"></div>
-                    <div class="sanhang"> <input type="number" class="register-input" placeholder="如果是新订单保留为空" id="CartId" name="CartId"></div>
+                    <div class="twohang"><input type="text" required class="register-input" placeholder="物品名称" id="itemName" name="itemName" value=""></div>
+                    <div class="sanhang"> <input type="number" required class="register-input" placeholder="如果是新订单保留为空" id="CartId" name="CartId"></div>
                 </div>
 
                 <div class="width100">
@@ -151,9 +165,9 @@
                         <div class="sanhang">促销价格</div>
                         <div class="sanhang">实际支付<input type="button" value="同步于市场价格" class="button small green"></div>
                     </div>
-                    <div class="sanhang"><input name="marketPrice" type="number"  class="register-input2" placeholder="对客户显示的价格" ></div>
-                    <div class="sanhang"><input name="specialPrice" type="number"  class="register-input2" placeholder="促销价格" ></div>
-                    <div class="sanhang"><input type="number" name="costPrice" class="register-input2" placeholder="实际购买价格" ></div>
+                    <div class="sanhang"><input name="marketPrice" type="number" required class="register-input2" placeholder="对客户显示的价格" ></div>
+                    <div class="sanhang"><input name="specialPrice" type="number" required class="register-input2" placeholder="促销价格" ></div>
+                    <div class="sanhang"><input type="number" name="costPrice" required class="register-input2" placeholder="实际购买价格" ></div>
                 </div>
 
                 <div class="width100">
@@ -163,14 +177,14 @@
                         <div class="sanhang">快递费率<input type="button" value="同步于出售金额" class="button small green"></div>
                         <div class="sanhang">购买地点</div>
                     </div>
-                    <div class="sanhang"><input type="text" name="weight" class="register-input2" placeholder="单位磅" ></div>
-                    <div class="sanhang"><input type="text" name="postRate" class="register-input2" placeholder="默认为普通货物4.5每磅" value="4.5"></div>
+                    <div class="sanhang"><input required type="text" name="weight" class="register-input2" placeholder="单位磅" ></div>
+                    <div class="sanhang"><input required type="text" name="postRate" class="register-input2" placeholder="默认为普通货物4.5每磅" value="4.5"></div>
                     <div class="sanhang">
-                        <select  class="register-select" title="aaa" name="storeId" id="storeId">
+                        <select  class="register-select" title="aaa" name="storeId" id="storeId" required>
                             <option value="" selected>选择商店</option>
-                            <option value="1">Walmart</option>
-                            <option value="1">Target</option>
-                            <option value="1">Jet</option>
+                            @foreach($stores as $store)
+                            <option value="{{$store->id}}" title="{{$store->info}}">{{$store->storeName}}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -182,7 +196,7 @@
                         <div class="sanhang">备注信息</div>
                         <div class="sanhang">是否付款</div>
                     </div>
-                    <div class="sanhang"><input name="date" class="register-input2 laydate-icon" id="showDate" onclick="laydate()"></div>
+                    <div class="sanhang"><input required name="date" class="register-input2 laydate-icon" id="showDate" onclick="laydate()"></div>
                     <div class="sanhang"><input name="info" type="text" class="register-input2" placeholder="备注" ></div>
                     <div class="sanhang">
                         <div class="switch">
