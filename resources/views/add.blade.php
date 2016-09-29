@@ -8,7 +8,9 @@
     <script type="text/javascript" src='{{url("js/uploadimg.js")}}'></script>
     <script type="text/javascript" src='{{url("ui/laydate/laydate.js")}}'></script>
     <script type="text/javascript" src='{{url("js/jquery.form.js")}}'></script>
+    <script type="text/javascript" src='{{url("ui/bootstrap-mini/bootstrap.min.js")}}'></script>
 
+    <link type="text/css" rel="stylesheet" href='{{url("ui/bootstrap-mini/bootstrap.min.css")}}'>
     <script type="text/javascript">
         $(document).ready(function(){
             $.ajaxSetup({
@@ -16,10 +18,18 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            //
+            //before submit Form - validation
             $('#add_form').submit(function(){
 
             });
+            //check if the number meet the money form
+            function isMoney(money)
+            {
+                var regular = /^[0-9]*(\.[0-9]{1,2})?$/;
+                if(!regular.test(money))
+                    return false;
+                return true;
+            }
             //add pic
             var options_add = {
                 //target: '#showResult',
@@ -109,96 +119,143 @@
             );
         }
 
+        //
+        function checkForm(form)
+        {
+            var money = jQuery('#money').val();
+            var regular = /^[0-9]*(\.[0-9]{1,2})?$/;
+            if(!regular.test(money))
+                    return false;
+            //form.submit();
+        }
     </script>
 
-    <div id="additemdiv">
-        <div><img src='{{url("images/addtop.jpg")}}' /></div>
-        @include('error')
-        @if(session('status'))
-            <script>showReturnMessage('{{session("status")}}');</script>
-        @endif
-        <form id="add_form" method="post" action="{{url('item')}}">
-            {!! csrf_field() !!}
-            <div class="width100">
-                {{--<form class="register" style="width:100%">--}}
-                <div id="skipsomeheight"></div>
-
-                <div class="width100">
-                    <div class="txt">
-                        <div class="twohang">出售金额</div>
-                        <div class="sanhang">
-                            <div class="sanhang">选择图片</div>
-                            <div class="sanhang">上传图片</div>
-                            <div class="sanhang">删除图片</div>
-                        </div>
+<div id="additemdiv">
+    <div><img src='{{url("images/addtop.jpg")}}'/></div>
+    @include('error')
+    @if(session('status'))
+        <script>showReturnMessage('{{session("status")}}');</script>
+    @endif
+    <form id="add_form" method="post" action="{{url('item')}}">
+        {!! csrf_field() !!}
+        <div class="width100">
+            <div id="showError"></div>
+            {{--出售金额 物品数量--}}
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-xs-6 control-label" for="sellPrice">出售金额</label>
+                    <label class="col-xs-6 control-label" for="itemNum">物品数量</label>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <input yt-check="money" class="form-control input-sm" type="text" name="sellPrice" id="money" placeholder="默认为人民币¥, 可以设置相同物品总价格, 填写对应的物品数量">
                     </div>
-                    <div class="twohang"><input type="number" required name="sellPrice" class="register-input" id="money" placeholder="物品金额" title="金额" value="0.00"></div>
-                    <div class="sanhang">
-                        <div class="sanhang">
-                            <img src='{{url("images/paizhao.png")}}' width="48" height="48" alt="选择图片" onclick="selectPic()" id="selectimg"/>
-                            <img  id="preshowimg_x" style="display:none;width: 48px;height: 48px;"  title="更新图片请先删除此图片" onclick="showerrorinfo()" />
-                            <img  id="preshowimg" style="display:none;"  title="更新图片请先删除此图片" onclick="showerrorinfo()" />
-                        </div>
-                        <div class="sanhang"><img src='{{url("images/upload.png")}}' width="48" height="48" alt="上传图片" id="addpic" onclick="startUploading()"/></div>
-                        <div class="sanhang"><img src='{{url("images/removepic.png")}}' width="48" height="48" alt="删除图片" id="removepic" onclick="deleteImg()"/></div>
+                    <div class="col-xs-6">
+                        <select id="itemNum" name="itemNum" class="form-control input-sm">
+                            <option value="1" selected>1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
                     </div>
                 </div>
+            </div>
+            {{--物品名称--}}
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-xs-12 control-label" for="itemName">物品名称</label>
+                    <div class="col-xs-12">
+                        <input class="form-control input-sm" type="text" id="itemName" name="itemName" placeholder="简单介绍谁买的什么  例如:隔壁老王买的印度神油">
+                    </div>
+                </div>
+            </div>
+            {{--订单ID 上传图片--}}
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-xs-6 control-label" for="cartId">订单ID</label>
+                    <label class="col-xs-2 control-label" for=""></label>
+                    <label class="col-xs-2 control-label" for=""></label>
+                    <label class="col-xs-2 control-label" for="">上传图片</label>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <input class="form-control input-sm"  name="cartId" id="cartId">
+                    </div>
+                    <input type="button" value="新开订单" class="button green" onclick="createCartinfor()" name="newopencart" id="newopencart">
+                    <input type="button" value="查询订单" class="button green" onclick="getCartInfor()">
+                    <input type="button" value="点击上传" class="button orange" onclick="">
+                </div>
+            </div>
 
-                <div id="showinfo"></div>
-
-                <div class="width100">
-                    <div class="txt">
-                        <div class="twohang">物品名称</div>
-                        <div class="sanhang">
-                            订单ID
-                            <input type="button" value="查询订单" class="button small green" onclick="getCartInfor()">
-                            <input type="button" value="新开订单" class="button small green" onclick="createCartinfor()" name="newopencart" id="newopencart">
+            {{--市场价格 促销价格 实际支付--}}
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-xs-4 control-label" for="marketPrice">市场价格</label>
+                    <label class="col-xs-4 control-label" for="specialPrice">促销价格</label>
+                    <label class="col-xs-4 control-label" for="costPrice">实际支付</label>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                    <input name="marketPrice"  class="form-control input-sm" placeholder="对客户显示的价格">
                         </div>
-                    </div>
-                    <div class="twohang"><input type="text" required class="register-input" placeholder="物品名称" id="itemName" name="itemName" value=""></div>
-                    <div class="sanhang"> <input type="number" required class="register-input" placeholder="如果是新订单保留为空" id="CartId" name="CartId"></div>
+                    <div class="col-xs-4">
+                    <input name="specialPrice"  class="form-control input-sm" placeholder="促销价格">
+                        </div>
+                    <div class="col-xs-4">
+                    <input name="costPrice"  class="form-control input-sm" placeholder="实际购买价格">
+                        </div>
                 </div>
+            </div>
 
-                <div class="width100">
-                    <div class="txt">
-                        <div class="sanhang">市场价格<input type="button" value="同步于出售金额" class="button small green"></div>
-                        <div class="sanhang">促销价格</div>
-                        <div class="sanhang">实际支付<input type="button" value="同步于市场价格" class="button small green"></div>
-                    </div>
-                    <div class="sanhang"><input name="marketPrice" type="number" required class="register-input2" placeholder="对客户显示的价格" ></div>
-                    <div class="sanhang"><input name="specialPrice" type="number" required class="register-input2" placeholder="促销价格" ></div>
-                    <div class="sanhang"><input type="number" name="costPrice" required class="register-input2" placeholder="实际购买价格" ></div>
+            {{--物品重量 快递费率 购买地点--}}
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-xs-4 control-label" for="weight">物品重量</label>
+                    <label class="col-xs-4 control-label" for="postRate">快递费率</label>
+                    <label class="col-xs-4 control-label" for="storeId">购买地点</label>
                 </div>
-
-                <div class="width100">
-
-                    <div class="txt">
-                        <div class="sanhang">物品重量</div>
-                        <div class="sanhang">快递费率<input type="button" value="同步于出售金额" class="button small green"></div>
-                        <div class="sanhang">购买地点</div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <input name="weight"  class="form-control input-sm" placeholder="单位磅">
                     </div>
-                    <div class="sanhang"><input required type="text" name="weight" class="register-input2" placeholder="单位磅" ></div>
-                    <div class="sanhang"><input required type="text" name="postRate" class="register-input2" placeholder="默认为普通货物4.5每磅" value="4.5"></div>
-                    <div class="sanhang">
-                        <select  class="register-select" title="aaa" name="storeId" id="storeId" required>
+                    <div class="col-xs-4">
+                        <input name="postRate"  class="form-control input-sm" value="4.5">
+                    </div>
+                    <div class="col-xs-4">
+                        <select class="form-control input-sm" name="storeId" id="storeId">
                             <option value="" selected>选择商店</option>
                             @foreach($stores as $store)
-                            <option value="{{$store->id}}" title="{{$store->info}}">{{$store->storeName}}</option>
+                                <option value="{{$store->id}}"
+                                        title="{{$store->info}}">{{$store->storeName}}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
+            </div>
 
-                <div class="width100">
-
-                    <div class="txt">
-                        <div class="sanhang">购买日期</div>
-                        <div class="sanhang">备注信息</div>
-                        <div class="sanhang">是否付款</div>
+            {{--购买日期 备注信息 是否付款--}}
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-xs-4 control-label" for="date">购买日期</label>
+                    <label class="col-xs-4 control-label" for="info">备注信息</label>
+                    <label class="col-xs-4 control-label" for="view">是否付款</label>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <input name="date" class="form-control input-sm laydate-icon" id="showDate" onclick="laydate()">
                     </div>
-                    <div class="sanhang"><input required name="date" class="register-input2 laydate-icon" id="showDate" onclick="laydate()"></div>
-                    <div class="sanhang"><input name="info" type="text" class="register-input2" placeholder="备注" ></div>
-                    <div class="sanhang">
+                    <div class="col-xs-4">
+                        <input name="info" type="text" class="form-control input-sm" placeholder="备注">
+                    </div>
+                    <div class="col-xs-4">
                         <div class="switch">
                             <input type="radio" class="switch-input" name="view" value="0" id="nopay" checked>
                             <label for="nopay" class="switch-label switch-label-off">还没</label>
@@ -208,26 +265,24 @@
                         </div>
                     </div>
                 </div>
-
-                {{--<div class="width100"><input type="submit" value="添加记录" class="register-button"></div>--}}
-                <input class="button orange" style="width: 100%" type="submit" value="添加记录">
-                {{--</form>--}}
             </div>
-            {{--for pic file name--}}
-            <input type="hidden" id="fileName_hide" name="fileName_hide" value="">
-        </form>
-    </div>
-
-    {{--隐藏:添加表单--}}
-    <form id="upload_form" enctype="multipart/form-data" method="post" >
-        <input type="file" name="image_file" id="image_file" onchange="fileSelected()" style="display: none" value="" />
+        </div>
+        <input class="button orange" style="width: 100%" type="submit" value="添加记录">
+        {{--for pic file name--}}
+        <input type="hidden" id="fileName_hide" name="fileName_hide" value="">
     </form>
-    <form id="delete_form" enctype="multipart/form-data" method="post">
-        {{--判断是否删除图片(或者只是选择了图片) 来决定是否执行后台的删除图片操作--}}
-        <input hidden id="deleteImgId" name="deleteImgId">
-    </form>
+</div>
 
-    <script type="text/javascript">
-    </script>
+{{--隐藏:添加表单--}}
+<form id="upload_form" enctype="multipart/form-data" method="post" >
+    <input type="file" name="image_file" id="image_file" onchange="fileSelected()" style="display: none" value="" />
+</form>
+{{--判断是否删除图片(或者只是选择了图片) 来决定是否执行后台的删除图片操作--}}
+<form id="delete_form" enctype="multipart/form-data" method="post">
+    <input hidden id="deleteImgId" name="deleteImgId">
+</form>
+
+<script type="text/javascript">
+</script>
 
 @endsection

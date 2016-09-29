@@ -26,9 +26,10 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         $item = new Item;
-        $item->carts_id = $request->get('CartId');
+        $item->carts_id = $request->get('cartId');
         $item->stores_id = $request->get('storeId');
         $item->itemName = $request->get('itemName');
+        $item->itemAmount = $request->get('itemNum');
         $item->sellPrice = $request->get('sellPrice');
         $item->specialPrice = $request->get('specialPrice');
         $item->weight = $request->get('weight');

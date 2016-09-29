@@ -31,12 +31,6 @@
     {{--<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>--}}
     <script type="text/javascript" src='{{url("js/jquery-1.8.3.mini.js")}}'></script>
     <script type="text/javascript" src='{{url("js/jquery.toastmessage.js")}}'></script>
-    <script>
-        $(function(){
-            $('.blankwhite').css('height','0px');
-            $('footer').css('display','none');
-        });
-    </script>
 </head>
 
 <body onselectstart="return true;" ondragstart="return false;" id="foot-layout">
