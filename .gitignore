@@ -7,3 +7,7 @@ Homestead.json
 
 .idea/workspace.xml
 .git
+*.xml
+Command Prompt.lnk
+*.xml
+/public/uploads

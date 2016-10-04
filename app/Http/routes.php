@@ -46,6 +46,9 @@ Route::group(['middleware' => 'web'], function () {
     //item
     Route::resource('item', 'ItemController');
 
+    //store
+    Route::resource('store', 'StoreController');
+
     //cart
     Route::get('showcart', 'CartController@showCustomList');
     Route::post('addcart','CartController@add');

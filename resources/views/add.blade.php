@@ -8,6 +8,7 @@
     <script type="text/javascript" src='{{url("js/uploadimg.js")}}'></script>
     <script type="text/javascript" src='{{url("ui/laydate/laydate.js")}}'></script>
     <script type="text/javascript" src='{{url("js/jquery.form.js")}}'></script>
+    <script type="text/javascript" src='{{url("js/yt_validation.js")}}'></script>
     <script type="text/javascript" src='{{url("ui/bootstrap-mini/bootstrap.min.js")}}'></script>
 
     <link type="text/css" rel="stylesheet" href='{{url("ui/bootstrap-mini/bootstrap.min.css")}}'>
@@ -15,21 +16,15 @@
         $(document).ready(function(){
             $.ajaxSetup({
                 headers:{
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
             });
             //before submit Form - validation
-            $('#add_form').submit(function(){
-
-            });
-            //check if the number meet the money form
-            function isMoney(money)
-            {
-                var regular = /^[0-9]*(\.[0-9]{1,2})?$/;
-                if(!regular.test(money))
+            $('#submitBtn').click(function(){
+                if(!checkForm('add_form'))
                     return false;
-                return true;
-            }
+                $('#add_form').submit();
+            });
+
             //add pic
             var options_add = {
                 //target: '#showResult',
@@ -76,8 +71,7 @@
         });
 
         //弹出 查询订单窗口 //layer插件
-        function getCartInfor()
-        {
+        function getCartInfor() {
             layer.open({
                 type: 2,
                 shade:[0.8, '#393D49'],
@@ -93,8 +87,7 @@
         }
 
         //弹出 新加订单窗口 //layer插件
-        function createCartinfor()
-        {
+        function createCartinfor() {
             layer.open({
                 type: 2,
                 shade: [0.8, '#393D49'],
@@ -102,6 +95,24 @@
                 title: ['添加新订单', 'font-size:12px;color:white;background-color:#6a5a8c'],
                 scrollbar: false,
                 content: ['{{url("showcart")}}', 'no'],
+                closeBtn:1,
+                success: function(layero, index){
+                },
+                cancel:function(index){
+                }
+            });
+        }
+
+        //add store
+        function addStore() {
+            layer.open({
+                type: 2,
+                shade: [0.8, '#393D49'],
+                area:['850px','300px'],
+                title: ['添加商店' , 'font-size:12px;color:white;background-color:#FF77AB'],
+                scrollbar: false,
+                //dataType:'get',
+                content: ['{{url("store")}}', 'no'],
                 closeBtn:1,
                 success: function(layero, index){
                 },
@@ -119,14 +130,10 @@
             );
         }
 
-        //
-        function checkForm(form)
-        {
-            var money = jQuery('#money').val();
-            var regular = /^[0-9]*(\.[0-9]{1,2})?$/;
-            if(!regular.test(money))
-                    return false;
-            //form.submit();
+        //sny special price to market price
+        function synMartketPrice() {
+            var marketPrice = $('#marketPrice').val();
+            $('#specialPrice').val(marketPrice);
         }
     </script>
 
@@ -143,12 +150,12 @@
             {{--出售金额 物品数量--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-6 control-label" for="sellPrice">出售金额</label>
+                    <label class="col-xs-6 control-label" for="sellPrice">出售金额 <span class="label-danger" id="sellPrice_error"></span></label>
                     <label class="col-xs-6 control-label" for="itemNum">物品数量</label>
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
-                        <input yt-check="money" class="form-control input-sm" type="text" name="sellPrice" id="money" placeholder="默认为人民币¥, 可以设置相同物品总价格, 填写对应的物品数量">
+                        <input yt-validation="yes" yt-check="money" yt-errorMessage="请填写正确金额" yt-target="sellPrice_error" class="form-control input-sm" type="text" value="bbb" name="sellPrice" id="money" placeholder="默认为人民币¥, 可以设置相同物品总价格, 填写对应的物品数量">
                     </div>
                     <div class="col-xs-6">
                         <select id="itemNum" name="itemNum" class="form-control input-sm">
@@ -171,23 +178,23 @@
             {{--物品名称--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-12 control-label" for="itemName">物品名称</label>
+                    <label class="col-xs-12 control-label" for="itemName">物品名称 <span class="label-danger" id="itemName_error"></span></label>
                     <div class="col-xs-12">
-                        <input class="form-control input-sm" type="text" id="itemName" name="itemName" placeholder="简单介绍谁买的什么  例如:隔壁老王买的印度神油">
+                        <input yt-validation="yes" yt-check="null" yt-errorMessage="不能为空" yt-target="itemName_error" class="form-control input-sm" type="text" id="itemName" name="itemName" placeholder="简单介绍谁买的什么  例如:隔壁老王买的印度神油">
                     </div>
                 </div>
             </div>
             {{--订单ID 上传图片--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-6 control-label" for="cartId">订单ID</label>
+                    <label class="col-xs-6 control-label" for="cartId">订单ID <span class="label-danger" id="cartId_error"></span></label>
                     <label class="col-xs-2 control-label" for=""></label>
                     <label class="col-xs-2 control-label" for=""></label>
                     <label class="col-xs-2 control-label" for="">上传图片</label>
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
-                        <input class="form-control input-sm"  name="cartId" id="cartId">
+                        <input yt-validation="yes" yt-check="id" yt-errorMessage="请输入一个有效的数字" yt-target="cartId_error" class="form-control input-sm"  name="cartId" id="cartId">
                     </div>
                     <input type="button" value="新开订单" class="button green" onclick="createCartinfor()" name="newopencart" id="newopencart">
                     <input type="button" value="查询订单" class="button green" onclick="getCartInfor()">
@@ -198,39 +205,39 @@
             {{--市场价格 促销价格 实际支付--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-4 control-label" for="marketPrice">市场价格</label>
-                    <label class="col-xs-4 control-label" for="specialPrice">促销价格</label>
-                    <label class="col-xs-4 control-label" for="costPrice">实际支付</label>
+                    <label class="col-xs-4 control-label" for="marketPrice">市场价格 <span class="label-danger" id="marketPrice_error"></span></label>
+                    <label class="col-xs-4 control-label" for="specialPrice">促销价格 <input type="button" value="同步于市场价格" class="button small green" onclick="synMartketPrice()"> <span class="label-danger" id="specialPrice_error"></span></label>
+                    <label class="col-xs-4 control-label" for="costPrice">实际支付 <span class="label-danger" id="costPrice_error"></span></label>
                 </div>
                 <div class="row">
                     <div class="col-xs-4">
-                    <input name="marketPrice"  class="form-control input-sm" placeholder="对客户显示的价格">
-                        </div>
+                        <input yt-validation="yes" yt-check="money" yt-errorMessage="请填写正确价格" yt-target="marketPrice_error" name="marketPrice" id="marketPrice" class="form-control input-sm" placeholder="对客户显示的价格">
+                    </div>
                     <div class="col-xs-4">
-                    <input name="specialPrice"  class="form-control input-sm" placeholder="促销价格">
-                        </div>
+                        <input yt-validation="yes" yt-check="money" yt-errorMessage="<-点 *" yt-target="specialPrice_error" name="specialPrice" id="specialPrice" class="form-control input-sm" placeholder="促销价格">
+                    </div>
                     <div class="col-xs-4">
-                    <input name="costPrice"  class="form-control input-sm" placeholder="实际购买价格">
-                        </div>
+                        <input yt-validation="yes" yt-check="money" yt-errorMessage="请填写正确价格" yt-target="costPrice_error" name="costPrice"  class="form-control input-sm" placeholder="实际购买价格">
+                    </div>
                 </div>
             </div>
 
             {{--物品重量 快递费率 购买地点--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-4 control-label" for="weight">物品重量</label>
-                    <label class="col-xs-4 control-label" for="postRate">快递费率</label>
-                    <label class="col-xs-4 control-label" for="storeId">购买地点</label>
+                    <label class="col-xs-4 control-label" for="weight">物品重量 <span class="label-danger" id="weight_error"></span></label>
+                    <label class="col-xs-4 control-label" for="postRate">快递费率 <span class="label-danger" id="postRate_error"></span></label>
+                    <label class="col-xs-4 control-label" for="storeId">购买地点 <input type="button" value="添加商店" class="button small green" onclick="addStore();"> <span class="label-danger" id="storeId_error"></span></label>
                 </div>
                 <div class="row">
                     <div class="col-xs-4">
-                        <input name="weight"  class="form-control input-sm" placeholder="单位磅">
+                        <input yt-validation="yes" yt-check="money" yt-errorMessage="请填写正确价格" yt-target="weight_error" name="weight"  class="form-control input-sm" placeholder="单位磅">
                     </div>
                     <div class="col-xs-4">
-                        <input name="postRate"  class="form-control input-sm" value="4.5">
+                        <input yt-validation="yes" yt-check="money" yt-errorMessage="格式不对" yt-target="postRate_error" name="postRate"  class="form-control input-sm" value="4.5">
                     </div>
                     <div class="col-xs-4">
-                        <select class="form-control input-sm" name="storeId" id="storeId">
+                        <select yt-validation="yes" yt-check="null" yt-errorMessage="请选择商店" yt-target="storeId_error" class="form-control input-sm" name="storeId" id="storeId">
                             <option value="" selected>选择商店</option>
                             @foreach($stores as $store)
                                 <option value="{{$store->id}}"
@@ -244,13 +251,13 @@
             {{--购买日期 备注信息 是否付款--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-4 control-label" for="date">购买日期</label>
+                    <label class="col-xs-4 control-label" for="date">购买日期 <span class="label-danger" id="date_error"></span></label>
                     <label class="col-xs-4 control-label" for="info">备注信息</label>
                     <label class="col-xs-4 control-label" for="view">是否付款</label>
                 </div>
                 <div class="row">
                     <div class="col-xs-4">
-                        <input name="date" class="form-control input-sm laydate-icon" id="showDate" onclick="laydate()">
+                        <input yt-validation="yes" yt-check="null" yt-errorMessage="日期格式不正确" yt-target="date_error" name="date" class="form-control input-sm laydate-icon" id="showDate" onclick="laydate()" readonly>
                     </div>
                     <div class="col-xs-4">
                         <input name="info" type="text" class="form-control input-sm" placeholder="备注">
@@ -266,8 +273,14 @@
                     </div>
                 </div>
             </div>
+            {{--submit--}}
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <input class="button orange" style="width: 100%" type="button" value="添加记录" id="submitBtn">
+                </div>
+            </div>
         </div>
-        <input class="button orange" style="width: 100%" type="submit" value="添加记录">
+
         {{--for pic file name--}}
         <input type="hidden" id="fileName_hide" name="fileName_hide" value="">
     </form>
