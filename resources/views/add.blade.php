@@ -131,9 +131,9 @@
         }
 
         //sny special price to market price
-        function synMartketPrice() {
+        function synMartketPrice(label) {
             var marketPrice = $('#marketPrice').val();
-            $('#specialPrice').val(marketPrice);
+            $('#'+label).val(marketPrice);
         }
     </script>
 
@@ -206,8 +206,8 @@
             <div class="form-group">
                 <div class="row">
                     <label class="col-xs-4 control-label" for="marketPrice">市场价格 <span class="label-danger" id="marketPrice_error"></span></label>
-                    <label class="col-xs-4 control-label" for="specialPrice">促销价格 <input type="button" value="同步于市场价格" class="button small green" onclick="synMartketPrice()"> <span class="label-danger" id="specialPrice_error"></span></label>
-                    <label class="col-xs-4 control-label" for="costPrice">实际支付 <span class="label-danger" id="costPrice_error"></span></label>
+                    <label class="col-xs-4 control-label" for="specialPrice">促销价格 <input type="button" value="同步于市场价格" class="button small green" onclick="synMartketPrice('specialPrice')"> <span class="label-danger" id="specialPrice_error"></span></label>
+                    <label class="col-xs-4 control-label" for="costPrice">实际支付 <input type="button" value="同步于市场价格" class="button small green" onclick="synMartketPrice('costPrice')"><span class="label-danger" id="costPrice_error"></span></label>
                 </div>
                 <div class="row">
                     <div class="col-xs-4">
@@ -217,7 +217,7 @@
                         <input yt-validation="yes" yt-check="money" yt-errorMessage="<-点 *" yt-target="specialPrice_error" name="specialPrice" id="specialPrice" class="form-control input-sm" placeholder="促销价格">
                     </div>
                     <div class="col-xs-4">
-                        <input yt-validation="yes" yt-check="money" yt-errorMessage="请填写正确价格" yt-target="costPrice_error" name="costPrice"  class="form-control input-sm" placeholder="实际购买价格">
+                        <input yt-validation="yes" yt-check="money" yt-errorMessage="<-点 *" yt-target="costPrice_error" name="costPrice" id="costPrice" class="form-control input-sm" placeholder="实际购买价格">
                     </div>
                 </div>
             </div>

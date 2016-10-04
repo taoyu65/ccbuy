@@ -48,7 +48,7 @@
         //get cart id and return to last page with cartid
         function getCartId(cartid)
         {
-            jQuery('#CartId', window.parent.document).val(cartid);
+            jQuery('#cartId', window.parent.document).val(cartid);
             closeWindos();
         }
 
