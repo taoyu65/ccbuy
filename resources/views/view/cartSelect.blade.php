@@ -105,8 +105,8 @@
                     </div>
 
                     {{--laravel original page by custom --}}
-                    {{--<div class="text-center">{!! $carts->render() !!}</div>--}}
-                    <div class="text-center">{!! with(new \App\Foundations\Pagination\CustomerPresenter($carts))->render() !!}</div>
+                    <div class="text-center">{!! $carts->render() !!}</div>
+                    <div class="text-center">{{--{!! with(new \App\Foundations\Pagination\CustomerPresenter($carts))->render() !!}--}}</div>
                     {{--layer javascript page--}}
                     <div id="page11" class="text-center"></div>
                     <input id="count" value="{{$count}}" type="hidden">

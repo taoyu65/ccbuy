@@ -7,9 +7,17 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\Item;
 use App\Models\Store;
+use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
 {
+    //first page show item
+    public function firstPage()
+    {
+        $items = DB::table('items')->get();
+
+        return view('firstpage', ['items' => $items]);
+    }
     //
     public function index()
     {

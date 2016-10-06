@@ -36,7 +36,7 @@
 <body onselectstart="return true;" ondragstart="return false;" id="foot-layout">
 <div id="wrap" class="clr">
     <!--<div class="telphone"><img src="/www/images/tel.png"></div>-->
-    <div class="nav"> <a href="{{ url('/') }}">
+    <div class="nav"> <a href="{{ url('firstpage') }}">
             <div class="menu i01"  >流水</div>
         </a> <a href="#" >
             <div class="menu i02"  >账户</div>

@@ -32,12 +32,15 @@ $router->pattern('id', '[0-9]+');
 Route::group(['middleware' => ['web']], function () {
     //
 });
+//Route::get('', 'HomeController@welcome');
 
 Route::group(['middleware' => 'web'], function () {
     //Route::auth();
-    Route::get('/', 'HomeController@welcome');
-    Route::get('/add', 'HomeController@add');
 
+    //Route::get('/add', 'HomeController@add');
+    //Route::get('', 'ItemController@create');
+    Route::get('', 'HomeController@welcome');
+    Route::get('firstpage', 'ItemController@firstPage');
     //customs
     Route::get('showcustomwindow', 'CustomController@showWindow');
     Route::post('addcustom', 'CustomController@add');

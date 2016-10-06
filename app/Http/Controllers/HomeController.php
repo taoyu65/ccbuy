@@ -36,7 +36,7 @@ class HomeController extends Controller
     {
         $items = DB::table('items')->get();
 
-        return view('welcome', ['items' => $items]);
+        return view('firstpage', ['items' => $items]);
     }
 
     /**
