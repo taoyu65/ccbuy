@@ -90,7 +90,7 @@
         <div class="col-xs-2 control-label"></div>
         <div class="col-xs-9">
             <div class="panel panel-default panel-success">
-                <div class="panel-heading">点击选择订单 并返回相应ID到上一页</div>
+                <div class="panel-heading">点击选择订单 并返回相应ID到上一页 </div>
                 <div class="panel-body">
                     <div class="list-group">
                         @foreach($carts as $cart)
