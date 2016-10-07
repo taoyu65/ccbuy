@@ -34,9 +34,12 @@ class HomeController extends Controller
      */
     public function welcome()
     {
-        $items = DB::table('items')->get();
-
-        return view('firstpage', ['items' => $items]);
+        $items = DB::table('items');
+        $perPage = 5;
+        $totalItems = $items->count();
+        $totalPage = ceil($totalItems / $perPage);
+        $currentItems = $items->paginate($perPage);
+        return view('firstpage', ['items' => $currentItems, 'count' => $totalPage]);
     }
 
     /**
