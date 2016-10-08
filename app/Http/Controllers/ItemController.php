@@ -21,6 +21,7 @@ class ItemController extends Controller
         $currentItems = $items->paginate($perPage);
         return view('firstpage', ['items' => $currentItems, 'count' => $totalPage]);
     }
+
     //
     public function index()
     {
@@ -45,8 +46,10 @@ class ItemController extends Controller
         $item->specialPrice = $request->get('specialPrice');
         $item->weight = $request->get('weight');
         $item->postRate = $request->get('postRate');
+        $item->exchangeRate = $request->get('exchangeRate');
         $item->marketPrice = $request->get('marketPrice');
         $item->costPrice = $request->get('costPrice');
+        $item->itemProfit = $this->getProfit($item);
         $item->date = $request->get('date');
         $item->isDeal = $request->get('view');
         $item->itemPic = $request->get('fileName_hide');
@@ -57,6 +60,16 @@ class ItemController extends Controller
         } else {
             return redirect()->back()->withInput()->withErrors('保存失败！');
         }
+    }
+
+    //calculate profit
+    private function getProfit($item)
+    {
+        $postCost = $item->postRate * $item->weight;
+        $itemCost = $item->costPrice * $item->itemAmount;
+        $sellPrice = $item->sellPrice / $item->exchangeRate;
+        $profit = $sellPrice - $postCost - $itemCost;
+        return round($profit, 2);
     }
 
     public function edit()

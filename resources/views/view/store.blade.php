@@ -105,7 +105,7 @@
     <div class="addheight"></div>
 
     <div class="form-group">
-        <div class="col-xs-5 text-right"><p><button class="submitButton" name="storeNameBtn" id="storeNameBtn" type="submit"><strong>添加客户</strong></button></p></div>
+        <div class="col-xs-5 text-right"><p><button class="submitButton" name="storeNameBtn" id="storeNameBtn" type="submit"><strong>添加商店</strong></button></p></div>
         <div class="col-xs-2"></div>
         <div class="col-xs-5 text-left"><p><button class="submitButton" onclick="closeWindos_store()"><strong>关闭窗口</strong></button></p></div>
     </div>

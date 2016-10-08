@@ -29,10 +29,6 @@ $router->pattern('id', '[0-9]+');
 | kernel and includes session state, CSRF protection, and more.
 |
 */
-Route::group(['middleware' => ['web']], function () {
-    //
-});
-//Route::get('', 'HomeController@welcome');
 
 Route::group(['middleware' => 'web'], function () {
     //Route::auth();
@@ -60,4 +56,11 @@ Route::group(['middleware' => 'web'], function () {
     //item's pic upload
     Route::post('additemupload', 'UploadController@imgupload');
     Route::post('additemdelete', 'UploadController@imgDelete');
+
+    Route::auth();
+    Route::get('/home', 'HomeController@index');
 });
+
+//
+
+
