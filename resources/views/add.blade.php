@@ -9,9 +9,7 @@
     <script type="text/javascript" src='{{url("ui/laydate/laydate.js")}}'></script>
     <script type="text/javascript" src='{{url("js/jquery.form.js")}}'></script>
     <script type="text/javascript" src='{{url("js/yt_validation.js")}}'></script>
-    <script type="text/javascript" src='{{url("ui/bootstrap-mini/bootstrap.min.js")}}'></script>
 
-    <link type="text/css" rel="stylesheet" href='{{url("ui/bootstrap-mini/bootstrap.min.css")}}'>
     <script type="text/javascript">
         $(document).ready(function(){
             $.ajaxSetup({
@@ -113,7 +111,7 @@
                 scrollbar: false,
                 //dataType:'get',
                 content: ['{{url("store")}}', 'no'],
-                closeBtn:1,
+                closeBtn:0,
                 success: function(layero, index){
                 },
                 cancel:function(index){
@@ -178,9 +176,21 @@
             {{--物品名称--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-12 control-label" for="itemName">物品名称 <span class="label-danger" id="itemName_error"></span></label>
-                    <div class="col-xs-12">
+                    <label class="col-xs-6 control-label" for="itemName">物品名称 <span class="label-danger" id="itemName_error"></span></label>
+                    <label class="col-xs-6 control-label" for="storeId">购买地点 <input type="button" value="添加商店" class="button small green" onclick="addStore();"> <span class="label-danger" id="storeId_error"></span></label>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
                         <input yt-validation="yes" yt-check="null" yt-errorMessage="不能为空" yt-target="itemName_error" class="form-control input-sm" type="text" id="itemName" name="itemName" placeholder="简单介绍谁买的什么  例如:隔壁老王买的印度神油">
+                    </div>
+                    <div class="col-xs-6">
+                        <select yt-validation="yes" yt-check="null" yt-errorMessage="请选择商店" yt-target="storeId_error" class="form-control input-sm" name="storeId" id="storeId">
+                            <option value="" selected>选择商店</option>
+                            @foreach($stores as $store)
+                                <option value="{{$store->id}}"
+                                        title="{{$store->info}}">{{$store->storeName}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
             </div>
@@ -227,7 +237,7 @@
                 <div class="row">
                     <label class="col-xs-4 control-label" for="weight">物品重量 <span class="label-danger" id="weight_error"></span></label>
                     <label class="col-xs-4 control-label" for="postRate">快递费率 <span class="label-danger" id="postRate_error"></span></label>
-                    <label class="col-xs-4 control-label" for="storeId">购买地点 <input type="button" value="添加商店" class="button small green" onclick="addStore();"> <span class="label-danger" id="storeId_error"></span></label>
+                    <label class="col-xs-4 control-label" for="storeId">兑换汇率 <span class="label-danger" id="exchangeRate_error"></span></label>
                 </div>
                 <div class="row">
                     <div class="col-xs-4">
@@ -237,13 +247,7 @@
                         <input yt-validation="yes" yt-check="money" yt-errorMessage="格式不对" yt-target="postRate_error" name="postRate"  class="form-control input-sm" value="4.5">
                     </div>
                     <div class="col-xs-4">
-                        <select yt-validation="yes" yt-check="null" yt-errorMessage="请选择商店" yt-target="storeId_error" class="form-control input-sm" name="storeId" id="storeId">
-                            <option value="" selected>选择商店</option>
-                            @foreach($stores as $store)
-                                <option value="{{$store->id}}"
-                                        title="{{$store->info}}">{{$store->storeName}}</option>
-                            @endforeach
-                        </select>
+                        <input yt-validation="yes" yt-check="money" yt-errorMessage="数字" yt-target="exchangeRate_error" name="exchangeRate"  class="form-control input-sm" value="6.8" title="美金兑人民币">
                     </div>
                 </div>
             </div>

@@ -18,7 +18,7 @@
 .telnav span{display:inline-block; width:31%; color:#fff; font-size:18px; text-align:center; padding:14% 0 0;}
 .telnav .bigpic{display:inline-block; width:69%;}
 .c01{background:#49060d;}
-.c02{background:url(../images/b1.png);height:100%}
+.c02{background:url(../images/b1.png);}
 #headfack{display:block;position:relative;margin:auto;}
 #bian{background:url(../images/l.png); height:20px; width:100%;}
 .c03{background:#FFFFFF;}

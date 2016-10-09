@@ -29,23 +29,36 @@
     <!--/*add*/-->
     <div class="c03" > <a href="{{url('/item/create')}}"><img id="addimg" src="images/add.png"></a> </div>
 
-    <div class="nav-left">
-        <dl>
-            @foreach($items as $item)
-                <dd>
-                    <div id="itemshow">
-                        <a href="#">
-                        <div id='itemshow-a'>{{$item->itemName}}</div>
-                        <div id="itemshow-c">${{$item->sellPrice}}</div>
-                        <div id='itemshow-b'>{{$item->date}}</div>
-                        </a>
-                    </div>
-                </dd>
-            @endforeach()
-        </dl>
-    </div>
+    {{----}}
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>物品名称</th>
+            <th>出售金额 ¥</th>
+            <th>成本 $</th>
+            <th>净利 $</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($items as $item)
+        <tr>
+            <td>
+                {{$item->itemName}}
+                @if($item->itemAmount != 1)
+                    *{{$item->itemAmount}}
+                @endif
+            </td>
+            <td>¥{{$item->sellPrice}}</td>
+            <td title="{{$item->costPrice}} * {{$item->itemAmount}}"><span class="text-danger"><strong>${{$item->costPrice*$item->itemAmount}}</strong></span></td></td>
+            <td><span class="text-success"><strong>${{$item->itemProfit * 1}}</strong></span></td>
+        </tr>
+        @endforeach()
+    </table>
 
     <div id="page" style="text-align: center"></div>
     <input id="count" value="{{$count}}" type="hidden">
 
 @endsection
+
+　　
+　　
