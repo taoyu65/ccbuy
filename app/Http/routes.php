@@ -55,7 +55,7 @@ Route::group(['middleware' => 'web'], function () {
     | cc_admin
     |--------------------------------------------------------------------------
     */
-    //Route::auth();
+    Route::auth();
     Route::group(array('prefix' => 'cc_admin'), function(){
         Route::get('login', function(){
             return view('cc_admin/login');
