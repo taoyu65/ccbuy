@@ -38,6 +38,7 @@ class CartController extends Controller
             $cart->customs_id = Input::get('customId');
         }
         $cart->rename = Input::get('reName');
+        $cart->weight = Input::get('weight');
         $cart->date=  Input::get('dateInput');
         if($cart->save()){
             return $cart->id;
@@ -63,5 +64,26 @@ class CartController extends Controller
         $totalPage = $obj->count();
         $re = $obj->paginate($perPage);//simplePaginate(num)  will be showing << >>
         return view('view/cartSelect', ['customs'=> $customName, 'carts' => $re, 'count' => ceil($totalPage/$perPage)]);
+    }
+
+
+    /**
+     *  all the deal that have not done
+     */
+    public function unFinishDeal()
+    {
+        $object = (object) [
+            'a' => 'foo',
+            'b' => 42,
+        ];
+        return view('view/collecting', ['count' => $object]);
+    }
+
+    /**
+     *  finish deal
+     */
+    public function dealDone()
+    {
+
     }
 }

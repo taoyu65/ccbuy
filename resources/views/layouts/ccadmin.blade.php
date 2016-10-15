@@ -27,15 +27,15 @@
     <div class="mainer">
         <div class="admin-navbar">
             <span class="float-right">
-                <a class="button button-little bg-main" href="#" target="_blank">前台首页</a>
+                <a class="button button-little bg-main" href='{{url('firstpage')}}' target="_blank">前台首页</a>
                 <a class="button button-little bg-yellow" href="#">注销登录</a>
             </span>
             <ul class="nav nav-inline admin-nav">
                 <li id="li_main">
-                    <a href="index.html" class="icon-home"> 开始</a>
+                    <a href='{{url("cc_admin/main")}}' class="icon-home"> 开始</a>
                     <ul>
-                        <li id="li_main_system"><a href="system.html">系统设置</a></li>
-                        <li id="li_main_content"><a href="content.html">内容管理</a></li>
+                        <li id="li_main_system"><a href='#'>系统设置</a></li>
+                        <li id="li_main_content"><a href="#">内容管理</a></li>
                         <li><a href="#">订单管理</a></li>
                         <li><a href="#">会员管理</a></li>
                         <li><a href="#">文件管理</a></li>
@@ -43,21 +43,23 @@
                     </ul>
                 </li>
                 <li id="li_system">
-                    <a href="system.html" class="icon-cog"> 系统</a>
+                    <a href='{{url("cc_admin/system")}}' class="icon-cog"> 系统</a>
                     <ul>
                         <li><a href="#">全局设置</a></li>
-                        <li class="active"><a href="#">系统设置</a></li>
+                        <li id="li_system_setup"><a href="#">系统设置</a></li>
                         <li><a href="#">会员设置</a></li>
                         <li><a href="#">积分设置</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a href="content.html" class="icon-file-text"> 数据</a>
+                <li id="li_table">
+                    <a href='{{url("cc_admin/table")}}' class="icon-file-text"> 数据</a>
                     <ul>
-                        <li><a href="#">添加内容</a></li>
-                        <li class="active"><a href="#">内容管理</a></li>
-                        <li><a href="#">分类设置</a></li>
-                        <li><a href="#">链接管理</a></li>
+                        <li id="li_table_carts"><a href="#">订单管理</a></li>
+                        <li id="li_table_customs"><a href="#">客户管理</a></li>
+                        <li id="li_table_incomes"><a href="#">收入管理</a></li>
+                        <li id="li_table_items"><a href="#">物品管理</a></li>
+                        <li id="li_table_stores"><a href="#">商店管理</a></li>
+                        <li id="li_table_users"><a href="#">登录管理</a></li>
                     </ul>
                 </li>
                 <li><a href="#" class="icon-shopping-cart">待定</a></li>
@@ -75,7 +77,11 @@
         </div>
     </div>
 </div>
-@yield('content1')
+<div class="admin">
+    @yield('content1')
+    <br>
+    <p class="text-right text-gray">基于<a class="text-gray" target="_blank" href="http://www.pintuer.com">拼图前端框架</a>构建</p>
+</div>
 </body>
 
 </html>

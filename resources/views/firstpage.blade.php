@@ -36,7 +36,7 @@
             <th>物品名称</th>
             <th>出售金额 ¥</th>
             <th>成本 $</th>
-            <th>净利 $</th>
+            <th>净利 $(不含邮费)</th>
         </tr>
         </thead>
         <tbody>
@@ -53,6 +53,7 @@
             <td><span class="text-success"><strong>${{$item->itemProfit * 1}}</strong></span></td>
         </tr>
         @endforeach()
+        </tbody>
     </table>
 
     <div id="page" style="text-align: center"></div>

@@ -20,6 +20,7 @@
             $('#submitBtn').click(function(){
                 if(!checkForm('add_form'))
                     return false;
+                jQuery('#submitBtn').attr('disabled', 'disabled');
                 $('#add_form').submit();
             });
 
@@ -66,6 +67,11 @@
                 $(this).ajaxSubmit(options_delete);
                 return false;
             });
+
+            //get date
+            var myDate = new Date();
+            var today = myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate();
+            $('#showDate').val(today);
         });
 
         //弹出 查询订单窗口 //layer插件
@@ -133,6 +139,12 @@
             var marketPrice = $('#marketPrice').val();
             $('#'+label).val(marketPrice);
         }
+
+        //syc the price
+        function syc(val) {
+            $('#specialPrice').val(val);
+            $('#costPrice').val(val);
+        }
     </script>
 
 <div id="additemdiv">
@@ -153,7 +165,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
-                        <input yt-validation="yes" yt-check="money" yt-errorMessage="请填写正确金额" yt-target="sellPrice_error" class="form-control input-sm" type="text" value="bbb" name="sellPrice" id="money" placeholder="默认为人民币¥, 可以设置相同物品总价格, 填写对应的物品数量">
+                        <input yt-validation="yes" yt-check="money" yt-errorMessage="请填写正确金额" yt-target="sellPrice_error" class="form-control input-sm" type="text" value="" name="sellPrice" id="money" placeholder="默认为人民币¥, 可以设置相同物品总价格, 填写对应的物品数量">
                     </div>
                     <div class="col-xs-6">
                         <select id="itemNum" name="itemNum" class="form-control input-sm">
@@ -221,7 +233,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-4">
-                        <input yt-validation="yes" yt-check="money" yt-errorMessage="请填写正确价格" yt-target="marketPrice_error" name="marketPrice" id="marketPrice" class="form-control input-sm" placeholder="对客户显示的价格">
+                        <input yt-validation="yes" yt-check="money" yt-errorMessage="请填写正确价格" yt-target="marketPrice_error" name="marketPrice" id="marketPrice" class="form-control input-sm" placeholder="对客户显示的价格" onkeyup="syc(this.value);">
                     </div>
                     <div class="col-xs-4">
                         <input yt-validation="yes" yt-check="money" yt-errorMessage="<-点 *" yt-target="specialPrice_error" name="specialPrice" id="specialPrice" class="form-control input-sm" placeholder="促销价格">
@@ -235,13 +247,13 @@
             {{--物品重量 快递费率 购买地点--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-4 control-label" for="weight">物品重量 <span class="label-danger" id="weight_error"></span></label>
+                    <label class="col-xs-4 control-label" for="date">购买日期 <span class="label-danger" id="date_error"></span></label>
                     <label class="col-xs-4 control-label" for="postRate">快递费率 <span class="label-danger" id="postRate_error"></span></label>
                     <label class="col-xs-4 control-label" for="storeId">兑换汇率 <span class="label-danger" id="exchangeRate_error"></span></label>
                 </div>
                 <div class="row">
                     <div class="col-xs-4">
-                        <input yt-validation="yes" yt-check="money" yt-errorMessage="请填写正确价格" yt-target="weight_error" name="weight"  class="form-control input-sm" placeholder="单位磅">
+                        <input yt-validation="yes" yt-check="null" yt-errorMessage="日期格式不正确" yt-target="date_error" name="date" class="form-control input-sm laydate-icon" id="showDate" onclick="laydate()">
                     </div>
                     <div class="col-xs-4">
                         <input yt-validation="yes" yt-check="money" yt-errorMessage="格式不对" yt-target="postRate_error" name="postRate"  class="form-control input-sm" value="4.5">
@@ -255,15 +267,11 @@
             {{--购买日期 备注信息 是否付款--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-4 control-label" for="date">购买日期 <span class="label-danger" id="date_error"></span></label>
-                    <label class="col-xs-4 control-label" for="info">备注信息</label>
+                    <label class="col-xs-8 control-label" for="info">备注信息</label>
                     <label class="col-xs-4 control-label" for="view">是否付款</label>
                 </div>
                 <div class="row">
-                    <div class="col-xs-4">
-                        <input yt-validation="yes" yt-check="null" yt-errorMessage="日期格式不正确" yt-target="date_error" name="date" class="form-control input-sm laydate-icon" id="showDate" onclick="laydate()" readonly>
-                    </div>
-                    <div class="col-xs-4">
+                    <div class="col-xs-8">
                         <input name="info" type="text" class="form-control input-sm" placeholder="备注">
                     </div>
                     <div class="col-xs-4">

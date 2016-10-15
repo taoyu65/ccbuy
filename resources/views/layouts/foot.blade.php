@@ -40,8 +40,8 @@
     <!--<div class="telphone"><img src="/www/images/tel.png"></div>-->
     <div class="nav"> <a href="{{ url('firstpage') }}">
             <div class="menu i01"  >流水</div>
-        </a> <a href="#" >
-            <div class="menu i02"  >账户</div>
+        </a> <a href="{{url('collecting')}}" >
+            <div class="menu i02"  >收账</div>
         </a> <a href="#" >
             <div class="menu i03"  >统计</div>
         </a> <a href="#" >

@@ -11,6 +11,7 @@
     <script type="text/javascript" src="ui/laydate/laydate.js"></script>
     <script type="text/javascript" src="ui/layer/layer.js"></script>
     <script type="text/javascript" src="js/jquery.form.js"></script>
+    <script type="text/javascript" src='{{url("js/yt_validation.js")}}'></script>
 
     <link type="text/css" rel="stylesheet" href="ui/bootstrap-mini/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="ui/icheck/skins/line/line.css">
@@ -80,16 +81,16 @@
                 type: 'post',
                 //dataType: 'json', //http://jquery.malsup.com/form/#json
                 beforeSubmit:function(){
-                    //if(!checkData()){
-                        //return false;
-                   // }
+                    if(!checkForm('addCartForm'))
+                        return false;
+                    jQuery('#btsubmit').attr('disabled', 'disabled');
                 },
                 success: function(data){
                     //layer.alert('添加成功! 页面自动返回并添加此订单ID', {icon:1});
                     layer.confirm('添加成功!返回上一层继续 或者 在继续添加订单', {
                         btn: ['确认离开','再添订单'] //按钮
                     }, function(){
-                        jQuery('#CartId',window.parent.document).val(data);
+                        jQuery('#cartId',window.parent.document).val(data);
                         closeWindos();
                     }, function(){
                         jQuery('#customsNameList').val('0');
@@ -132,6 +133,11 @@
             //$('#customId').bind('input propertychange', function() {
                 //$('#showCustomName').html($(this).val().length + ' characters');
             //});
+
+            //get date
+            var myDate = new Date();
+            var today = myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate();
+            $('#dateInput').val(today);
         });
 
         //输入数字并ajax加载客户名字
@@ -237,6 +243,13 @@
         function findCustom() {
            // alert(jQuery('#customId').val());
         }
+
+        //
+        function setCartName() {
+            var itemName = jQuery('#itemName', window.parent.document).val();
+            var customName = $('#customsNameList').find('option:selected').text();
+            jQuery('#reName').val(customName+'的'+itemName);
+        }
     </script>
 </head>
 
@@ -249,7 +262,7 @@
         <label class="col-xs-2 control-label" for="customsNameList">客户选择</label>
         <div class="col-xs-2">
             {{--<input class="form-control input-sm" type="text" id="customsNameList">--}}
-            <select class="form-control input-sm" id="customsNameList" name="customsNameList">
+            <select class="form-control input-sm" id="customsNameList" name="customsNameList" onchange="setCartName();">
                 <option  value="0">选择客户</option>
                 @foreach($customs as $custom)
                 <option value="{{$custom->id}}" title="{{$custom->dgFrom}}'的'{{$custom->relationship}}">{{$custom->customName}}</option>
@@ -273,12 +286,12 @@
     <div class="form-group">
         <label class="col-xs-2 control-label">创建客户</label>
         <div class="col-xs-2">
-
             <button type="button" class="btn btn-warning" onclick="addCustomWindow()">创建新客户</button>
         </div>
+        <label class="col-xs-2 control-label" for="weight">订单重量</label>
         <div class="col-xs-4">
-            <div class="warning"><p>只有在需要添加新客户的时候点击</p></div>
         </div>
+        <span class="label-danger" id="weight_error"></span>
     </div>
 
     <div class="form-group">

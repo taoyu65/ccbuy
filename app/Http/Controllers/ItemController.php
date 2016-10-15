@@ -44,7 +44,6 @@ class ItemController extends Controller
         $item->itemAmount = $request->get('itemNum');
         $item->sellPrice = $request->get('sellPrice');
         $item->specialPrice = $request->get('specialPrice');
-        $item->weight = $request->get('weight');
         $item->postRate = $request->get('postRate');
         $item->exchangeRate = $request->get('exchangeRate');
         $item->marketPrice = $request->get('marketPrice');
@@ -65,10 +64,9 @@ class ItemController extends Controller
     //calculate profit
     private function getProfit($item)
     {
-        $postCost = $item->postRate * $item->weight;
         $itemCost = $item->costPrice * $item->itemAmount;
         $sellPrice = $item->sellPrice / $item->exchangeRate;
-        $profit = $sellPrice - $postCost - $itemCost;
+        $profit = $sellPrice - $itemCost;
         return round($profit, 2);
     }
 
