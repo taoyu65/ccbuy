@@ -83,6 +83,10 @@
                 beforeSubmit:function(){
                     if(!checkForm('addCartForm'))
                         return false;
+                    //add shade to prevent add additional data
+                    var index = layer.load(0, {
+                        shade: [0.5,'#393D49'] //0.1透明度的白色背景
+                    });
                     jQuery('#btsubmit').attr('disabled', 'disabled');
                 },
                 success: function(data){
@@ -93,9 +97,7 @@
                         jQuery('#cartId',window.parent.document).val(data);
                         closeWindos();
                     }, function(){
-                        jQuery('#customsNameList').val('0');
-                        jQuery('#reName').val('');
-                        jQuery('#customId').val('');
+                        window.location.reload(false);
                     });
                 },
                 error: function () {
@@ -288,10 +290,6 @@
         <div class="col-xs-2">
             <button type="button" class="btn btn-warning" onclick="addCustomWindow()">创建新客户</button>
         </div>
-        <label class="col-xs-2 control-label" for="weight">订单重量</label>
-        <div class="col-xs-4">
-        </div>
-        <span class="label-danger" id="weight_error"></span>
     </div>
 
     <div class="form-group">
@@ -299,6 +297,23 @@
         <div class="col-xs-9">
             <input class="form-control input-sm" type="text" name="reName" id="reName" placeholder="简单介绍谁买的什么  例如:隔壁老王买的印度神油">
         </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-2 control-label" for="weight">订单重量</label>
+        <div class="col-xs-2">
+            <input yt-validation="yes" yt-check="money" yt-errorMessage="**" yt-target="weight_error" name="weight" id="weight" class="form-control input-sm" value="0">
+        </div>
+        <span class="label-danger" id="weight_error"></span>
+        <div class="warning col-xs-3 control-label" >单位:磅 邮寄之前默认为0</div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-2 control-label" for="postRate">快递费率</label>
+        <div class="col-xs-2">
+            <input yt-validation="yes" yt-check="money" yt-errorMessage="格式不对" yt-target="postRate_error" name="postRate"  class="form-control input-sm" value="4.5">
+        </div>
+        <span class="label-danger" id="postRate_error"></span>
     </div>
 
     <div class="form-group">

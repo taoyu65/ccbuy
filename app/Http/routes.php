@@ -31,7 +31,7 @@ $router->pattern('id', '[0-9]+');
 */
 
 Route::group(['middleware' => 'web'], function () {
-    Route::get('', 'HomeController@welcome');
+    Route::get('', 'ItemController@firstPage');
     Route::get('firstpage', 'ItemController@firstPage');
     #customs
     Route::get('showcustomwindow', 'CustomController@showWindow');
@@ -48,6 +48,8 @@ Route::group(['middleware' => 'web'], function () {
     #item's pic upload
     Route::post('additemupload', 'UploadController@imgupload');
     Route::post('additemdelete', 'UploadController@imgDelete');
+    #get paid -marked is deal and finish cart
+    Route::get('collecting', 'CartController@unFinishDeal');
 
     Route::get('/home', 'HomeController@index');
     /*
@@ -61,7 +63,15 @@ Route::group(['middleware' => 'web'], function () {
             return view('cc_admin/login');
         });
         Route::post('submit', 'UserController@submit');
+        Route::get('main', function(){
+            return view('cc_admin/main');
+        });
+        Route::get('system', function(){
+            return view('cc_admin/system');
+        });
+        Route::get('table/{name}', 'ccTableController@showTable');
     });
+
 
     Route::group(['middleware' => 'auth'], function () {
         #login

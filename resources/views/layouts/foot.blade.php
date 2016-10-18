@@ -41,11 +41,11 @@
     <div class="nav"> <a href="{{ url('firstpage') }}">
             <div class="menu i01"  >流水</div>
         </a> <a href="{{url('collecting')}}" >
-            <div class="menu i02"  >收账</div>
+            <div class="menu i02"  >盈利</div>
         </a> <a href="#" >
             <div class="menu i03"  >统计</div>
-        </a> <a href="#" >
-            <div class="menu i04"  >设置</div>
+        </a> <a href="{{url('cc_admin/login')}}" >
+            <div class="menu i04"  >管理</div>
         </a>
     </div>
 

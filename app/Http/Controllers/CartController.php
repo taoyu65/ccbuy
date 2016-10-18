@@ -39,6 +39,7 @@ class CartController extends Controller
         }
         $cart->rename = Input::get('reName');
         $cart->weight = Input::get('weight');
+        $cart->postRate = Input::get('postRate');
         $cart->date=  Input::get('dateInput');
         if($cart->save()){
             return $cart->id;
@@ -68,13 +69,13 @@ class CartController extends Controller
 
 
     /**
-     *  all the deal that have not done
+     *  showing all the deal that have not done
      */
     public function unFinishDeal()
     {
         $object = (object) [
             'a' => 'foo',
-            'b' => 42,
+            'b' => 422,
         ];
         return view('view/collecting', ['count' => $object]);
     }

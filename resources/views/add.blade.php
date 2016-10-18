@@ -20,6 +20,9 @@
             $('#submitBtn').click(function(){
                 if(!checkForm('add_form'))
                     return false;
+                var index = layer.load(0, {
+                    shade: [0.5,'#393D49'] //0.1透明度的白色背景
+                });
                 jQuery('#submitBtn').attr('disabled', 'disabled');
                 $('#add_form').submit();
             });
@@ -140,6 +143,18 @@
             $('#'+label).val(marketPrice);
         }
 
+        //sny special price to market price
+        function getPriceAfterTax(label) {
+            var marketPrice = $('#marketPrice').val();
+            var costPrice = $('#costPrice').val();
+            if(marketPrice == costPrice) {
+                var price = $('#costPrice').val() * 1.08;
+                $('#'+label).val(price.toFixed(2));
+            }else {
+                alert('不能连续2次加税!~价格已经是税后!');
+            }
+        }
+
         //syc the price
         function syc(val) {
             $('#specialPrice').val(val);
@@ -229,7 +244,7 @@
                 <div class="row">
                     <label class="col-xs-4 control-label" for="marketPrice">市场价格 <span class="label-danger" id="marketPrice_error"></span></label>
                     <label class="col-xs-4 control-label" for="specialPrice">促销价格 <input type="button" value="同步于市场价格" class="button small green" onclick="synMartketPrice('specialPrice')"> <span class="label-danger" id="specialPrice_error"></span></label>
-                    <label class="col-xs-4 control-label" for="costPrice">实际支付 <input type="button" value="同步于市场价格" class="button small green" onclick="synMartketPrice('costPrice')"><span class="label-danger" id="costPrice_error"></span></label>
+                    <label class="col-xs-4 control-label" for="costPrice">实际支付 <input type="button" value="计算税后价格" class="button small green" onclick="getPriceAfterTax('costPrice')"><span class="label-danger" id="costPrice_error"></span></label>
                 </div>
                 <div class="row">
                     <div class="col-xs-4">
@@ -248,16 +263,14 @@
             <div class="form-group">
                 <div class="row">
                     <label class="col-xs-4 control-label" for="date">购买日期 <span class="label-danger" id="date_error"></span></label>
-                    <label class="col-xs-4 control-label" for="postRate">快递费率 <span class="label-danger" id="postRate_error"></span></label>
+
                     <label class="col-xs-4 control-label" for="storeId">兑换汇率 <span class="label-danger" id="exchangeRate_error"></span></label>
                 </div>
                 <div class="row">
                     <div class="col-xs-4">
                         <input yt-validation="yes" yt-check="null" yt-errorMessage="日期格式不正确" yt-target="date_error" name="date" class="form-control input-sm laydate-icon" id="showDate" onclick="laydate()">
                     </div>
-                    <div class="col-xs-4">
-                        <input yt-validation="yes" yt-check="money" yt-errorMessage="格式不对" yt-target="postRate_error" name="postRate"  class="form-control input-sm" value="4.5">
-                    </div>
+
                     <div class="col-xs-4">
                         <input yt-validation="yes" yt-check="money" yt-errorMessage="数字" yt-target="exchangeRate_error" name="exchangeRate"  class="form-control input-sm" value="6.8" title="美金兑人民币">
                     </div>

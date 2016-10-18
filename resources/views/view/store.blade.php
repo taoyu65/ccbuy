@@ -28,6 +28,10 @@
                 if(!checkForm('addStoreForm')) {
                     return false;
                 }else {
+                    //add shade to prevent add additional data
+                    var index = layer.load(0, {
+                        shade: [0.5,'#393D49'] //0.1透明度的白色背景
+                    });
                     jQuery('#addStoreForm').submit();
                 }
             });

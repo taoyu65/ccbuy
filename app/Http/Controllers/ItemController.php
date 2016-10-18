@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\Item;
 use App\Models\Store;
+use App\Models\Cart;
 use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
@@ -44,7 +45,6 @@ class ItemController extends Controller
         $item->itemAmount = $request->get('itemNum');
         $item->sellPrice = $request->get('sellPrice');
         $item->specialPrice = $request->get('specialPrice');
-        $item->postRate = $request->get('postRate');
         $item->exchangeRate = $request->get('exchangeRate');
         $item->marketPrice = $request->get('marketPrice');
         $item->costPrice = $request->get('costPrice');
@@ -55,6 +55,7 @@ class ItemController extends Controller
         $item->info = $request->get('info');
 
         if ($item->save()) {
+            
             return redirect('item/create')->with('status', '添加记录成功');
         } else {
             return redirect()->back()->withInput()->withErrors('保存失败！');

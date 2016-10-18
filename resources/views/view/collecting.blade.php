@@ -4,7 +4,7 @@
     <link href='{{url("css/welcome.css")}}' rel="stylesheet" type="text/css">
     <script type="text/javascript" src='{{url("ui/laypage/laypage.js")}}'></script>
 
-    <div class="c03" > <a href="#"><img id="addimg" src="images/collecting.jpg"></a></div>
+    <div class="c03" > <a href="#"><img id="addimg" src="images/yl.jpg"></a></div>
 
     <table class="table table-hover">
         <thead>
