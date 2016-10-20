@@ -55,7 +55,16 @@ class ItemController extends Controller
         $item->info = $request->get('info');
 
         if ($item->save()) {
-            
+            //set profits for table carts
+            $cartId = $item->carts_id;
+            $cart = Cart::find($cartId);
+            $profitCurrent = $cart->profits;
+            if($cart->profits == 0) {   //is first time to minus post fee or not
+                $profitNow = $item->itemProfit + $profitCurrent - ($cart->weight * $cart->postRate);    //all profits of items minus post fee
+            }else{
+                $profitNow = $item->itemProfit + $profitCurrent;
+            }
+            DB::table('carts')->where('id', $cartId)->update(['profits' => $profitNow]);
             return redirect('item/create')->with('status', '添加记录成功');
         } else {
             return redirect()->back()->withInput()->withErrors('保存失败！');
@@ -84,5 +93,37 @@ class ItemController extends Controller
     public function destroy()
     {
 
+    }
+
+    //ajax get items
+    public function getItems($cartId)
+    {
+        $items = Item::where('carts_id', $cartId)->get();
+        $html = '';
+        $html .= '<table class="table table-hover">';
+        $html .= '<thead class="bg-warning">';
+        $html .= '<tr>';
+        $html .= '    <th>物品名称</th>';
+        $html .= '    <th>售价</th>';
+        $html .= '    <th>利润</th>';
+        $html .= '    <th>付费</th>';
+        $html .= '</tr>';
+        $html .= '</thead>';
+        $html .= '<tbody>';
+        foreach ($items as $item) {
+            $html .= '<tr class="success">';
+            $html .= '<td>'.$item->itemName.'</td>';
+            $html .= '<td>'.$item->sellPrice.'¥</td>';
+            $html .= '<td>'.$item->itemProfit.'$</td>';
+            if($item->isDeal) {
+                $html .= '<td><img src="images/yes.png"></td>';
+            }else{
+                $html .= '<td><img src="images/no.png"></td>';
+            }
+            $html .= '</tr>';
+        }
+        $html .= '</tbody>';
+        $html .= '</table>';
+        return $html;
     }
 }

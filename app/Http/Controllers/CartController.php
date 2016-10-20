@@ -59,7 +59,7 @@ class CartController extends Controller
 
         //page
         $perPage = 5;
-        $obj = DB::table('view_carts_customs');
+        $obj = DB::table('view_carts_customs')->orderBy('id', 'desc');
         if(is_numeric($customId))
             $obj = $obj->where('customs_id', '=', $customId);
         $totalPage = $obj->count();
@@ -73,11 +73,9 @@ class CartController extends Controller
      */
     public function unFinishDeal()
     {
-        $object = (object) [
-            'a' => 'foo',
-            'b' => 422,
-        ];
-        return view('view/collecting', ['count' => $object]);
+        $carts = Cart::orderBy('id', 'desc')->get();
+
+        return view('view/collecting', ['carts' => $carts]);
     }
 
     /**

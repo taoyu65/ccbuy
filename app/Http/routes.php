@@ -39,6 +39,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('getcustomname/{id}','CustomController@getCustomName');
     #item
     Route::resource('item', 'ItemController');
+    Route::get('getItems/{id}', 'ItemController@getItems');
     #store
     Route::resource('store', 'StoreController');
     #cart

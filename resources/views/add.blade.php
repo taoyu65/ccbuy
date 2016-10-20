@@ -263,14 +263,12 @@
             <div class="form-group">
                 <div class="row">
                     <label class="col-xs-4 control-label" for="date">购买日期 <span class="label-danger" id="date_error"></span></label>
-
                     <label class="col-xs-4 control-label" for="storeId">兑换汇率 <span class="label-danger" id="exchangeRate_error"></span></label>
                 </div>
                 <div class="row">
                     <div class="col-xs-4">
                         <input yt-validation="yes" yt-check="null" yt-errorMessage="日期格式不正确" yt-target="date_error" name="date" class="form-control input-sm laydate-icon" id="showDate" onclick="laydate()">
                     </div>
-
                     <div class="col-xs-4">
                         <input yt-validation="yes" yt-check="money" yt-errorMessage="数字" yt-target="exchangeRate_error" name="exchangeRate"  class="form-control input-sm" value="6.8" title="美金兑人民币">
                     </div>
