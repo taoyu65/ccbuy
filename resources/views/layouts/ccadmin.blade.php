@@ -28,7 +28,7 @@
         <div class="admin-navbar">
             <span class="float-right">
                 <a class="button button-little bg-main" href='{{url('firstpage')}}' target="_blank">前台首页</a>
-                <a class="button button-little bg-yellow" href="#">注销登录</a>
+                <a class="button button-little bg-yellow" href="{{url('cc_admin/logout')}}">注销登录</a>
             </span>
             <ul class="nav nav-inline admin-nav">
                 <li id="li_main">
@@ -52,7 +52,7 @@
                     </ul>
                 </li>
                 <li id="li_table">
-                    <a href='{{url("cc_admin/table")}}' class="icon-file-text"> 数据</a>
+                    <a href='{{url("cc_admin/table/items")}}' class="icon-file-text"> 数据</a>
                     <ul>
                         <li id="li_table_carts"><a href="#">订单管理</a></li>
                         <li id="li_table_customs"><a href="#">客户管理</a></li>
@@ -69,7 +69,7 @@
             </ul>
         </div>
         <div class="admin-bread">
-            <span>您好，admin，欢迎您的光临。</span>
+            <span>您好，{{Auth::user()->name}}，欢迎您的光临。</span>
             <ul class="bread">
                 <li>{{--<a href="index.html" class="icon-home"> 开始</a>--}}</li>
                 <li>{{--后台首页--}}</li>

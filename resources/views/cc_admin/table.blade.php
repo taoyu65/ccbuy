@@ -6,6 +6,7 @@
         jQuery('#li_table_carts').attr('class' , 'active');
     </script>
 
+    {{$html}}
     <div class="table-responsive-y">
         <table class="table table-hover">
             <thead>

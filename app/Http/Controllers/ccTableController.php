@@ -13,7 +13,6 @@ class ccTableController extends Controller
     {
         $data = new Table($table, 'id,isDeal');
         $html = $data->getHtml();
-        return $html;
-        //return view('cc_admin/table');
+        return view('cc_admin/table', ['html' => $html]);
     }
 }

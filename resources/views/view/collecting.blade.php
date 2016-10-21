@@ -18,7 +18,9 @@
         else    //first time click will be loading items
         {
             $('#tr' + cid).append('<td colspan="4"><div><img src="images/loading.gif"></div></td>');
+            $.get('getItems/'+cid, function (data, status) {//alert(data);
                 $('#tr'+cid).empty();
+                $('#tr' + cid).append('<td colspan="4"><div style="padding: 15px">'+data+'</div></td>');
             });
         }
     }
@@ -27,6 +29,7 @@
     <table class="table table-hover">
         <thead>
         <tr>
+            <th>订单名称</th>
             <th>订单重量</th>
             <th>创建日期</th>
             <th>订单利润</th>
@@ -38,7 +41,9 @@
                 <td>{{$cart->rename}}</td>
                 <td>{{$cart->weight}}</td>
                 <td>{{$cart->date}}</td>
+                <td>{{$cart->profits}}$</td>
             </tr>
+            <tr id="tr{{$cart->id}}"></tr>
         @endforeach
         </tbody>
     </table>

@@ -3,6 +3,9 @@
 Event::listen('404', function() {
     return Response::error('404');
 });
+Event::listen('401', function() {
+    return Response::error('401');
+});
 $router->pattern('id', '[0-9]+');
 /*
 |--------------------------------------------------------------------------
@@ -31,51 +34,60 @@ $router->pattern('id', '[0-9]+');
 */
 
 Route::group(['middleware' => 'web'], function () {
-    Route::get('', 'ItemController@firstPage');
-    Route::get('firstpage', 'ItemController@firstPage');
-    #customs
-    Route::get('showcustomwindow', 'CustomController@showWindow');
-    Route::post('addcustom', 'CustomController@add');
-    Route::get('getcustomname/{id}','CustomController@getCustomName');
-    #item
-    Route::resource('item', 'ItemController');
-    Route::get('getItems/{id}', 'ItemController@getItems');
-    #store
-    Route::resource('store', 'StoreController');
-    #cart
-    Route::get('showcart', 'CartController@showCustomList');
-    Route::post('addcart','CartController@add');
-    Route::get('searchCart/{custom?}', 'CartController@search');
-    #item's pic upload
-    Route::post('additemupload', 'UploadController@imgupload');
-    Route::post('additemdelete', 'UploadController@imgDelete');
-    #get paid -marked is deal and finish cart
-    Route::get('collecting', 'CartController@unFinishDeal');
-
-    Route::get('/home', 'HomeController@index');
+    Route::get('/', function(){
+        return view('cc_admin/login');
+    });
     /*
     |--------------------------------------------------------------------------
-    | cc_admin
+    | login
     |--------------------------------------------------------------------------
     */
-    Route::auth();
     Route::group(array('prefix' => 'cc_admin'), function(){
+        #login page
         Route::get('login', function(){
             return view('cc_admin/login');
         });
+        #loging in
         Route::post('submit', 'UserController@submit');
-        Route::get('main', function(){
-            return view('cc_admin/main');
-        });
-        Route::get('system', function(){
-            return view('cc_admin/system');
-        });
-        Route::get('table/{name}', 'ccTableController@showTable');
     });
-
-
+    /*
+    |--------------------------------------------------------------------------
+    | pages need to be logged in
+    |--------------------------------------------------------------------------
+    */
     Route::group(['middleware' => 'auth'], function () {
-        #login
+        #default page
+        Route::get('firstpage', 'ItemController@firstPage');
+        #customs
+        Route::get('showcustomwindow', 'CustomController@showWindow');
+        Route::post('addcustom', 'CustomController@add');
+        Route::get('getcustomname/{id}','CustomController@getCustomName');
+        #item
+        Route::resource('item', 'ItemController');
+        Route::get('getItems/{id}', 'ItemController@getItems');
+        #store
+        Route::resource('store', 'StoreController');
+        #cart
+        Route::get('showcart', 'CartController@showCustomList');
+        Route::post('addcart','CartController@add');
+        Route::get('searchCart/{custom?}', 'CartController@search');
+        #item's pic upload
+        Route::post('additemupload', 'UploadController@imgupload');
+        Route::post('additemdelete', 'UploadController@imgDelete');
+        #get paid -marked is deal and finish cart
+        Route::get('collecting', 'CartController@unFinishDeal');
+
+        Route::group(array('prefix' => 'cc_admin'), function() {
+            Route::get('main', function(){
+                return view('cc_admin/main');
+            });
+            Route::get('system', function(){
+                return view('cc_admin/system');
+            });
+            Route::get('table/{name}', 'ccTableController@showTable');
+            #logout
+            Route::get('logout', 'UserController@logout');
+        });
     });
 });
 

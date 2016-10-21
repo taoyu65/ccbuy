@@ -44,7 +44,7 @@
             <div class="menu i02"  >盈利</div>
         </a> <a href="#" >
             <div class="menu i03"  >统计</div>
-        </a> <a href="{{url('cc_admin/login')}}" >
+        </a> <a href="{{url('cc_admin/main')}}" >
             <div class="menu i04"  >管理</div>
         </a>
     </div>

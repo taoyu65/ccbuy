@@ -10,7 +10,11 @@
 </head>
 <body>
 <!--SIGN UP-->
-<h1>ccBuy 后台登录</h1>
+<h1>ccBuy Admin</h1>
+<!--if login failed then show message -->
+@if(isset($error))
+	{!! $error !!}
+@endif
 <div class="login-form">
 	<div class="close" onclick="location.href = '{{url("/")}}'"> </div>
 	<div class="head-info">
@@ -26,10 +30,10 @@
 		{!! csrf_field() !!}
 		<input type="text" name="name" class="text" value="Username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}" >
 		<div class="key">
-			<input type="password" name="password" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
+			<input type="password" name="password" value="123123" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '123123';}">
 		</div>
 		<div class="signin">
-			<input type="submit" value="登录" >
+			<input type="submit" value="log in" >
 		</div>
 	</form>
 </div>

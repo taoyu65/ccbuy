@@ -27,8 +27,10 @@ class Table
     {
         $this->tableName = $tableName;
         if ($columnName == '*') {
-            $sql = "select column_name from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='".$tableName."'";
-            $this->columnName = DB::select($sql);
+            //$aaa = DB::table('')->where('', '')->lists('');
+            //$users = DB::table('users')->select('name', 'email')->get();
+            $this->sql = "select column_name from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='".$tableName."'";
+            $this->columnName = DB::select($this->sql);
         }else{
             if (is_string($columnName)) {
                 $this->columnName = explode(',', $columnName);

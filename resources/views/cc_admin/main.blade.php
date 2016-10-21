@@ -12,7 +12,7 @@
                     <img src="images/face.jpg" width="120" class="radius-circle" >
                     <br > admin
                 </div>
-                <div class="panel-foot bg-back border-back">您好，admin，这是您第100次登录，上次登录为2014-10-1。</div>
+                <div class="panel-foot bg-back border-back">您好，{{Auth::user()->name}}，这是您第100次登录，上次登录为2014-10-1。</div>
             </div>
             <br >
             <div class="panel">
