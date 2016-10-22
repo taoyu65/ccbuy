@@ -16,21 +16,24 @@ class Table
     private $columnCount = 0;
     private $columnName;
     private $perPage = 5;
-    private $sql = '';
 
     /**
      * Table constructor.
      * @param $tableName Type:String
-     * @param $columnName Type:Array or String separated with ,
+     * @param Type|string $columnName Type:Array or String separated with ,
+     * @param bool $operate is showing operating function like update or delete button
      */
-    public function __construct($tableName, $columnName = '*')
+    public function __construct($tableName, $columnName = '*', $operate = true)
     {
         $this->tableName = $tableName;
         if ($columnName == '*') {
             //$aaa = DB::table('')->where('', '')->lists('');
             //$users = DB::table('users')->select('name', 'email')->get();
-            $this->sql = "select column_name from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='".$tableName."'";
-            $this->columnName = DB::select($this->sql);
+            //$sql = "select column_name from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='".$tableName."'";
+            //$this->columnName = DB::select($sql);
+            //$this->columnName = DB::table('INFORMATION_SCHEMA.COLUMNS')->select('column_name')->where('TABLE_NAME', $tableName)->get();
+            $obj = DB::table('information_schema.columns')->select('column_name')->where('table_name', $tableName)->get();
+            $this->columnName = $this->getColumn($obj);
         }else{
             if (is_string($columnName)) {
                 $this->columnName = explode(',', $columnName);
@@ -38,7 +41,23 @@ class Table
                 $this->columnName = $columnName;
             }
         }
-        $this->columnCount = count($columnName);
+        $this->columnCount = count($this->columnName);
+        $this->operate = $operate;
+    }
+    //get column as array from two-dimensional array 二维数组
+    function getColumn($object) {
+        if (is_object($object) || is_array($object)) {
+            foreach ($object as $key => $value) {
+                //$array[$key] = $value;
+                foreach ($value as $k => $v) {
+                    $array[] = $v;
+                }
+            }
+        }
+        else {
+            $array = $object;
+        }
+        return $array;
     }
 
     /*set how many row per page*/
@@ -46,55 +65,47 @@ class Table
     {
         $this->perPage = $num;
     }
-
-    public function getColumn()
-    {
-
-    }
-
-    public function getSql()
-    {
-        return "select * From ".$this->tableName;
-    }
-
+    //get item's row
     public function getData()
     {
-        $data = DB::select($this->getSql());//->Paginate($this->perPage);
+        $data = DB::table($this->tableName)->select($this->columnName)->get();//->Paginate($this->perPage);
         return $data;
     }
+    //print table
     public function getHtml()
     {
         if ($this->columnCount == 0) {
-            return '没有任何数据';
+           return '没有任何数据';
         }
         $tables = $this->getData();
         /*building html*/
         $html = '';
         /*Table Head*/
-        $html += '<table class="table table-hover">';
-        $html += '  <thead>';
-        $html += '    <tr>';
+        $html .= '<table class="table table-hover">';
+        $html .= '  <thead>';
+        $html .= '    <tr>';
         for ($i = 0; $i < $this->columnCount; $i++) {
-            $html += '<th>';
-            $html += $this->columnName[$i];
-            $html += '</th>';
+            $html .= '<th>';
+            $html .= $this->columnName[$i];
+            $html .= '</th>';
         }
-        $html += '    </tr>';
-        $html += '  </thead>';
-        $html += '</table>';
+        $html .= '    </tr>';
+        $html .= '  </thead>';
         /*Table Body*/
-        $html += '<tbody>';
-        $html += '<tr>';
-        foreach ($tables as $k => $v) {
-            for ($i = 0; $i < $this->columnCount; $i++)
-            {
-                $html += '<td>';
-                $html += 'fdsa';
-                $html += '</td>';
+        $itemsCount = count($tables);
+        $html .= '<tbody>';
+        for ($i = 0; $i < $itemsCount; $i++) {
+            $html .= '<tr>';
+            foreach ($tables[$i] as $k => $v) {
+                $html .= '<td>';
+                $html .= $v;
+                $html .= '</td>';
             }
+            $html .= '<td><button class="button bg-main">update</button>  <button class="button bg-dot">delete</button></td>';
+            $html .= '</tr>';
         }
-        $html += '</tr>';
-        $html += '</tbody>';
+        $html .= '</tbody>';
+        $html .= '</table>';
         return $html;
     }
 }
