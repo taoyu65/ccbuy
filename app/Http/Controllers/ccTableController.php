@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Foundations\Table;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Config;
 
 class ccTableController extends Controller
 {
@@ -33,8 +34,35 @@ class ccTableController extends Controller
                 $showingColumn = '*';
                 break;
         }
+        //set second para to show column that you want to review
         $data = new Table($table, $showingColumn);
         $html = $data->getHtml();
-        return view('cc_admin/table', ['html' => $html]);
+        return view('cc_admin/table', ['html' => $html, 'table' => $table]);
+    }
+
+    //edit page to show
+    /**
+     * @param $tableName
+     * @param $id
+     */
+    public function editShow($tableName, $id)
+    {
+        $validation = Config::get('ccbuy.validation.' . $tableName);
+        //don't set second para to show all the field that can be edited
+        $data = new Table($tableName);
+        //set validation for every field
+        $data->setValidation($validation);
+        $html = $data->getHtmlToEdit($tableName, $id);
+        return view('cc_admin/tableEdit', ['html' => $html]);
+    }
+
+    //edit action
+    /**
+     * @param $tableName
+     * @param $id
+     */
+    public function edit($tableName, $id)
+    {
+        dd($_REQUEST['storeName']);
     }
 }

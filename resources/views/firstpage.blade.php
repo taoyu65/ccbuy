@@ -37,6 +37,7 @@
             <th>出售金额 ¥</th>
             <th>成本 $</th>
             <th>净利 $(不含邮费)</th>
+            <th>日期</th>
         </tr>
         </thead>
         <tbody>
@@ -51,6 +52,7 @@
             <td>¥{{$item->sellPrice}}</td>
             <td title="{{$item->costPrice}} * {{$item->itemAmount}}"><span class="text-danger"><strong>${{$item->costPrice*$item->itemAmount}}</strong></span></td></td>
             <td><span class="text-success"><strong>${{$item->itemProfit * 1}}</strong></span></td>
+            <td>{{$item->date}}</td>
         </tr>
         @endforeach()
         </tbody>

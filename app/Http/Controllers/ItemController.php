@@ -15,7 +15,7 @@ class ItemController extends Controller
     //first page show item
     public function firstPage()
     {
-        $items = DB::table('items');
+        $items = DB::table('items')->orderBy('id', 'desc');
         $perPage = 5;
         $totalItems = $items->count();
         $totalPage = ceil($totalItems / $perPage);

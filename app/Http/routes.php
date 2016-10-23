@@ -52,7 +52,7 @@ Route::group(['middleware' => 'web'], function () {
     });
     /*
     |--------------------------------------------------------------------------
-    | pages need to be logged in
+    | Auth : pages need to be logged in
     |--------------------------------------------------------------------------
     */
     Route::group(['middleware' => 'auth'], function () {
@@ -85,6 +85,8 @@ Route::group(['middleware' => 'web'], function () {
                 return view('cc_admin/system');
             });
             Route::get('table/{name}', 'ccTableController@showTable');
+            Route::get('tableEdit/{tableName}/{id}', 'ccTableController@editShow');
+            Route::post('tableEdit/{tableName}/{id}', 'ccTableController@edit');
             #logout
             Route::get('logout', 'UserController@logout');
         });

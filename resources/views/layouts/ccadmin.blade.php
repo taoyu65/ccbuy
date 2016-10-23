@@ -20,7 +20,7 @@
 {{--<input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
 <div class="lefter">
     <div class="logo">
-        <a href="#" target="_blank"><img src='{{url("cc_admin/images/logo.png")}}' alt="后台管理系统" ></a>
+        <a href="#"><img src='{{url("cc_admin/images/logo.png")}}' alt="后台管理系统" ></a>
     </div>
 </div>
 <div class="righter nav-navicon" id="admin-nav">
@@ -54,12 +54,12 @@
                 <li id="li_table">
                     <a href='{{url("cc_admin/table/items")}}' class="icon-file-text"> 数据</a>
                     <ul>
-                        <li id="li_table_carts"><a href="#">订单管理</a></li>
-                        <li id="li_table_customs"><a href="#">客户管理</a></li>
-                        <li id="li_table_incomes"><a href="#">收入管理</a></li>
-                        <li id="li_table_items"><a href="#">物品管理</a></li>
-                        <li id="li_table_stores"><a href="#">商店管理</a></li>
-                        <li id="li_table_users"><a href="#">登录管理</a></li>
+                        <li id="li_table_carts"><a href='{{url("cc_admin/table/carts")}}'>订单管理</a></li>
+                        <li id="li_table_customs"><a href='{{url("cc_admin/table/customs")}}'>客户管理</a></li>
+                        <li id="li_table_incomes"><a href='{{url("cc_admin/table/incomes")}}'>收入管理</a></li>
+                        <li id="li_table_items"><a href='{{url("cc_admin/table/items")}}'>物品管理</a></li>
+                        <li id="li_table_stores"><a href='{{url("cc_admin/table/stores")}}'>商店管理</a></li>
+                        <li id="li_table_users"><a href='{{url("cc_admin/table/users")}}'>登录管理</a></li>
                     </ul>
                 </li>
                 <li><a href="#" class="icon-shopping-cart">待定</a></li>
