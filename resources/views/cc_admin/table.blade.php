@@ -10,7 +10,6 @@
 
         //edit
         function edit(tableName,id) {
-            //var url = {{url("cc_admin/tableEdit/")}} +tableName +'/' + id;
             layer.open({
                 type: 2,
                 shade:[0.8, '#393D49'],

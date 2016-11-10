@@ -12,60 +12,137 @@ return [
     //set validation rule for edit table as update data from backend
     'validation' => [
         'carts'     =>[
-            'id'            => 'readOnly',
-            'customs_id'    => 'foreignKey',
-            'rename'        => 'required',
-            'weight'        => 'money',
-            'postRate'      => 'money',
-            'profits'       => 'money',
-            'date'          => ['date','required']
+        'id'            => 'readOnly',
+        'customs_id'    => 'foreignKey',
+        'rename'        => 'required',
+        'weight'        => 'money',
+        'postRate'      => 'money',
+        'profits'       => 'money',
+        'date'          => 'date'
+    ],
+        'customs'   => [
+        'id'            => 'readOnly',
+        'customName'    => 'required',
+        'relationship'  => 'required',
+        'dgFrom'        => 'required',
+        'info'          => 'none'
+    ],
+        'incomes'   => [
+        'id'            => 'readOnly',
+        'items_id'      => 'foreignKey',
+        'moneyDue'      => 'money',
+        'moneyReceived' => 'money',
+        'moneyGain'     => 'money',
+        'moneyToWhere'  => '',
+        'info'          => 'none'
+    ],
+        'items'     => [
+        'id'            => 'readOnly',
+        'carts_id'      => 'foreignKey',
+        'stores_id'     => 'foreignKey',
+        'itemName'      => 'required',
+        'itemAmount'    => 'required',
+        'sellPrice'     => 'money',
+        'specialPrice'  => 'money',
+        'exchangeRate'  => 'money',
+        'marketPrice'   => 'money',
+        'costPrice'     => 'money',
+        'itemProfit'    => 'money',
+        'date'          => 'date',
+        'isDeal'        => 'bool',
+        'itemPic'       => '',
+        'info'          => 'none'   //no rule
+    ],
+        'stores'    => [
+        'id'            => 'readOnly',
+        'storeName'     => 'required',
+        'info'          => ''
+    ],
+        'users'     => [
+        'id'            => 'readOnly',
+        'name'          => 'readOnly',
+        'email'         => 'readOnly',
+        'password'      => 'readOnly',
+        'remember_token'=> 'readOnly',
+        'created_at'    => 'readOnly',
+        'updated_at'    => 'readOnly'
+    ]
+    ],
+    //showing the title for easier to read the column name
+    'rename' => [
+        'carts'     =>[
+            'id'            => 'ID',
+            'customs_id'    => '客户ID',
+            'rename'        => '订单名称',
+            'weight'        => '重量',
+            'postRate'      => '邮费每磅',
+            'profits'       => '订单利润',
+            'date'          => '日期'
         ],
         'customs'   => [
-            'id'            => 'readOnly',
-            'customName'    => 'required',
-            'relationship'  => 'required',
-            'dgFrom'        => 'required',
-            'info'          => ''
+            'id'            => 'ID',
+            'customName'    => '客户姓名',
+            'relationship'  => '客户关系',
+            'dgFrom'        => '客户来源',
+            'info'          => '备注'
         ],
         'incomes'   => [
-            'id'            => 'readOnly',
-            'items_id'      => 'foreignKey',
-            'moneyDue'      => 'money',
-            'moneyReceived' => 'money',
-            'moneyGain'     => 'money',
-            'moneyToWhere'  => '',
-            'info'          => ''
+            'id'            => 'ID',
+            'items_id'      => '物品ID',
+            'moneyDue'      => '金额应付',
+            'moneyReceived' => '金额实收',
+            'moneyGain'     => '利润',
+            'moneyToWhere'  => '金额去向',
+            'info'          => '备注'
         ],
         'items'     => [
-            'id'            => 'readOnly',
-            'carts_id'      => 'foreignKey',
-            'stores_id'     => 'foreignKey',
-            'itemName'      => 'required',
-            'itemAmount'    => 'required',
-            'sellPrice'     => 'money',
-            'specialPrice'  => 'money',
-            'exchangeRate'  => 'money',
-            'marketPrice'   => 'money',
-            'costPrice'     => 'money',
-            'itemProfit'    => 'money',
-            'date'          => ['date','required'],
-            'isDeal'        => 'bool',
-            'itemPic'       => '',
-            'info'          => ''
+            'id'            => 'ID',
+            'carts_id'      => '订单ID',
+            'stores_id'     => '商店ID',
+            'itemName'      => '物品名称',
+            'itemAmount'    => '物品数量',
+            'sellPrice'     => '出售金额',
+            'specialPrice'  => '促销金额',
+            'exchangeRate'  => '汇率转换',
+            'marketPrice'   => '市场价格',
+            'costPrice'     => '成本价格',
+            'itemProfit'    => '实际盈利',
+            'date'          => '日期',
+            'isDeal'        => '是否结算',
+            'itemPic'       => '物品图片',
+            'info'          => '备注'
         ],
         'stores'    => [
-            'id'            => 'readOnly',
-            'storeName'     => 'required',
-            'info'          => ''
+            'id'            => 'ID',
+            'storeName'     => '商店名称',
+            'info'          => '备注'
         ],
         'users'     => [
-            'id'            => 'readOnly',
-            'name'          => 'required',
-            'email'         => 'email',
-            'password'      => 'password',
-            'remember_token'=> 'readOnly',
-            'created_at'    => 'readOnly',
-            'updated_at'    => 'readOnly'
+            'id'            => 'ID',
+            'name'          => '登录名称',
+            'email'         => '邮箱名称',
+            'password'      => '密码',
+            'remember_token'=> '',
+            'created_at'    => '',
+            'updated_at'    => ''
         ]
+    ],
+    //on the back end table edit pages , use for located which column will be showing on the drop down list
+    'dropDownName'  => [
+        'carts'     => 'rename',
+        'customs'   => 'customName',
+        'incomes'   => '',
+        'items'     => 'itemName',
+        'stores'    => 'storeName',
+        'users'     => 'name'
+    ],
+    //show which field(column) will be showing
+    'showColumn' => [
+        'carts'     => '*',
+        'customs'   => '*',
+        'incomes'   => '*',
+        'items'     => '*',//['id','itemName','sellPrice','costPrice','itemProfit','date','isDeal'],
+        'stores'    => '*',
+        'users'     => 'id,name'
     ]
 ];

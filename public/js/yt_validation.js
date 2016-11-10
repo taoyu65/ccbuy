@@ -93,7 +93,8 @@ function isInteger(e) {
 function isMoney(e)
 {
     var money = trim(e.value);
-    var regular = /^[0-9]*(\.[0-9]{1,2})?$/;
+    var regular = /^-?[0-9]*(\.[0-9]{1,2})?$/;
+    //var regular = /^[+-]?\d*\.?\d{1,2}$/;
     if(!regular.test(money) || money == ''){
         showError(e);
         b = false;
