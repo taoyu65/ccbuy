@@ -49,13 +49,17 @@ class ccTableController extends Controller
      */
     public function edit($tableName, $id)
     {
-        //$updateList = ['info' => 'aa1a', 'customName' => 'new1','asdf' => 'asdf'];dd($_REQUEST);
-        unset($_REQUEST['_token']);
-        if(count($_REQUEST) != 0){
-            $num = DB::table($tableName)->where('id', $id)->update($_REQUEST);
-            if ($num) {
-                return redirect('item/create')->with('status', '添加记录成功');
-            }
+        $_REQUEST['id'] = $id;
+        $fieldsName = $_REQUEST['fields'];
+        $fieldsName = rtrim($fieldsName, ',');
+        $fieldsList = explode(',', $fieldsName);
+        $data = [];
+        foreach ($fieldsList as $a => $b) {
+            if(array_key_exists($b, $_REQUEST))
+                $data[$b] = $_REQUEST[$b];
+        }
+        if(count($data) != 0){
+            DB::table($tableName)->where('id', $id)->update($data);
         }
     }
 

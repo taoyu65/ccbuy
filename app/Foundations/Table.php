@@ -128,10 +128,12 @@ class Table
         $html .= '<form class="form-horizontal" id="updateForm">';
         $html .= csrf_field();
         $html .= '<div class="addheight"></div>';
+        $fieldsName = '';
         #get all the fields
         foreach ($this->columnName as $column) {
             if (in_array($column, $this->columnName)) {
                 $html .= $this->getHtmlToRow($data->$column, $column, 'edit');
+                $fieldsName .= $column . ',';
             }
         }
         $html .= '<div class="form-group">';
@@ -139,14 +141,15 @@ class Table
         $html .= '<div class="col-xs-2"></div>';
         $html .= '<div class="col-xs-5 text-left"><p><button class="submitButton" onclick="closeWindos_store()"><strong>关闭窗口</strong></button></p></div>';
         $html .= '</div>';
+        $html .= '<input type="hidden" name="fields" value="'.$fieldsName.'">';
         $html .= '</form>';
         return $html;
     }
 
     /**
      *  delete page
-     * @param $data
-     * @param $fieldName - get custom name that can be easy read
+     * @param $data - field's value
+     * @param $fieldName - column name in the database
      * @param $type - 'edit'    : to show html for edit page
      *                'delete'  : to show html for delete page
      * @return string - get html for one row
