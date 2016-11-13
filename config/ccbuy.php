@@ -144,5 +144,30 @@ return [
         'items'     => '*',//['id','itemName','sellPrice','costPrice','itemProfit','date','isDeal'],
         'stores'    => '*',
         'users'     => 'id,name'
+    ],
+    /* config the relationship of deletion either interlock (one table data belongs another) or checking the item is going to be deleted see if still has relation in another table
+     * interlock - when delete record of table A, than all records will be deleted in table B which have foreign key of deletion of record (may interlock multiple table)
+     *           - 'field' : in the warning box which field will be showing
+     * existing - when delete record of table A, than check to see if there is a record in table B has table A's foreign key, if do than cancel deletion.
+     */
+    'delete' => [
+        'carts' => [
+            'interlock' => [
+                'items' => [
+                    'field' => [
+                        'id' => 'ID',
+                        'itemName' => '物品名称',
+                        'date' => '日期'
+                    ]
+                ]
+            ]
+        ],
+        'customs' => [
+            'existing' => 'carts'
+        ],
+        'stores' => [
+            'existing' => 'items'
+        ]
     ]
+
 ];

@@ -6,6 +6,7 @@ use App\Foundations\Table;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 class ccTableController extends Controller
@@ -21,10 +22,11 @@ class ccTableController extends Controller
         return view('cc_admin/table', ['html' => $html, 'table' => $table]);
     }
 
-    //edit page to show
     /**
+     * edit page to show
      * @param $tableName
      * @param $id
+     * @return mixed
      */
     public function editShow($tableName, $id)
     {
@@ -35,14 +37,15 @@ class ccTableController extends Controller
         $data = new Table($tableName, $showingColumn);
         //set validation for every field
         $data->setValidation($validation);
-        $html = $data->getHtmlToEdit($tableName, $id);
+        $html = $data->getHtmlToEdit($id);
         return view('cc_admin/tableEdit', ['html' => $html, 'tableName' => $tableName, 'id' => $id]);
     }
 
-    //edit action
     /**
+     * edit action
      * @param $tableName
      * @param $id
+     * @return mixed
      */
     public function edit($tableName, $id)
     {
@@ -53,6 +56,40 @@ class ccTableController extends Controller
             if ($num) {
                 return redirect('item/create')->with('status', '添加记录成功');
             }
+        }
+    }
+
+    /**
+     * @param $tableName
+     * @param $id
+     * @return mixed
+     */
+    public function deleteShow($tableName, $id)
+    {
+        $data = new Table($tableName);
+        $html = $data->getHtmlToDelete($id);
+        return view('cc_admin/tableDelete', ['html' => $html, 'tableName' => $tableName, 'id' => $id]);
+    }
+
+    /**
+     *delete action
+     */
+    public function delete()
+    {
+        $deleteString = $_REQUEST['deleteString'];
+        try {
+            $deleteString = Crypt::decrypt($deleteString);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            exit();
+        }
+        $deleteString = rtrim($deleteString, ',');
+        $deleteList = explode(',', $deleteString);
+        foreach ($deleteList as $d) {
+            $getOne = explode(':', $d);     //example: tableName:id=1
+            $tableName = $getOne[0];
+            $where = $getOne[1];
+            DB::delete('delete from ' . $tableName . ' where ' . $where);
         }
     }
 }

@@ -85,8 +85,12 @@ Route::group(['middleware' => 'web'], function () {
                 return view('cc_admin/system');
             });
             Route::get('table/{name}', 'ccTableController@showTable');
+            #edit
             Route::get('tableEdit/{tableName}/{id}', 'ccTableController@editShow');
             Route::post('tableEdit/{tableName}/{id}', 'ccTableController@edit');
+            #delete
+            Route::get('tableDelete/{tableName}/{id}', 'ccTableController@deleteShow');
+            Route::post('delete', 'ccTableController@delete');
             #logout
             Route::get('logout', 'UserController@logout');
         });
