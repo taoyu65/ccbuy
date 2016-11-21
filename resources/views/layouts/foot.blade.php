@@ -38,11 +38,11 @@
 <body onselectstart="return true;" ondragstart="return false;" id="foot-layout">
 <div id="wrap" class="clr">
     <!--<div class="telphone"><img src="/www/images/tel.png"></div>-->
-    <div class="nav"> <a href="{{ url('firstpage') }}">
+    <div class="navfoot"> <a href="{{ url('firstpage') }}">
             <div class="menu i01"  >流水</div>
         </a> <a href="{{url('collecting')}}" >
             <div class="menu i02"  >盈利</div>
-        </a> <a href="#" >
+        </a> <a href="{{url('statistics/2016/profits')}}" >
             <div class="menu i03"  >统计</div>
         </a> <a href="{{url('cc_admin/main')}}" >
             <div class="menu i04"  >管理</div>

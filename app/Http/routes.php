@@ -58,6 +58,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::group(['middleware' => 'auth'], function () {
         #default page
         Route::get('firstpage', 'ItemController@firstPage');
+        #statistics
+        Route::get('statistics/{x}/{y}/{refresh?}', 'statisticController@index');
         #customs
         Route::get('showcustomwindow', 'CustomController@showWindow');
         Route::post('addcustom', 'CustomController@add');

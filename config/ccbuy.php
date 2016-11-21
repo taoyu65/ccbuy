@@ -9,6 +9,7 @@
 return [
     //to show the function of about showing customs
     'json' => 'json/ccbuy.json',
+    #region backend table edit
     //set validation rule for edit table as update data from backend
     'validation' => [
         'carts'     =>[
@@ -157,6 +158,7 @@ return [
                     'field' => [
                         'id' => 'ID',
                         'itemName' => '物品名称',
+                        'sellPrice' => '出售金额',
                         'date' => '日期'
                     ]
                 ]
@@ -168,6 +170,21 @@ return [
         'stores' => [
             'existing' => 'items'
         ]
-    ]
+    ],
+    #endregion
 
+    #region statistic
+    'statistic' => [
+        'profitsPath' => [
+            'profit2016' => 'json/profit2016.json',
+            'profit2017' => 'json/profit2017.json',
+            'profitall' => 'json/profitAll.json',
+            'custom2016' => 'json/custom2016.json',
+            'custom2017' => 'json/custom2017.json',
+            'customAll' => 'json/customAll.json',
+        ],
+        'profitMonth' => 'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec',
+        'profitAll' => '2016,2017',
+    ]
+    #endregion
 ];
