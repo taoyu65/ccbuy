@@ -60,6 +60,8 @@ class ccTableController extends Controller
         }
         if(count($data) != 0){
             DB::table($tableName)->where('id', $id)->update($data);
+            //execute special edit
+            $this->special($tableName);
         }
     }
 
@@ -94,6 +96,29 @@ class ccTableController extends Controller
             $tableName = $getOne[0];
             $where = $getOne[1];
             DB::delete('delete from ' . $tableName . ' where ' . $where);
+            //execute special delete
+            $this->special($tableName);
+        }
+    }
+
+    /**
+     * @param $tableName -
+     */
+    private function special($tableName)
+    {
+        //get special operation
+        switch ($tableName) {
+            //when delete items record, the relative table carts's record will be update
+            case 'items':
+                $foreignId = $_REQUEST['carts_id'];
+                $sumProfits = DB::table('items')->where('carts_id', $foreignId)->sum('itemProfit');
+                $cart = DB::table('carts')->select('weight', 'postRate')->where('id', $foreignId)->first();
+                $postCost = $cart->weight * $cart->postRate;
+                $newProfit = $sumProfits - $postCost;
+                DB::table('carts')->where('id', $foreignId)->update(array('profits'=>$newProfit));
+                break;
+            default:
+                break;
         }
     }
 }

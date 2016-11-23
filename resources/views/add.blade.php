@@ -147,7 +147,7 @@
         function getPriceAfterTax(label) {
             var marketPrice = $('#marketPrice').val();
             var costPrice = $('#costPrice').val();
-            if(marketPrice == costPrice) {
+            if((costPrice/marketPrice).toFixed(2) != 1.08) {
                 var price = $('#costPrice').val() * 1.08;
                 $('#'+label).val(price.toFixed(2));
             }else {
@@ -175,7 +175,7 @@
             {{--出售金额 物品数量--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-6 control-label" for="sellPrice">出售金额 <span class="label-danger" id="sellPrice_error"></span></label>
+                    <label class="col-xs-6 control-label" for="sellPrice">出售金额 ¥<span class="label-danger" id="sellPrice_error"></span></label>
                     <label class="col-xs-6 control-label" for="itemNum">物品数量</label>
                 </div>
                 <div class="row">
@@ -242,7 +242,7 @@
             {{--市场价格 促销价格 实际支付--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-4 control-label" for="marketPrice">市场价格 <span class="label-danger" id="marketPrice_error"></span></label>
+                    <label class="col-xs-4 control-label" for="marketPrice">市场价格 $<span class="label-danger" id="marketPrice_error"></span></label>
                     <label class="col-xs-4 control-label" for="specialPrice">促销价格 <input type="button" value="同步于市场价格" class="button small green" onclick="synMartketPrice('specialPrice')"> <span class="label-danger" id="specialPrice_error"></span></label>
                     <label class="col-xs-4 control-label" for="costPrice">实际支付 <input type="button" value="计算税后价格" class="button small green" onclick="getPriceAfterTax('costPrice')"><span class="label-danger" id="costPrice_error"></span></label>
                 </div>

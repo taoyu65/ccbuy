@@ -11,6 +11,7 @@
     <link rel="stylesheet" href='{{url("cc_admin/css/admin.css")}}'>
     <script src='{{url("js/jquery-1.8.3.mini.js")}}' type="text/javascript"></script>
     <script src='{{url("cc_admin/js/pintuer.js")}}' type="text/javascript"></script>
+    <script type="text/javascript" src='{{url("ui/layer/layer.js")}}'></script>
 
     <link type="image/x-icon" href='{{url("cc_admin/images/cc.ico")}}' rel="shortcut icon" >
     <link href='{{url("cc_admin/images/cc.ico")}}' rel="bookmark icon" >
@@ -45,10 +46,7 @@
                 <li id="li_system">
                     <a href='{{url("cc_admin/system")}}' class="icon-cog"> 系统</a>
                     <ul>
-                        <li><a href="#">全局设置</a></li>
-                        <li id="li_system_setup"><a href="#">系统设置</a></li>
-                        <li><a href="#">会员设置</a></li>
-                        <li><a href="#">积分设置</a></li>
+                        <li id="li_system_setup"><a href="#">订单结算</a></li>
                     </ul>
                 </li>
                 <li id="li_table">

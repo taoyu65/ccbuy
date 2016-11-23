@@ -46,6 +46,7 @@
                 }
             };
             $('#deleteForm').submit(function () {
+                //$(this).submit();
                 $(this).ajaxSubmit(options);
                 return false;
             });

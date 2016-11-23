@@ -59,10 +59,15 @@ class ItemController extends Controller
             $cartId = $item->carts_id;
             $cart = Cart::find($cartId);
             $profitCurrent = $cart->profits;
-            if($cart->profits == 0) {   //is first time to minus post fee or not
-                $profitNow = $item->itemProfit + $profitCurrent - ($cart->weight * $cart->postRate);    //all profits of items minus post fee
-            }else{
+            $postCost = $cart->weight * $cart->postRate;
+            if($postCost == 0) {   //the deal has not been done, post cost or post rate is gonna be 0
                 $profitNow = $item->itemProfit + $profitCurrent;
+            }else{
+                if($cart->profits == 0){    //the first item will be record and the post fee will be minus
+                    $profitNow = $item->itemProfit + $profitCurrent - $postCost;
+                } else {
+                    $profitNow = $item->itemProfit + $profitCurrent;
+                }
             }
             DB::table('carts')->where('id', $cartId)->update(['profits' => $profitNow]);
             return redirect('item/create')->with('status', '添加记录成功');
@@ -76,7 +81,7 @@ class ItemController extends Controller
     {
         $itemCost = $item->costPrice * $item->itemAmount;
         $sellPrice = $item->sellPrice / $item->exchangeRate;
-        $profit = $sellPrice - $itemCost;
+        $profit = $sellPrice - $itemCost;//dd($profit.'---'.round($profit, 2));
         return round($profit, 2);
     }
 

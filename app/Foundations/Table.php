@@ -166,7 +166,7 @@ class Table
             $html .= $this->getInputHtml($data, $fieldName);
         }
         elseif ($type == 'delete') {
-            $html .= $this->getLabelHtml($data);
+            $html .= $this->getLabelHtml($data, $fieldName);
         }
         $html .= '        </div>';
         $html .= '    </div>';
@@ -251,9 +251,18 @@ class Table
      * @param $data - value as showing in the html
      * @return string
      */
-    private function getLabelHtml($data)
+    private function getLabelHtml($data, $fieldName)
     {
         $html = '<label >'.$data.'</label>';
+        #region //special operation - adding hidden field to located foreign key and special value and transfer them to finish logical operation - defined in config file
+        $specialList = Config::get('ccbuy.special.' . $this->tableName . '.delete');
+        if (count($specialList) > 0) {
+            foreach ($specialList as $special) {
+                if($special == $fieldName)
+                    $html .= '<input type="hidden" name="'.$fieldName.'" value="'.$data.'">';
+            }
+        }
+        #endregion
         return $html;
     }
 
@@ -318,6 +327,8 @@ class Table
                 $html .= $this->getHtmlToRow($data->$column, $column, 'delete');    //get one field as label
             }
         }
+        //
+        $html .= '<input type="hidden" name="" value="">';
         #endregion
         #region get all the warning information
         $config = Config::get('ccbuy.delete');

@@ -8,11 +8,12 @@
 
 return [
     //to show the function of about showing customs
-    'json' => 'json/ccbuy.json',
+    'json'          => 'json/ccbuy.json',
+
     #region backend table edit
     //set validation rule for edit table as update data from backend
-    'validation' => [
-        'carts'     =>[
+    'validation'    => [
+        'carts'     => [
         'id'            => 'readOnly',
         'customs_id'    => 'foreignKey',
         'rename'        => 'required',
@@ -70,7 +71,7 @@ return [
     ]
     ],
     //showing the title for easier to read the column name
-    'rename' => [
+    'rename'        => [
         'carts'     =>[
             'id'            => 'ID',
             'customs_id'    => '客户ID',
@@ -138,7 +139,7 @@ return [
         'users'     => 'name'
     ],
     //show which field(column) will be showing
-    'showColumn' => [
+    'showColumn'    => [
         'carts'     => '*',
         'customs'   => '*',
         'incomes'   => '*',
@@ -151,7 +152,7 @@ return [
      *           - 'field' : in the warning box which field will be showing
      * existing - when delete record of table A, than check to see if there is a record in table B has table A's foreign key, if do than cancel deletion.
      */
-    'delete' => [
+    'delete'        => [
         'carts' => [
             'interlock' => [
                 'items' => [
@@ -171,20 +172,29 @@ return [
             'existing' => 'items'
         ]
     ],
+    //special operation (only focus on the effect of data change) like delete one record from A table, than the data of a record from table B will be changed. the role can be customized
+    'special'       => [
+        'items'     => [
+            'update'    => '',
+            //every element in the 'delete' will be transferred into delete action as hidden field
+            'delete'    => ['carts_id', 'itemProfit'],
+        ],
+    ],
     #endregion
 
     #region statistic
     'statistic' => [
+        //json file use for cache data
         'profitsPath' => [
-            'profit2016' => 'json/profit2016.json',
-            'profit2017' => 'json/profit2017.json',
-            'profitall' => 'json/profitAll.json',
-            'custom2016' => 'json/custom2016.json',
-            'custom2017' => 'json/custom2017.json',
-            'customAll' => 'json/customAll.json',
+            'profit2016'    => 'json/profit2016.json',
+            'profit2017'    => 'json/profit2017.json',
+            'profitall'     => 'json/profitAll.json',
+            'custom2016'    => 'json/custom2016.json',
+            'custom2017'    => 'json/custom2017.json',
+            'customAll'     => 'json/customAll.json',
         ],
-        'profitMonth' => 'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec',
-        'profitAll' => '2016,2017',
+        'profitMonth'   => 'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec',
+        'profitAll'     => '2016,2017',
     ]
     #endregion
 ];

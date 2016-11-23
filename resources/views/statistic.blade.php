@@ -27,19 +27,7 @@
             按物品 <span class="badge">所有</span>
         </button>
     </div>
-  {{--  <ul class="nav nav-pills" role="tablist">
-        ...
-        <li role="presentation" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                Dropdown <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu" role="menu">
-                ...
-            </ul>
-        </li>
-        ...
-    </ul>
---}}
+
     <script type="text/javascript" src='{{url("js/Chart.min.js")}}'></script>
     <canvas id="myChart" width="600" height="300"></canvas>
     <script>

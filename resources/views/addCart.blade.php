@@ -252,6 +252,11 @@
             var customName = $('#customsNameList').find('option:selected').text();
             jQuery('#reName').val(customName+'的'+itemName);
         }
+
+        //set post rate
+        function setPostRate(num) {
+            $('#postRate').val(num);
+        }
     </script>
 </head>
 
@@ -311,7 +316,19 @@
     <div class="form-group">
         <label class="col-xs-2 control-label" for="postRate">快递费率</label>
         <div class="col-xs-2">
-            <input yt-validation="yes" yt-check="money" yt-errorMessage="格式不对" yt-target="postRate_error" name="postRate"  class="form-control input-sm" value="4.5">
+            <input yt-validation="yes" yt-check="money" yt-errorMessage="格式不对" yt-target="postRate_error" name="postRate" id="postRate" class="form-control input-sm" value="0">
+        </div>
+        <div class="col-xs-1">
+            <h4><span class="label label-primary" style="cursor: pointer" onclick="setPostRate(3.5);">3.5</span></h4>
+        </div>
+        <div class="col-xs-1">
+            <h4><span class="label label-primary" style="cursor: pointer" onclick="setPostRate(4.0);">4.0</span></h4>
+        </div>
+        <div class="col-xs-1">
+            <h4><span class="label label-primary" style="cursor: pointer" onclick="setPostRate(4.5);">4.5</span></h4>
+        </div>
+        <div class="col-xs-1">
+            <h4><span class="label label-primary" style="cursor: pointer" onclick="setPostRate(5.5);">5.5</span></h4>
         </div>
         <span class="label-danger" id="postRate_error"></span>
     </div>

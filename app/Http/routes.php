@@ -83,9 +83,7 @@ Route::group(['middleware' => 'web'], function () {
             Route::get('main', function(){
                 return view('cc_admin/main');
             });
-            Route::get('system', function(){
-                return view('cc_admin/system');
-            });
+            Route::get('system', 'ccAdminController@closeCart');    //结算订单 close cart, recalculate profits
             Route::get('table/{name}', 'ccTableController@showTable');
             #edit
             Route::get('tableEdit/{tableName}/{id}', 'ccTableController@editShow');
