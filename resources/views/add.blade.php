@@ -94,14 +94,20 @@
         }
 
         //弹出 新加订单窗口 //layer插件
-        function createCartinfor() {
+        function createCartinfor(dm) {
+            var url = '';
+            if(dm){
+                url = '{{url("showcart/daimai")}}';
+            }else {
+                url = '{{url("showcart")}}';
+            }
             layer.open({
                 type: 2,
                 shade: [0.8, '#393D49'],
                 area:['850px','500px'],
                 title: ['添加新订单', 'font-size:12px;color:white;background-color:#6a5a8c'],
-                scrollbar: false,
-                content: ['{{url("showcart")}}', 'no'],
+                scrollbar: true,
+                content: [url, 'yes'],
                 closeBtn:1,
                 success: function(layero, index){
                 },
@@ -170,6 +176,7 @@
     @endif
     <form id="add_form" method="post" action="{{url('item')}}">
         {!! csrf_field() !!}
+        <input type="hidden" name="dm" value={{$dm}}>
         <div class="width100">
             <div id="showError"></div>
             {{--出售金额 物品数量--}}
@@ -180,7 +187,11 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
-                        <input yt-validation="yes" yt-check="money" yt-errorMessage="请填写正确金额" yt-target="sellPrice_error" class="form-control input-sm" type="text" value="" name="sellPrice" id="money" placeholder="默认为人民币¥, 可以设置相同物品总价格, 填写对应的物品数量">
+                        @if($dm)
+                            <span class="label label-primary">代买模式:无需填写</span>
+                        @else
+                            <input yt-validation="yes"  yt-check="money" yt-errorMessage="请填写正确金额" yt-target="sellPrice_error" class="form-control input-sm" type="text" value="" name="sellPrice" id="money" placeholder="默认为人民币¥, 可以设置相同物品总价格, 填写对应的物品数量">
+                        @endif
                     </div>
                     <div class="col-xs-6">
                         <select id="itemNum" name="itemNum" class="form-control input-sm">
@@ -233,7 +244,8 @@
                     <div class="col-xs-6">
                         <input yt-validation="yes" yt-check="id" yt-errorMessage="请输入一个有效的数字" yt-target="cartId_error" class="form-control input-sm"  name="cartId" id="cartId">
                     </div>
-                    <input type="button" value="新开订单" class="button green" onclick="createCartinfor()" name="newopencart" id="newopencart">
+
+                    <input type="button" value="新开订单" class="button green" onclick="createCartinfor({{$dm}})" name="newopencart" id="newopencart">
                     <input type="button" value="查询订单" class="button green" onclick="getCartInfor()">
                     <input type="button" value="点击上传" class="button orange" onclick="">
                 </div>
@@ -270,7 +282,11 @@
                         <input yt-validation="yes" yt-check="null" yt-errorMessage="日期格式不正确" yt-target="date_error" name="date" class="form-control input-sm laydate-icon" id="showDate" onclick="laydate()">
                     </div>
                     <div class="col-xs-4">
+                        @if($dm)
+                            <span class="label label-primary">代买模式:无需填写</span>
+                        @else
                         <input yt-validation="yes" yt-check="money" yt-errorMessage="数字" yt-target="exchangeRate_error" name="exchangeRate"  class="form-control input-sm" value="6.8" title="美金兑人民币">
+                        @endif
                     </div>
                 </div>
             </div>

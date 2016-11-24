@@ -33,22 +33,40 @@ class ItemController extends Controller
     {
         //get stores
         $stores = Store::all();
-        return view('add',['stores' => $stores]);
+        return view('add',['stores' => $stores, 'dm' => 0]);
+    }
+
+    /**
+     *dai mai page
+     */
+    public function daiMai()
+    {
+        $stores = Store::all();
+        return view('add',['stores' => $stores, 'dm' => 1]);
     }
 
     public function store(Request $request)
     {
         $item = new Item;
+        $dm = $request->get('dm');  //daimai option
         $item->carts_id = $request->get('cartId');
         $item->stores_id = $request->get('storeId');
         $item->itemName = $request->get('itemName');
         $item->itemAmount = $request->get('itemNum');
-        $item->sellPrice = $request->get('sellPrice');
+        if($dm){
+            $item->sellPrice = 0;
+        }else{
+            $item->sellPrice = $request->get('sellPrice');
+        }
         $item->specialPrice = $request->get('specialPrice');
-        $item->exchangeRate = $request->get('exchangeRate');
+        if($dm){
+            $item->exchangeRate = 0;
+        }else{
+            $item->exchangeRate = $request->get('exchangeRate');
+        }
         $item->marketPrice = $request->get('marketPrice');
         $item->costPrice = $request->get('costPrice');
-        $item->itemProfit = $this->getProfit($item);
+        $item->itemProfit = $this->getProfit($item, $dm);
         $item->date = $request->get('date');
         $item->isDeal = $request->get('view');
         $item->itemPic = $request->get('fileName_hide');
@@ -70,19 +88,32 @@ class ItemController extends Controller
                 }
             }
             DB::table('carts')->where('id', $cartId)->update(['profits' => $profitNow]);
-            return redirect('item/create')->with('status', '添加记录成功');
+            if($dm){
+                return redirect('item/create/daimai')->with('status', '添加记录成功');
+            }else{
+                return redirect('item/create')->with('status', '添加记录成功');
+            }
         } else {
             return redirect()->back()->withInput()->withErrors('保存失败！');
         }
     }
 
     //calculate profit
-    private function getProfit($item)
+    private function getProfit($item, $dm)
     {
-        $itemCost = $item->costPrice * $item->itemAmount;
-        $sellPrice = $item->sellPrice / $item->exchangeRate;
-        $profit = $sellPrice - $itemCost;//dd($profit.'---'.round($profit, 2));
-        return round($profit, 2);
+        if($dm)
+        {
+            $profit = $item->marketPrice - $item->costPrice;
+            $profits = $profit * $item->itemAmount;
+            return $profits;
+        }
+        else
+        {
+            $itemCost = $item->costPrice * $item->itemAmount;
+            $sellPrice = $item->sellPrice / $item->exchangeRate;
+            $profit = $sellPrice - $itemCost;//dd($profit.'---'.round($profit, 2));
+            return round($profit, 2);
+        }
     }
 
     public function edit()

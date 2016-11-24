@@ -27,8 +27,14 @@
         <div id="bian"></div>
     </a>
     <!--/*add*/-->
-    <div class="c03" > <a href="{{url('/item/create')}}"><img id="addimg" src="images/add.png"></a> </div>
-
+    <div class="row">
+        <div class="col-xs-6 complete">
+            <a href="{{url('/item/create')}}"><img id="addimg" src="images/add.png" width="100%"></a>
+        </div>
+        <div class="col-xs-6 ">
+            <a href="{{url('/item/create/daimai')}}"><img id="addimg" src="images/dm.png" width="100%"></a>
+        </div>
+    </div>
     {{----}}
     <table class="table table-hover">
         <thead>

@@ -20,6 +20,7 @@ return [
         'weight'        => 'money',
         'postRate'      => 'money',
         'profits'       => 'money',
+        'isHelpBuy'     => 'bool',
         'date'          => 'date'
     ],
         'customs'   => [
@@ -79,6 +80,7 @@ return [
             'weight'        => '重量',
             'postRate'      => '邮费每磅',
             'profits'       => '订单利润',
+            'isHelpBuy'     => '是否代买',
             'date'          => '日期'
         ],
         'customs'   => [

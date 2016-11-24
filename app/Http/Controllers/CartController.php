@@ -19,10 +19,14 @@ class CartController extends Controller
     public function index(){}
 
     //show custom list
-    public function showcustomList()
+    public function showcustomList($dm = '')
     {
         $custom = DB::table('customs')->get();
-        return view('addCart', ['customs' => $custom]);
+        if ($dm == 'daimai'){
+            return view('addCart', ['customs' => $custom, 'dmCart' => 1]);
+        }else{
+            return view('addCart', ['customs' => $custom, 'dmCart' => 0]);
+        }
     }
 
     //add
@@ -31,6 +35,8 @@ class CartController extends Controller
         $cart = new Cart;   //dd($cart);
         //set different way to save id
         $idmodel = Input::get('idModel');
+        //get if dai mai model
+        $dm = Input::get('dmCart');
         if($idmodel == 'name') {
             $cart->customs_id = Input::get('customsNameList');
         }
@@ -38,8 +44,14 @@ class CartController extends Controller
             $cart->customs_id = Input::get('customId');
         }
         $cart->rename = Input::get('reName');
-        $cart->weight = Input::get('weight');
-        $cart->postRate = Input::get('postRate');
+        if ($dm) {
+            $cart->weight = 0;
+            $cart->postRate = 0;
+        }else{
+            $cart->weight = Input::get('weight');
+            $cart->postRate = Input::get('postRate');
+        }
+        $cart->isHelpBuy = $dm;
         $cart->date=  Input::get('dateInput');
         if($cart->save()){
             return $cart->id;

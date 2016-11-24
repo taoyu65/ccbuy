@@ -5,20 +5,20 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title></title>
     <!-- 支持icheck(或者加载jquery1.7+) -->
-    <script type="text/javascript" src="js/jquery-1.8.3.mini.js"></script>
-    <script type="text/javascript" src="ui/bootstrap-mini/bootstrap.min.js"></script>
-    <script type="text/javascript" src="ui/icheck/icheck.min.js"></script>
-    <script type="text/javascript" src="ui/laydate/laydate.js"></script>
-    <script type="text/javascript" src="ui/layer/layer.js"></script>
-    <script type="text/javascript" src="js/jquery.form.js"></script>
+    <script type="text/javascript" src='{{url("js/jquery-1.8.3.mini.js")}}'></script>
+    <script type="text/javascript" src='{{url("ui/bootstrap-mini/bootstrap.min.js")}}'></script>
+    <link type="text/css" rel="stylesheet" href='{{url("ui/bootstrap-mini/bootstrap.min.css")}}'>
+    <script type="text/javascript" src="{{url('ui/icheck/icheck.min.js')}}"></script>
+    <script type="text/javascript" src="{{url('ui/laydate/laydate.js')}}"></script>
+    <script type="text/javascript" src="{{url('ui/layer/layer.js')}}"></script>
+    <script type="text/javascript" src="{{url('js/jquery.form.js')}}"></script>
     <script type="text/javascript" src='{{url("js/yt_validation.js")}}'></script>
 
-    <link type="text/css" rel="stylesheet" href="ui/bootstrap-mini/bootstrap.min.css">
-    <link type="text/css" rel="stylesheet" href="ui/icheck/skins/line/line.css">
-    <link type="text/css" rel="stylesheet" href="ui/icheck/skins/line/purple.css">
+    <link type="text/css" rel="stylesheet" href="{{url('ui/icheck/skins/line/line.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{url('ui/icheck/skins/line/purple.css')}}">
 
-    <link type="text/css" rel="stylesheet" href="ui/icheck/skins/square/square.css">
-    <link type="text/css" rel="stylesheet" href="ui/icheck/skins/square/purple.css">
+    <link type="text/css" rel="stylesheet" href="{{url('ui/icheck/skins/square/square.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{url('ui/icheck/skins/square/purple.css')}}">
     <style type="text/css">
         .addheight{height:40px}
         .submitButton{border-color: #A295BB;background-color:#6a5a8c;width:150px;height:30px;}
@@ -288,6 +288,7 @@
         <div class="col-xs-4" >
             <div class="warning" id="showCustomName">请确认客户ID在输入,以免数据混乱</div>
         </div>
+        <input type="hidden" name="dmCart" value={{$dmCart}}>
     </div>
 
     <div class="form-group">
@@ -307,7 +308,11 @@
     <div class="form-group">
         <label class="col-xs-2 control-label" for="weight">订单重量</label>
         <div class="col-xs-2">
-            <input yt-validation="yes" yt-check="money" yt-errorMessage="**" yt-target="weight_error" name="weight" id="weight" class="form-control input-sm" value="0">
+            @if($dmCart)
+                <span class="label label-primary">代买模式:无需填写</span>
+            @else
+                <input yt-validation="yes" yt-check="money" yt-errorMessage="**" yt-target="weight_error" name="weight" id="weight" class="form-control input-sm" value="0">
+            @endif
         </div>
         <span class="label-danger" id="weight_error"></span>
         <div class="warning col-xs-3 control-label" >单位:磅 邮寄之前默认为0</div>
@@ -316,7 +321,12 @@
     <div class="form-group">
         <label class="col-xs-2 control-label" for="postRate">快递费率</label>
         <div class="col-xs-2">
-            <input yt-validation="yes" yt-check="money" yt-errorMessage="格式不对" yt-target="postRate_error" name="postRate" id="postRate" class="form-control input-sm" value="0">
+            @if($dmCart)
+                <span class="label label-primary">代买模式:无需填写</span>
+            @else
+                <input yt-validation="yes" yt-check="money" yt-errorMessage="格式不对" yt-target="postRate_error" name="postRate" id="postRate" class="form-control input-sm" value="0">
+            @endif
+
         </div>
         <div class="col-xs-1">
             <h4><span class="label label-primary" style="cursor: pointer" onclick="setPostRate(3.5);">3.5</span></h4>

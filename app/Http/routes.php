@@ -66,11 +66,12 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('getcustomname/{id}','CustomController@getCustomName');
         #item
         Route::resource('item', 'ItemController');
+        Route::get('item/create/daimai', 'ItemController@daiMai');
         Route::get('getItems/{id}', 'ItemController@getItems');
         #store
         Route::resource('store', 'StoreController');
         #cart
-        Route::get('showcart', 'CartController@showCustomList');
+        Route::get('showcart/{daimai?}', 'CartController@showCustomList');
         Route::post('addcart','CartController@add');
         Route::get('searchCart/{custom?}', 'CartController@search');
         #item's pic upload

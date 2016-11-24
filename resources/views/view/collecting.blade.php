@@ -37,13 +37,21 @@
         </thead>
         <tbody>
         @foreach($carts as $cart)
-            <tr onclick="showItemRow({{$cart->id}});" style="cursor:pointer">
-                <td>{{$cart->rename}}</td>
-                <td>{{$cart->weight}}</td>
-                <td>{{$cart->date}}</td>
-                <td>{{$cart->profits}}$</td>
-            </tr>
-            <tr id="tr{{$cart->id}}"></tr>
+            @if($cart->isHelpBuy == 1)
+                <tr title="代买" style="color: #00aa00">
+            @else
+                <tr onclick="showItemRow({{$cart->id}});" style="cursor:pointer">
+            @endif
+                    <td>{{$cart->rename}}</td>
+                    @if($cart->isHelpBuy == 1)
+                        <td>代买</td>
+                    @else
+                            <td>{{$cart->weight}}</td>
+                    @endif
+                    <td>{{$cart->date}}</td>
+                    <td>{{$cart->profits}}$</td>
+                </tr>
+                <tr id="tr{{$cart->id}}"></tr>
         @endforeach
         </tbody>
     </table>

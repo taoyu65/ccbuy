@@ -186,7 +186,9 @@ class Table
     private function getCustomName($fieldName)
     {
         $nameList = Config::get('ccbuy.rename.'.$this->tableName);
-        $rename = $nameList[$fieldName];
+        $rename = $fieldName;
+        if(array_key_exists($fieldName, $nameList))
+            $rename = $nameList[$fieldName];
         return $rename;
     }
 
@@ -198,7 +200,9 @@ class Table
     private function getInputHtml($data, $fieldName)
     {
         $validationList = Config::get('ccbuy.validation.'.$this->tableName);
-        $validation = $validationList[$fieldName];
+        $validation = '';
+        if(array_key_exists($fieldName, $validationList))
+            $validation = $validationList[$fieldName];
         $html = '';
         switch ($validation) {
             case 'readOnly':
@@ -228,9 +232,9 @@ class Table
                 }
                 $html = '<div class="switch">';
                 $html .= '<input type="radio" class="switch-input" name="'.$fieldName.'" value="0" id="nopay" '.$statusNo.'>';
-                $html .= '<label for="nopay" class="switch-label switch-label-off">还没</label>';
+                $html .= '<label for="nopay" class="switch-label switch-label-off">NO</label>';
                 $html .= '<input type="radio" class="switch-input" name="'.$fieldName.'" value="1" id="yespay" '.$statusYes.'>';
-                $html .= '<label for="yespay" class="switch-label switch-label-on">已付</label>';
+                $html .= '<label for="yespay" class="switch-label switch-label-on">YES</label>';
                 $html .= '<span class="switch-selection"></span>';
                 $html .= '</div>';
                 break;
@@ -242,6 +246,8 @@ class Table
                 $html = '<input id="'.$fieldName.'" name="'.$fieldName.'" value="'.$data.'" class="form-control input-sm" type="text">';
                 break;
             case '':
+                break;
+            default:
                 break;
         }
         return $html;
