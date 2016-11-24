@@ -324,9 +324,11 @@ class Table
         #region get all the fields as label
         $data = DB::table($this->tableName)->where('id', $id)->first();
         $html = '';
-        $deleteString = $this->tableName . ':' . 'id=' . $id . ',';     //showing records that will be deleted. like 'tableName1:id=@id,tableName2:id=@id' might be multiple records
-        $html .= '<form class="form-horizontal" id="deleteForm">';
+        $deleteString = '';
+        $deleteString .= $this->tableName . ':' . 'id=' . $id . ',';     //showing records that will be deleted. like 'tableName1:id=@id,tableName2:id=@id' might be multiple records
+        $html .= '<form class="form-horizontal" method="post" id="deleteForm">';
         $html .= csrf_field();
+        $html .= '<input type="hidden" name="tbName" value="'.$this->tableName.'">';
         $html .= '<div class="addheight"></div>';
         foreach ($this->columnName as $column) {//get all the fields
             if (in_array($column, $this->columnName)) {

@@ -90,15 +90,16 @@ class ccTableController extends Controller
             exit();
         }
         $deleteString = rtrim($deleteString, ',');
+        //$tbName = explode('@', $deleteString);
         $deleteList = explode(',', $deleteString);
         foreach ($deleteList as $d) {
             $getOne = explode(':', $d);     //example: tableName:id=1
             $tableName = $getOne[0];
             $where = $getOne[1];
             DB::delete('delete from ' . $tableName . ' where ' . $where);
-            //execute special delete
-            $this->special($tableName);
         }
+        //execute special delete
+        $this->special($_REQUEST['tbName']);
     }
 
     /**
@@ -115,7 +116,7 @@ class ccTableController extends Controller
                 $cart = DB::table('carts')->select('weight', 'postRate')->where('id', $foreignId)->first();
                 $postCost = $cart->weight * $cart->postRate;
                 $newProfit = $sumProfits - $postCost;
-                DB::table('carts')->where('id', $foreignId)->update(array('profits'=>$newProfit));
+                DB::table('carts')->where('id', $foreignId)->update(array('profits' => $newProfit));
                 break;
             default:
                 break;
