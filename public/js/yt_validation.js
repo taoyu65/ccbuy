@@ -44,21 +44,29 @@ function checkElements(e)
         if (e[i].getAttribute('yt-validation') == 'yes') {
             ClearErrMessage(e[i]);
             var checkType = e[i].getAttribute('yt-check');
-            switch (checkType) {
-                case 'money' :
-                    isMoney(e[i]);
-                    break;
-                //addBlur(e[i], 'isMoney');
-                case 'null' :
-                    isNull(e[i]);
-                    break;
-                case 'id' :
-                    isInteger(e[i]);
-                    break;
-                case 'date' :
-                    isDate(e[i]);
-                    break;
-                default:'';
+            //multiple rule can be used - use ',' split rules
+            var checkList = checkType.split(',');
+            for (var j = 0; j < checkList.length; j++) {
+                switch (checkList[j]) {
+                    case 'money' :
+                        isMoney(e[i]);
+                        break;
+                    //addBlur(e[i], 'isMoney');
+                    case 'null' :
+                        isNull(e[i]);
+                        break;
+                    case 'id' :
+                        isInteger(e[i]);
+                        break;
+                    case 'date' :
+                        isDate(e[i]);
+                        break;
+                    case 'no0' :
+                        nonzero(e[i]);
+                        break;
+                    default :
+                        break;
+                }
             }
         }
     }
@@ -108,7 +116,14 @@ function isNull(e) {
         b = false;
     }
 }
-
+//non-zero
+function nonzero(e) {
+    var num = trim(e.value);
+    if(num == 0){
+        showError(e);
+        b = false;
+    }
+}
 function showError(e)
 {
     var errorMessage = e.getAttribute('yt-errorMessage');
