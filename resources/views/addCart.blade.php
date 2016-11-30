@@ -257,6 +257,20 @@
         function setPostRate(num) {
             $('#postRate').val(num);
         }
+
+        //syc weight while taping post price
+        function sycWeight(price) {
+            var postRate = $('#postRate').val();
+            var weight = price / postRate;
+            $('#weight').val(weight.toFixed(2));
+        }
+
+        //syc post Price while taping weight
+        function sycPrice(weight) {
+            var postRate = $('#postRate').val();
+            var price = postRate * weight;
+            $('#postPrice').val(price.toFixed(2));
+        }
     </script>
 </head>
 
@@ -306,19 +320,6 @@
     </div>
 
     <div class="form-group">
-        <label class="col-xs-2 control-label" for="weight">订单重量</label>
-        <div class="col-xs-2">
-            @if($dmCart)
-                <span class="label label-primary">代买模式:无需填写</span>
-            @else
-                <input yt-validation="yes" yt-check="money" yt-errorMessage="**" yt-target="weight_error" name="weight" id="weight" class="form-control input-sm" value="0">
-            @endif
-        </div>
-        <span class="label-danger" id="weight_error"></span>
-        <div class="warning col-xs-3 control-label" >单位:磅 邮寄之前默认为0</div>
-    </div>
-
-    <div class="form-group">
         <label class="col-xs-2 control-label" for="postRate">快递费率</label>
         <div class="col-xs-2">
             @if($dmCart)
@@ -343,6 +344,24 @@
             </div>
         @endif
         <span class="label-danger" id="postRate_error"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-2 control-label" for="weight">订单重量</label>
+        <div class="col-xs-2">
+    @if($dmCart)
+            <span class="label label-primary">代买模式:无需填写</span>
+        </div>
+    @else
+            <input yt-validation="yes" yt-check="money" yt-errorMessage="**" yt-target="weight_error" name="weight" id="weight" class="form-control input-sm" value="0" onkeyup="sycPrice(this.value);">
+        </div>
+        <span class="label-danger" id="weight_error"></span>
+        <div class="warning col-xs-3 control-label" >单位:磅 邮寄之前默认为0</div>
+        <label class="col-xs-2 control-label" for="weight">邮递运费</label>
+        <div class="col-xs-2">
+            <input name="postPrice" id="postPrice" class="form-control input-sm" onkeyup="sycWeight(this.value);">
+        </div>
+    @endif
     </div>
 
     <div class="form-group">

@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Models\Item;
 use App\Models\Store;
 use App\Models\Cart;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
@@ -16,7 +17,7 @@ class ItemController extends Controller
     public function firstPage()
     {
         $items = DB::table('items')->orderBy('id', 'desc');
-        $perPage = 5;
+        $perPage = Config::get('ccbuy.page.firstPage');
         $totalItems = $items->count();
         $totalPage = ceil($totalItems / $perPage);
         $currentItems = $items->paginate($perPage);

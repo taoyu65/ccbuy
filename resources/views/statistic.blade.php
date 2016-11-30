@@ -38,7 +38,7 @@
             data: {
                 labels: "{{$month}}".split(','),
                 datasets: [{
-                    label: 'hdf',
+                    label: '{{$title}}',
                     data: "{{$data}}".split(','),
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',

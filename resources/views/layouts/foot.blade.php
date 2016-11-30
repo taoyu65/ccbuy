@@ -33,6 +33,7 @@
     <script type="text/javascript" src='{{url("js/jquery.toastmessage.js")}}'></script>
     <script type="text/javascript" src='{{url("ui/bootstrap-mini/bootstrap.min.js")}}'></script>
     <link type="text/css" rel="stylesheet" href='{{url("ui/bootstrap-mini/bootstrap.min.css")}}'>
+    <link rel="stylesheet" href='{{url("cc_admin/css/pintuer.css")}}'>
 </head>
 
 <body onselectstart="return true;" ondragstart="return false;" id="foot-layout">

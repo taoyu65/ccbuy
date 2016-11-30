@@ -9,6 +9,12 @@
 return [
     //to show the function of about showing customs
     'json'          => 'json/ccbuy.json',
+    //set how many items will be showing on page
+    'page'          => [
+        'firstPage'     => 8,
+        'collecting'    => 20,
+        'cartSelect'    => 5,
+    ],
 
     #region backend table edit
     //set validation rule for edit table as update data from backend
@@ -180,6 +186,50 @@ return [
             'update'    => '',
             //every element in the 'delete' will be transferred into delete action as hidden field
             'delete'    => ['carts_id', 'itemProfit'],
+        ],
+    ],
+    /*
+     * search on table
+     *  'title'         => '',      //show the name on the search page
+     *  'columnName'    => '',      //field name use for to do search on database
+     *  'validation'    => '',      //make a validation rule for the search area
+     *  'isForeignKey'  => '',      //if is foreign key then will be showing the drop down list to do the search
+     */
+    'search' => [
+        'isShowSearch'  => 'true',
+        //all table's rule for search
+        'tables'        => [
+            'carts'         => [
+                'isShow'    => 'true',
+                'tabTitles' => ['订单名称', '是否代买', '客户名称', '组合搜索'],    //tabTitles's name must be the same with name under 'tab' to make sure the css which is showing on the page will be corrected
+                'tab'       => [
+                    '订单名称'      => [
+                        'columnName'    => 'rename',
+                        'validation'    => 'required',
+                        'isForeignKey'  => 'false',
+                    ],
+                    '是否代买'      => [
+                        'columnName'    => 'isHelpBuy',
+                        'validation'    => 'bool',
+                        'isForeignKey'  => 'false',
+                    ],
+                    '客户名称'      => [
+                        'columnName'    => 'customs_id',
+                        'validation'    => 'foreignKey',
+                        'isForeignKey'  => 'true',
+                    ],
+                    '组合搜索'      => [
+                        'columnName'    => 'customs_id,rename,isHelpBuy',
+                        'validation'    => 'foreignKey,required,bool',
+                        'isForeignKey'  => 'false',
+                    ],
+                ],
+            ],
+            'customs'       => '',
+            'incomes'       => '',
+            'items'         => '',
+            'stores'        => '',
+            'users'         => '',
         ],
     ],
     #endregion

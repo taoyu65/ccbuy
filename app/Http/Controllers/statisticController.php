@@ -12,7 +12,7 @@ class statisticController extends Controller
 {
     public function index($year, $type, $r = '')
     {
-        $refresh = false;   //if false than use cookie otherwise to refresh
+        $refresh = false;   //if false than use json otherwise to refresh
         if($r == 'refresh')
             $refresh = true;
         switch ($type) {
@@ -52,10 +52,12 @@ class statisticController extends Controller
             //get all month x axis
             if ($year == 'all') {
                 $month = Config::get('ccbuy.statistic.profitAll');
+                $year = '所有年份';
             }else{
                 $month = Config::get('ccbuy.statistic.profitMonth');
             }
-            return view('statistic', ['data' => $data, 'month' => $month]);
+            $title = $year . '利润图表';
+            return view('statistic', ['data' => $data, 'month' => $month, 'title' => $title]);
         }else{
             return '';
         }
@@ -74,12 +76,14 @@ class statisticController extends Controller
         }
         $arr = array();
         foreach ($data as $d) {
-            $date = explode('-', $d->date);
-            $monthNum = (int)$date[1];
-            if (array_key_exists($monthNum,$arr)) {
-                $arr[$monthNum] += $d->profits;
-            }else{
-                $arr[$monthNum] = $d->profits;
+            if($d->date != null) {
+                $date = explode('-', $d->date);
+                $monthNum = (int)$date[1];
+                if (array_key_exists($monthNum, $arr)) {
+                    $arr[$monthNum] += $d->profits;
+                } else {
+                    $arr[$monthNum] = $d->profits;
+                }
             }
         }
         $profits = $this->getSumByMonth($arr);

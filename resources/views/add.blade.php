@@ -166,6 +166,11 @@
             $('#specialPrice').val(val);
             $('#costPrice').val(val);
         }
+
+        //
+        function setExchangeRate(rate) {
+            $('#exchangeRate').val(rate);
+        }
     </script>
 
 <div id="additemdiv">
@@ -238,7 +243,7 @@
                     <label class="col-xs-6 control-label" for="cartId">订单ID <span class="label-danger" id="cartId_error"></span></label>
                     <label class="col-xs-2 control-label" for=""></label>
                     <label class="col-xs-2 control-label" for=""></label>
-                    <label class="col-xs-2 control-label" for="">上传图片</label>
+                    {{--<label class="col-xs-2 control-label" for="">上传图片</label>--}}
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
@@ -247,7 +252,7 @@
 
                     <input type="button" value="新开订单" class="button green" onclick="createCartinfor({{$dm}})" name="newopencart" id="newopencart">
                     <input type="button" value="查询订单" class="button green" onclick="getCartInfor()">
-                    <input type="button" value="点击上传" class="button orange" onclick="">
+                    {{--<input type="button" value="点击上传" class="button orange" onclick="">--}}
                 </div>
             </div>
 
@@ -285,7 +290,13 @@
                         @if($dm)
                             <span class="label label-primary">代买模式:无需填写</span>
                         @else
-                        <input yt-validation="yes" yt-check="money" yt-errorMessage="数字" yt-target="exchangeRate_error" name="exchangeRate"  class="form-control input-sm" value="6.8" title="美金兑人民币">
+                            <input yt-validation="yes" yt-check="money" yt-errorMessage="数字" yt-target="exchangeRate_error" name="exchangeRate" id="exchangeRate"  class="form-control input-sm" value="6.8" title="美金兑人民币">
+                            </div>
+                            <div class="col-xs-1">
+                                <h4><span class="label label-primary" style="cursor: pointer" onclick="setExchangeRate(6.8);">6.8</span></h4>
+                            </div>
+                            <div class="col-xs-1">
+                                <h4><span class="label label-primary" style="cursor: pointer" onclick="setExchangeRate(7.0);">7.0</span></h4>
                         @endif
                     </div>
                 </div>

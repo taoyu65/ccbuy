@@ -33,29 +33,35 @@
             <th>订单重量</th>
             <th>创建日期</th>
             <th>订单利润</th>
+            <th>利 润 率</th>
         </tr>
         </thead>
         <tbody>
         @foreach($carts as $cart)
             @if($cart->isHelpBuy == 1)
-                <tr title="代买" style="color: #00aa00">
+
+                <tr title="代买" onclick="showItemRow({{$cart->id}});" style="cursor:pointer;color: #f47a20;" class="red">
+
             @else
                 <tr onclick="showItemRow({{$cart->id}});" style="cursor:pointer">
             @endif
                     <td>{{$cart->rename}}</td>
                     @if($cart->isHelpBuy == 1)
                         <td>代买</td>
+                        <td>{{$cart->date}}</td>
+                        <td >{{$cart->profits}}$</td>
+                        <td>{{$cart->profitRatio}}</td>
                     @else
-                            <td>{{$cart->weight}}</td>
+                        <td>{{$cart->weight}}</td>
+                        <td>{{$cart->date}}</td>
+                        <td ><span style="color: #00aa88">{{$cart->profits}}$</span></td>
+                        <td><span style="color: #00aaee">{{$cart->profitRatio}}</span></td>
                     @endif
-                    <td>{{$cart->date}}</td>
-                    <td>{{$cart->profits}}$</td>
                 </tr>
-                <tr id="tr{{$cart->id}}"></tr>
+                <tr id="tr{{$cart->id}}"></tr>  {{--container for items which are shown after clicking the cart--}}
         @endforeach
         </tbody>
     </table>
 
-    <div id="page" style="text-align: center"></div>
-    <input id="count" value="" type="hidden">
+    <div class="text-center">{!! with(new \App\Foundations\Pagination\CustomerPresenter($carts))->render() !!}</div>
 @endsection

@@ -8,7 +8,7 @@
 
 namespace App\Http\Controllers;
 
-//use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use App\Models\Cart;
@@ -70,7 +70,7 @@ class CartController extends Controller
         $customName = DB::table('customs')->get();
 
         //page
-        $perPage = 5;
+        $perPage = Config::get('ccbuy.page.cartSelect');
         $obj = DB::table('view_carts_customs')->orderBy('id', 'desc');
         if(is_numeric($customId))
             $obj = $obj->where('customs_id', '=', $customId);
@@ -85,16 +85,14 @@ class CartController extends Controller
      */
     public function unFinishDeal()
     {
-        $carts = Cart::orderBy('id', 'desc')->get();
-
+        $perPage = Config::get('ccbuy.page.collecting');
+        $carts = Cart::orderBy('id', 'desc')->paginate($perPage);
+        foreach ($carts as $cart) {
+            $cartId = $cart->id;
+            $sumPrice = DB::table('items')->where('carts_id','=', $cartId)->sum('costPrice');
+            $cart->profitRatio = @((round(($cart->profits / $sumPrice),2)*100).'%');
+        }
         return view('view/collecting', ['carts' => $carts]);
     }
 
-    /**
-     *  finish deal
-     */
-    public function dealDone()
-    {
-
-    }
 }
