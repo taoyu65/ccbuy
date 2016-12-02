@@ -33,20 +33,23 @@
     <script type="text/javascript" src='{{url("js/jquery.toastmessage.js")}}'></script>
     <script type="text/javascript" src='{{url("ui/bootstrap-mini/bootstrap.min.js")}}'></script>
     <link type="text/css" rel="stylesheet" href='{{url("ui/bootstrap-mini/bootstrap.min.css")}}'>
+    <script src='{{url("cc_admin/js/pintuer.js")}}' type="text/javascript"></script>
     <link rel="stylesheet" href='{{url("cc_admin/css/pintuer.css")}}'>
 </head>
 
-<body onselectstart="return true;" ondragstart="return false;" id="foot-layout">
+<body>
+@include('language')
+
 <div id="wrap" class="clr">
     <!--<div class="telphone"><img src="/www/images/tel.png"></div>-->
     <div class="navfoot"> <a href="{{ url('firstpage') }}">
-            <div class="menu i01"  >流水</div>
+            <div class="menu i01"  >{{trans('foot.tab1')}}</div>
         </a> <a href="{{url('collecting')}}" >
-            <div class="menu i02"  >盈利</div>
+            <div class="menu i02"  >{{trans('foot.tab2')}}</div>
         </a> <a href="{{url('statistics/2016/profits')}}" >
-            <div class="menu i03"  >统计</div>
+            <div class="menu i03"  >{{trans('foot.tab3')}}</div>
         </a> <a href="{{url('cc_admin/main')}}" >
-            <div class="menu i04"  >管理</div>
+            <div class="menu i04"  >{{trans('foot.tab4')}}</div>
         </a>
     </div>
 

@@ -9,6 +9,10 @@
 
                 <div class="panel-body">
                     Your Application's Landing Page.
+
+                </div>
+                <div class="content">
+                    <div class="title">hahaha::::{{ trans('welcome.message') }}</div>
                 </div>
             </div>
         </div>
