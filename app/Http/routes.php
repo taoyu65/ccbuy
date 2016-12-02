@@ -1,3 +1,4 @@
+
 <?php
 
 Event::listen('404', function() {
@@ -37,6 +38,11 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/', function(){
         return view('cc_admin/login');
     });
+
+    /*Route::get('{locale}/welcome', function ($locale) {
+        App::setLocale($locale);
+        return view('welcome');
+    });*/
     /*
     |--------------------------------------------------------------------------
     | login
@@ -49,6 +55,15 @@ Route::group(['middleware' => 'web'], function () {
         });
         #loging in
         Route::post('submit', 'UserController@submit');
+    });
+    /*
+    |--------------------------------------------------------------------------
+    | set language
+    |--------------------------------------------------------------------------
+    */
+    Route::get('setLanguage/{lang}', function($lang){
+        session(['lang' => $lang]);
+        return redirect()->back();
     });
     /*
     |--------------------------------------------------------------------------
@@ -79,7 +94,6 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('additemdelete', 'UploadController@imgDelete');
         #get paid -marked is deal and finish cart
         Route::get('collecting', 'CartController@unFinishDeal');
-
         Route::group(array('prefix' => 'cc_admin'), function() {
             Route::get('main', function(){
                 return view('cc_admin/main');

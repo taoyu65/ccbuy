@@ -1,6 +1,7 @@
 
 @extends('layouts.foot')
 @section('content')
+
     <link href="css/welcome.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src='{{url("ui/laypage/laypage.js")}}'></script>
     <script>
@@ -39,11 +40,11 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>物品名称</th>
-            <th>出售金额 ¥</th>
-            <th>成本 $</th>
-            <th>净利 $(不含邮费)</th>
-            <th>日期</th>
+            <th>{{trans('firstPage.itemName')}}</th>
+            <th>{{trans('firstPage.sellPrice')}} ¥</th>
+            <th>{{trans('firstPage.itemCost')}} $</th>
+            <th>{{trans('firstPage.profit')}}</th>
+            <th>{{trans('firstPage.date')}}</th>
         </tr>
         </thead>
         <tbody>

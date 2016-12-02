@@ -39,11 +39,11 @@
                     isUploaded = data.pic;
                     jQuery('#fileName_hide').val(data.filename);
                     document.getElementById('deleteImgId').value = isUploaded;
-                    showMessage('success','上传成功');
+                    showMessage('success','{{trans('add.success')}}');
                     uploadedFileName = document.getElementById('image_file').value;
                 },
                 error: function () {
-                    layer.alert('发生未知错误! 请连续涛哥!',{icon:2});
+                    layer.alert('{{trans('add.error')}}',{icon:2});
                 }
             };
             $('#upload_form').submit(function () {
@@ -63,7 +63,7 @@
                     cleanall();
                 },
                 error: function () {
-                    layer.alert('发生未知错误! 请连续涛哥!',{icon:2});
+                    layer.alert('{{trans('add.error')}}',{icon:2});
                 }
             };
             $('#delete_form').submit(function () {
@@ -83,7 +83,7 @@
                 type: 2,
                 shade:[0.8, '#393D49'],
                 area: ['850px', '650px'],
-                title: ['选择所属于的订单','font-size:12px;color:white;background-color:#6ABB52'],
+                title: ['{{trans('add.selectCart')}}','font-size:12px;color:white;background-color:#6ABB52'],
                 scrollbar: false,
                 content:['{{url("searchCart/all")}}', 'no'],
                 success:function(layero, index){
@@ -105,7 +105,7 @@
                 type: 2,
                 shade: [0.8, '#393D49'],
                 area:['850px','500px'],
-                title: ['添加新订单', 'font-size:12px;color:white;background-color:#6a5a8c'],
+                title: ['{{trans('add.addCart')}}', 'font-size:12px;color:white;background-color:#6a5a8c'],
                 scrollbar: true,
                 content: [url, 'yes'],
                 closeBtn:1,
@@ -122,7 +122,7 @@
                 type: 2,
                 shade: [0.8, '#393D49'],
                 area:['850px','300px'],
-                title: ['添加商店' , 'font-size:12px;color:white;background-color:#FF77AB'],
+                title: ['{{trans('add.addStore')}}' , 'font-size:12px;color:white;background-color:#FF77AB'],
                 scrollbar: false,
                 //dataType:'get',
                 content: ['{{url("store")}}', 'no'],
@@ -138,7 +138,7 @@
         function showReturnMessage(str) {
             layer.alert(str,{
                 skin: 'layui-layer-molv',
-                title:'用户添加',
+                title:'{{trans('add.addCustomer')}}',
                 closeBtn:0}
             );
         }
@@ -157,7 +157,7 @@
                 var price = $('#costPrice').val() * 1.08;
                 $('#'+label).val(price.toFixed(2));
             }else {
-                alert('不能连续2次加税!~价格已经是税后!');
+                alert('{{trans('add.error_tax')}}');
             }
         }
 
@@ -187,15 +187,15 @@
             {{--出售金额 物品数量--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-6 control-label" for="sellPrice">出售金额 ¥<span class="label-danger" id="sellPrice_error"></span></label>
-                    <label class="col-xs-6 control-label" for="itemNum">物品数量</label>
+                    <label class="col-xs-6 control-label" for="sellPrice">{{trans('add.sellPrice')}} ¥<span class="label-danger" id="sellPrice_error"></span></label>
+                    <label class="col-xs-6 control-label" for="itemNum">{{trans('add.itemsAmount')}}</label>
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
                         @if($dm)
-                            <span class="label label-primary">代买模式:无需填写</span>
+                            <span class="label label-primary">{{trans('add.dmMode')}}</span>
                         @else
-                            <input yt-validation="yes"  yt-check="money" yt-errorMessage="请填写正确金额" yt-target="sellPrice_error" class="form-control input-sm" type="text" value="" name="sellPrice" id="money" placeholder="默认为人民币¥, 可以设置相同物品总价格, 填写对应的物品数量">
+                            <input yt-validation="yes"  yt-check="money" yt-errorMessage="{{trans('add.error_money')}}" yt-target="sellPrice_error" class="form-control input-sm" type="text" value="" name="sellPrice" id="money" placeholder="{{trans('add.warning_money')}}">
                         @endif
                     </div>
                     <div class="col-xs-6">
@@ -219,16 +219,16 @@
             {{--物品名称--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-6 control-label" for="itemName">物品名称 <span class="label-danger" id="itemName_error"></span></label>
+                    <label class="col-xs-6 control-label" for="itemName">{{trans('add.itemName')}} <span class="label-danger" id="itemName_error"></span></label>
                     <label class="col-xs-6 control-label" for="storeId">购买地点 <input type="button" value="添加商店" class="button small green" onclick="addStore();"> <span class="label-danger" id="storeId_error"></span></label>
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
-                        <input yt-validation="yes" yt-check="null" yt-errorMessage="不能为空" yt-target="itemName_error" class="form-control input-sm" type="text" id="itemName" name="itemName" placeholder="简单介绍谁买的什么  例如:隔壁老王买的印度神油">
+                        <input yt-validation="yes" yt-check="null" yt-errorMessage="{{trans('add.notNull')}}" yt-target="itemName_error" class="form-control input-sm" type="text" id="itemName" name="itemName" placeholder="{{trans('add.itemNameInfo')}}">
                     </div>
                     <div class="col-xs-6">
-                        <select yt-validation="yes" yt-check="null" yt-errorMessage="请选择商店" yt-target="storeId_error" class="form-control input-sm" name="storeId" id="storeId">
-                            <option value="" selected>选择商店</option>
+                        <select yt-validation="yes" yt-check="null" yt-errorMessage="{{trans('add.selectStore')}}" yt-target="storeId_error" class="form-control input-sm" name="storeId" id="storeId">
+                            <option value="" selected>{{trans('add.selectStore')}}</option>
                             @foreach($stores as $store)
                                 <option value="{{$store->id}}"
                                         title="{{$store->info}}">{{$store->storeName}}</option>
@@ -240,18 +240,18 @@
             {{--订单ID 上传图片--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-6 control-label" for="cartId">订单ID <span class="label-danger" id="cartId_error"></span></label>
+                    <label class="col-xs-6 control-label" for="cartId">{{trans('add.cartId')}} <span class="label-danger" id="cartId_error"></span></label>
                     <label class="col-xs-2 control-label" for=""></label>
                     <label class="col-xs-2 control-label" for=""></label>
                     {{--<label class="col-xs-2 control-label" for="">上传图片</label>--}}
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
-                        <input yt-validation="yes" yt-check="id" yt-errorMessage="请输入一个有效的数字" yt-target="cartId_error" class="form-control input-sm"  name="cartId" id="cartId">
+                        <input yt-validation="yes" yt-check="id" yt-errorMessage="{{trans('add.inputNum')}}" yt-target="cartId_error" class="form-control input-sm"  name="cartId" id="cartId">
                     </div>
 
-                    <input type="button" value="新开订单" class="button green" onclick="createCartinfor({{$dm}})" name="newopencart" id="newopencart">
-                    <input type="button" value="查询订单" class="button green" onclick="getCartInfor()">
+                    <input type="button" value="{{trans('add.addCart')}}" class="button green" onclick="createCartinfor({{$dm}})" name="newopencart" id="newopencart">
+                    <input type="button" value="{{trans('add.searchCart')}}" class="button green" onclick="getCartInfor()">
                     {{--<input type="button" value="点击上传" class="button orange" onclick="">--}}
                 </div>
             </div>
@@ -259,19 +259,19 @@
             {{--市场价格 促销价格 实际支付--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-4 control-label" for="marketPrice">市场价格 $<span class="label-danger" id="marketPrice_error"></span></label>
-                    <label class="col-xs-4 control-label" for="specialPrice">促销价格 <input type="button" value="同步于市场价格" class="button small green" onclick="synMartketPrice('specialPrice')"> <span class="label-danger" id="specialPrice_error"></span></label>
-                    <label class="col-xs-4 control-label" for="costPrice">实际支付 <input type="button" value="计算税后价格" class="button small green" onclick="getPriceAfterTax('costPrice')"><span class="label-danger" id="costPrice_error"></span></label>
+                    <label class="col-xs-4 control-label" for="marketPrice">{{trans('add.marketPrice')}} $<span class="label-danger" id="marketPrice_error"></span></label>
+                    <label class="col-xs-4 control-label" for="specialPrice">{{trans('add.specialPrice')}} <input type="button" value="{{trans('add.syncMarketPrice')}}" class="button small green" onclick="synMartketPrice('specialPrice')"> <span class="label-danger" id="specialPrice_error"></span></label>
+                    <label class="col-xs-4 control-label" for="costPrice">{{trans('add.costPrice')}} <input type="button" value="{{trans('add.priceAfterTax')}}" class="button small green" onclick="getPriceAfterTax('costPrice')"><span class="label-danger" id="costPrice_error"></span></label>
                 </div>
                 <div class="row">
                     <div class="col-xs-4">
-                        <input yt-validation="yes" yt-check="money" yt-errorMessage="请填写正确价格" yt-target="marketPrice_error" name="marketPrice" id="marketPrice" class="form-control input-sm" placeholder="对客户显示的价格" onkeyup="syc(this.value);">
+                        <input yt-validation="yes" yt-check="money" yt-errorMessage="{{trans('add.correctPrice')}}" yt-target="marketPrice_error" name="marketPrice" id="marketPrice" class="form-control input-sm" placeholder="{{trans('add.priceForCustom')}}" onkeyup="syc(this.value);">
                     </div>
                     <div class="col-xs-4">
-                        <input yt-validation="yes" yt-check="money" yt-errorMessage="<-点 *" yt-target="specialPrice_error" name="specialPrice" id="specialPrice" class="form-control input-sm" placeholder="促销价格">
+                        <input yt-validation="yes" yt-check="money" yt-errorMessage="<-{{trans('add.click')}} *" yt-target="specialPrice_error" name="specialPrice" id="specialPrice" class="form-control input-sm" placeholder="{{trans('add.specialPrice')}}">
                     </div>
                     <div class="col-xs-4">
-                        <input yt-validation="yes" yt-check="money" yt-errorMessage="<-点 *" yt-target="costPrice_error" name="costPrice" id="costPrice" class="form-control input-sm" placeholder="实际购买价格">
+                        <input yt-validation="yes" yt-check="money" yt-errorMessage="<-{{trans('add.click')}} *" yt-target="costPrice_error" name="costPrice" id="costPrice" class="form-control input-sm" placeholder="{{trans('add.actualPrice')}}">
                     </div>
                 </div>
             </div>
@@ -279,12 +279,13 @@
             {{--物品重量 快递费率 购买地点--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-4 control-label" for="date">购买日期 <span class="label-danger" id="date_error"></span></label>
-                    <label class="col-xs-4 control-label" for="storeId">兑换汇率 <span class="label-danger" id="exchangeRate_error"></span></label>
+                    <label class="col-xs-4 control-label" for="date">{{trans('add.dataToBuy')}} <span class="label-danger" id="date_error"></span></label>
+                    <label class="col-xs-4 control-label" for="storeId">{{trans('add.exchange')}} <span class="label-danger" id="exchangeRate_error"></span></label>
                 </div>
                 <div class="row">
+
                     <div class="col-xs-4">
-                        <input yt-validation="yes" yt-check="null" yt-errorMessage="日期格式不正确" yt-target="date_error" name="date" class="form-control input-sm laydate-icon" id="showDate" onclick="laydate()">
+                        <input yt-validation="yes" yt-check="null" yt-errorMessage="{{trans('add.errorDate')}}" yt-target="date_error" name="date" class="form-control input-sm laydate-icon" id="showDate" onclick="laydate()">
                     </div>
                     <div class="col-xs-4">
                         @if($dm)

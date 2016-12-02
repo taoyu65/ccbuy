@@ -63,5 +63,6 @@
         </tbody>
     </table>
 
-    <div class="text-center">{!! with(new \App\Foundations\Pagination\CustomerPresenter($carts))->render() !!}</div>
+    {{--<div class="text-center">{!! with(new \App\Foundations\Pagination\CustomerPresenter($carts))->render() !!}</div>--}}
+    <div class="text-center">{!! $carts->render() !!}</div>
 @endsection

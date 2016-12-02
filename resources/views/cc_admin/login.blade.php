@@ -9,8 +9,9 @@
 
 </head>
 <body>
+
 <!--SIGN UP-->
-<h1>ccBuy Admin</h1>
+<h1>{{trans('cc_admin_login.title')}}</h1>
 <!--if login failed then show message -->
 @if(isset($error))
 	{!! $error !!}
@@ -28,7 +29,7 @@
 	</div>
 	<form method="post" action="{{url('cc_admin/submit')}}">
 		{!! csrf_field() !!}
-		<input type="text" name="name" class="text" value="Username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}" >
+		<input type="text" name="name" class="text" value="{{trans('cc_admin_login.username')}}" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '{{trans('cc_admin_login.username')}}';}" >
 		<div class="key">
 			<input type="password" name="password" value="123123" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '123123';}">
 		</div>
@@ -38,8 +39,9 @@
 	</form>
 </div>
 <div class="copy-rights">
-	<p>Copyright &copy; 2015.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
+	<p>Copyright &copy; 2015.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="{{trans('cc_admin_login.mbzj')}}">{{trans('cc_admin_login.mbzj')}}</a> - Collect from
+		<a href="http://www.cssmoban.com/" title="{{trans('cc_admin_login.wymb')}}" target="_blank">{{trans('cc_admin_login.wymb')}}</a></p>
 </div>
-
+@include('language')
 </body>
 </html>
