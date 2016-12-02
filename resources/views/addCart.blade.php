@@ -5,19 +5,20 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title></title>
     <!-- 支持icheck(或者加载jquery1.7+) -->
-    <script type="text/javascript" src="js/jquery-1.8.3.mini.js"></script>
-    <script type="text/javascript" src="ui/bootstrap-mini/bootstrap.min.js"></script>
-    <script type="text/javascript" src="ui/icheck/icheck.min.js"></script>
-    <script type="text/javascript" src="ui/laydate/laydate.js"></script>
-    <script type="text/javascript" src="ui/layer/layer.js"></script>
-    <script type="text/javascript" src="js/jquery.form.js"></script>
+    <script type="text/javascript" src='{{url("js/jquery-1.8.3.mini.js")}}'></script>
+    <script type="text/javascript" src='{{url("ui/bootstrap-mini/bootstrap.min.js")}}'></script>
+    <link type="text/css" rel="stylesheet" href='{{url("ui/bootstrap-mini/bootstrap.min.css")}}'>
+    <script type="text/javascript" src="{{url('ui/icheck/icheck.min.js')}}"></script>
+    <script type="text/javascript" src="{{url('ui/laydate/laydate.js')}}"></script>
+    <script type="text/javascript" src="{{url('ui/layer/layer.js')}}"></script>
+    <script type="text/javascript" src="{{url('js/jquery.form.js')}}"></script>
+    <script type="text/javascript" src='{{url("js/yt_validation.js")}}'></script>
 
-    <link type="text/css" rel="stylesheet" href="ui/bootstrap-mini/bootstrap.min.css">
-    <link type="text/css" rel="stylesheet" href="ui/icheck/skins/line/line.css">
-    <link type="text/css" rel="stylesheet" href="ui/icheck/skins/line/purple.css">
+    <link type="text/css" rel="stylesheet" href="{{url('ui/icheck/skins/line/line.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{url('ui/icheck/skins/line/purple.css')}}">
 
-    <link type="text/css" rel="stylesheet" href="ui/icheck/skins/square/square.css">
-    <link type="text/css" rel="stylesheet" href="ui/icheck/skins/square/purple.css">
+    <link type="text/css" rel="stylesheet" href="{{url('ui/icheck/skins/square/square.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{url('ui/icheck/skins/square/purple.css')}}">
     <style type="text/css">
         .addheight{height:40px}
         .submitButton{border-color: #A295BB;background-color:#6a5a8c;width:150px;height:30px;}
@@ -80,21 +81,23 @@
                 type: 'post',
                 //dataType: 'json', //http://jquery.malsup.com/form/#json
                 beforeSubmit:function(){
-                    //if(!checkData()){
-                        //return false;
-                   // }
+                    if(!checkForm('addCartForm'))
+                        return false;
+                    //add shade to prevent add additional data
+                    var index = layer.load(0, {
+                        shade: [0.5,'#393D49'] //0.1透明度的白色背景
+                    });
+                    jQuery('#btsubmit').attr('disabled', 'disabled');
                 },
                 success: function(data){
                     //layer.alert('添加成功! 页面自动返回并添加此订单ID', {icon:1});
                     layer.confirm('添加成功!返回上一层继续 或者 在继续添加订单', {
                         btn: ['确认离开','再添订单'] //按钮
                     }, function(){
-                        jQuery('#CartId',window.parent.document).val(data);
+                        jQuery('#cartId',window.parent.document).val(data);
                         closeWindos();
                     }, function(){
-                        jQuery('#customsNameList').val('0');
-                        jQuery('#reName').val('');
-                        jQuery('#customId').val('');
+                        window.location.reload(false);
                     });
                 },
                 error: function () {
@@ -132,6 +135,11 @@
             //$('#customId').bind('input propertychange', function() {
                 //$('#showCustomName').html($(this).val().length + ' characters');
             //});
+
+            //get date
+            var myDate = new Date();
+            var today = myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate();
+            $('#dateInput').val(today);
         });
 
         //输入数字并ajax加载客户名字
@@ -237,6 +245,32 @@
         function findCustom() {
            // alert(jQuery('#customId').val());
         }
+
+        //
+        function setCartName() {
+            var itemName = jQuery('#itemName', window.parent.document).val();
+            var customName = $('#customsNameList').find('option:selected').text();
+            jQuery('#reName').val(customName+'的'+itemName);
+        }
+
+        //set post rate
+        function setPostRate(num) {
+            $('#postRate').val(num);
+        }
+
+        //syc weight while taping post price
+        function sycWeight(price) {
+            var postRate = $('#postRate').val();
+            var weight = price / postRate;
+            $('#weight').val(weight.toFixed(2));
+        }
+
+        //syc post Price while taping weight
+        function sycPrice(weight) {
+            var postRate = $('#postRate').val();
+            var price = postRate * weight;
+            $('#postPrice').val(price.toFixed(2));
+        }
     </script>
 </head>
 
@@ -249,7 +283,7 @@
         <label class="col-xs-2 control-label" for="customsNameList">客户选择</label>
         <div class="col-xs-2">
             {{--<input class="form-control input-sm" type="text" id="customsNameList">--}}
-            <select class="form-control input-sm" id="customsNameList" name="customsNameList">
+            <select class="form-control input-sm" id="customsNameList" name="customsNameList" onchange="setCartName();">
                 <option  value="0">选择客户</option>
                 @foreach($customs as $custom)
                 <option value="{{$custom->id}}" title="{{$custom->dgFrom}}'的'{{$custom->relationship}}">{{$custom->customName}}</option>
@@ -268,16 +302,13 @@
         <div class="col-xs-4" >
             <div class="warning" id="showCustomName">请确认客户ID在输入,以免数据混乱</div>
         </div>
+        <input type="hidden" name="dmCart" value={{$dmCart}}>
     </div>
 
     <div class="form-group">
         <label class="col-xs-2 control-label">创建客户</label>
         <div class="col-xs-2">
-
             <button type="button" class="btn btn-warning" onclick="addCustomWindow()">创建新客户</button>
-        </div>
-        <div class="col-xs-4">
-            <div class="warning"><p>只有在需要添加新客户的时候点击</p></div>
         </div>
     </div>
 
@@ -286,6 +317,51 @@
         <div class="col-xs-9">
             <input class="form-control input-sm" type="text" name="reName" id="reName" placeholder="简单介绍谁买的什么  例如:隔壁老王买的印度神油">
         </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-2 control-label" for="postRate">快递费率</label>
+        <div class="col-xs-2">
+            @if($dmCart)
+                <span class="label label-primary">代买模式:无需填写</span>
+            @else
+                <input yt-validation="yes" yt-check="money" yt-errorMessage="格式不对" yt-target="postRate_error" name="postRate" id="postRate" class="form-control input-sm" value="0">
+            @endif
+
+        </div>
+        @if(!$dmCart)
+            <div class="col-xs-1">
+                <h4><span class="label label-primary" style="cursor: pointer" onclick="setPostRate(3.5);">3.5</span></h4>
+            </div>
+            <div class="col-xs-1">
+                <h4><span class="label label-primary" style="cursor: pointer" onclick="setPostRate(4.0);">4.0</span></h4>
+            </div>
+            <div class="col-xs-1">
+                <h4><span class="label label-primary" style="cursor: pointer" onclick="setPostRate(4.5);">4.5</span></h4>
+            </div>
+            <div class="col-xs-1">
+                <h4><span class="label label-primary" style="cursor: pointer" onclick="setPostRate(5.5);">5.5</span></h4>
+            </div>
+        @endif
+        <span class="label-danger" id="postRate_error"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-2 control-label" for="weight">订单重量</label>
+        <div class="col-xs-2">
+    @if($dmCart)
+            <span class="label label-primary">代买模式:无需填写</span>
+        </div>
+    @else
+            <input yt-validation="yes" yt-check="money" yt-errorMessage="**" yt-target="weight_error" name="weight" id="weight" class="form-control input-sm" value="0" onkeyup="sycPrice(this.value);">
+        </div>
+        <span class="label-danger" id="weight_error"></span>
+        <div class="warning col-xs-3 control-label" >单位:磅 邮寄之前默认为0</div>
+        <label class="col-xs-2 control-label" for="weight">邮递运费</label>
+        <div class="col-xs-2">
+            <input name="postPrice" id="postPrice" class="form-control input-sm" onkeyup="sycWeight(this.value);">
+        </div>
+    @endif
     </div>
 
     <div class="form-group">

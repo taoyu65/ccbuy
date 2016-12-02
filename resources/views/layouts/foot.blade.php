@@ -31,19 +31,22 @@
     {{--<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>--}}
     <script type="text/javascript" src='{{url("js/jquery-1.8.3.mini.js")}}'></script>
     <script type="text/javascript" src='{{url("js/jquery.toastmessage.js")}}'></script>
+    <script type="text/javascript" src='{{url("ui/bootstrap-mini/bootstrap.min.js")}}'></script>
+    <link type="text/css" rel="stylesheet" href='{{url("ui/bootstrap-mini/bootstrap.min.css")}}'>
+    <link rel="stylesheet" href='{{url("cc_admin/css/pintuer.css")}}'>
 </head>
 
 <body onselectstart="return true;" ondragstart="return false;" id="foot-layout">
 <div id="wrap" class="clr">
     <!--<div class="telphone"><img src="/www/images/tel.png"></div>-->
-    <div class="nav"> <a href="{{ url('firstpage') }}">
+    <div class="navfoot"> <a href="{{ url('firstpage') }}">
             <div class="menu i01"  >流水</div>
-        </a> <a href="#" >
-            <div class="menu i02"  >账户</div>
-        </a> <a href="#" >
+        </a> <a href="{{url('collecting')}}" >
+            <div class="menu i02"  >盈利</div>
+        </a> <a href="{{url('statistics/2016/profits')}}" >
             <div class="menu i03"  >统计</div>
-        </a> <a href="#" >
-            <div class="menu i04"  >设置</div>
+        </a> <a href="{{url('cc_admin/main')}}" >
+            <div class="menu i04"  >管理</div>
         </a>
     </div>
 

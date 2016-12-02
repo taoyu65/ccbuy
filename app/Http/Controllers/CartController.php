@@ -8,7 +8,7 @@
 
 namespace App\Http\Controllers;
 
-//use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use App\Models\Cart;
@@ -19,10 +19,14 @@ class CartController extends Controller
     public function index(){}
 
     //show custom list
-    public function showcustomList()
+    public function showcustomList($dm = '')
     {
         $custom = DB::table('customs')->get();
-        return view('addCart', ['customs' => $custom]);
+        if ($dm == 'daimai'){
+            return view('addCart', ['customs' => $custom, 'dmCart' => 1]);
+        }else{
+            return view('addCart', ['customs' => $custom, 'dmCart' => 0]);
+        }
     }
 
     //add
@@ -31,6 +35,8 @@ class CartController extends Controller
         $cart = new Cart;   //dd($cart);
         //set different way to save id
         $idmodel = Input::get('idModel');
+        //get if dai mai model
+        $dm = Input::get('dmCart');
         if($idmodel == 'name') {
             $cart->customs_id = Input::get('customsNameList');
         }
@@ -38,6 +44,14 @@ class CartController extends Controller
             $cart->customs_id = Input::get('customId');
         }
         $cart->rename = Input::get('reName');
+        if ($dm) {
+            $cart->weight = 0;
+            $cart->postRate = 0;
+        }else{
+            $cart->weight = Input::get('weight');
+            $cart->postRate = Input::get('postRate');
+        }
+        $cart->isHelpBuy = $dm;
         $cart->date=  Input::get('dateInput');
         if($cart->save()){
             return $cart->id;
@@ -56,12 +70,31 @@ class CartController extends Controller
         $customName = DB::table('customs')->get();
 
         //page
-        $perPage = 5;
-        $obj = DB::table('view_carts_customs');
+        $perPage = Config::get('ccbuy.page.cartSelect');
+        $obj = DB::table('view_carts_customs')->orderBy('id', 'desc');
         if(is_numeric($customId))
             $obj = $obj->where('customs_id', '=', $customId);
         $totalPage = $obj->count();
         $re = $obj->paginate($perPage);//simplePaginate(num)  will be showing << >>
         return view('view/cartSelect', ['customs'=> $customName, 'carts' => $re, 'count' => ceil($totalPage/$perPage)]);
     }
+
+
+    /**
+     *  showing all the deal that have not done
+     */
+    public function unFinishDeal()
+    {
+        $perPage = Config::get('ccbuy.page.collecting');
+        $carts = Cart::orderBy('id', 'desc')->paginate($perPage);
+        foreach ($carts as $cart) {
+            $cartId = $cart->id;
+            $sumPrice = DB::table('items')->where('carts_id','=', $cartId)->sum('costPrice');
+            if($sumPrice == 0)  //if item's cost price is 0 (item is not from buying) then profit ratio is 100%
+                $sumPrice = $cart->profits;
+            $cart->profitRatio = @((round(($cart->profits / $sumPrice),2)*100).'%');
+        }
+        return view('view/collecting', ['carts' => $carts]);
+    }
+
 }

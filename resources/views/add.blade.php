@@ -9,9 +9,7 @@
     <script type="text/javascript" src='{{url("ui/laydate/laydate.js")}}'></script>
     <script type="text/javascript" src='{{url("js/jquery.form.js")}}'></script>
     <script type="text/javascript" src='{{url("js/yt_validation.js")}}'></script>
-    <script type="text/javascript" src='{{url("ui/bootstrap-mini/bootstrap.min.js")}}'></script>
 
-    <link type="text/css" rel="stylesheet" href='{{url("ui/bootstrap-mini/bootstrap.min.css")}}'>
     <script type="text/javascript">
         $(document).ready(function(){
             $.ajaxSetup({
@@ -22,6 +20,10 @@
             $('#submitBtn').click(function(){
                 if(!checkForm('add_form'))
                     return false;
+                var index = layer.load(0, {
+                    shade: [0.5,'#393D49'] //0.1透明度的白色背景
+                });
+                jQuery('#submitBtn').attr('disabled', 'disabled');
                 $('#add_form').submit();
             });
 
@@ -68,6 +70,11 @@
                 $(this).ajaxSubmit(options_delete);
                 return false;
             });
+
+            //get date
+            var myDate = new Date();
+            var today = myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate();
+            $('#showDate').val(today);
         });
 
         //弹出 查询订单窗口 //layer插件
@@ -87,14 +94,20 @@
         }
 
         //弹出 新加订单窗口 //layer插件
-        function createCartinfor() {
+        function createCartinfor(dm) {
+            var url = '';
+            if(dm){
+                url = '{{url("showcart/daimai")}}';
+            }else {
+                url = '{{url("showcart")}}';
+            }
             layer.open({
                 type: 2,
                 shade: [0.8, '#393D49'],
                 area:['850px','500px'],
                 title: ['添加新订单', 'font-size:12px;color:white;background-color:#6a5a8c'],
-                scrollbar: false,
-                content: ['{{url("showcart")}}', 'no'],
+                scrollbar: true,
+                content: [url, 'yes'],
                 closeBtn:1,
                 success: function(layero, index){
                 },
@@ -113,7 +126,7 @@
                 scrollbar: false,
                 //dataType:'get',
                 content: ['{{url("store")}}', 'no'],
-                closeBtn:1,
+                closeBtn:0,
                 success: function(layero, index){
                 },
                 cancel:function(index){
@@ -135,6 +148,29 @@
             var marketPrice = $('#marketPrice').val();
             $('#'+label).val(marketPrice);
         }
+
+        //sny special price to market price
+        function getPriceAfterTax(label) {
+            var marketPrice = $('#marketPrice').val();
+            var costPrice = $('#costPrice').val();
+            if((costPrice/marketPrice).toFixed(2) != 1.08) {
+                var price = $('#costPrice').val() * 1.08;
+                $('#'+label).val(price.toFixed(2));
+            }else {
+                alert('不能连续2次加税!~价格已经是税后!');
+            }
+        }
+
+        //syc the price
+        function syc(val) {
+            $('#specialPrice').val(val);
+            $('#costPrice').val(val);
+        }
+
+        //
+        function setExchangeRate(rate) {
+            $('#exchangeRate').val(rate);
+        }
     </script>
 
 <div id="additemdiv">
@@ -145,17 +181,22 @@
     @endif
     <form id="add_form" method="post" action="{{url('item')}}">
         {!! csrf_field() !!}
+        <input type="hidden" name="dm" value={{$dm}}>
         <div class="width100">
             <div id="showError"></div>
             {{--出售金额 物品数量--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-6 control-label" for="sellPrice">出售金额 <span class="label-danger" id="sellPrice_error"></span></label>
+                    <label class="col-xs-6 control-label" for="sellPrice">出售金额 ¥<span class="label-danger" id="sellPrice_error"></span></label>
                     <label class="col-xs-6 control-label" for="itemNum">物品数量</label>
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
-                        <input yt-validation="yes" yt-check="money" yt-errorMessage="请填写正确金额" yt-target="sellPrice_error" class="form-control input-sm" type="text" value="bbb" name="sellPrice" id="money" placeholder="默认为人民币¥, 可以设置相同物品总价格, 填写对应的物品数量">
+                        @if($dm)
+                            <span class="label label-primary">代买模式:无需填写</span>
+                        @else
+                            <input yt-validation="yes"  yt-check="money" yt-errorMessage="请填写正确金额" yt-target="sellPrice_error" class="form-control input-sm" type="text" value="" name="sellPrice" id="money" placeholder="默认为人民币¥, 可以设置相同物品总价格, 填写对应的物品数量">
+                        @endif
                     </div>
                     <div class="col-xs-6">
                         <select id="itemNum" name="itemNum" class="form-control input-sm">
@@ -178,9 +219,21 @@
             {{--物品名称--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-12 control-label" for="itemName">物品名称 <span class="label-danger" id="itemName_error"></span></label>
-                    <div class="col-xs-12">
+                    <label class="col-xs-6 control-label" for="itemName">物品名称 <span class="label-danger" id="itemName_error"></span></label>
+                    <label class="col-xs-6 control-label" for="storeId">购买地点 <input type="button" value="添加商店" class="button small green" onclick="addStore();"> <span class="label-danger" id="storeId_error"></span></label>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
                         <input yt-validation="yes" yt-check="null" yt-errorMessage="不能为空" yt-target="itemName_error" class="form-control input-sm" type="text" id="itemName" name="itemName" placeholder="简单介绍谁买的什么  例如:隔壁老王买的印度神油">
+                    </div>
+                    <div class="col-xs-6">
+                        <select yt-validation="yes" yt-check="null" yt-errorMessage="请选择商店" yt-target="storeId_error" class="form-control input-sm" name="storeId" id="storeId">
+                            <option value="" selected>选择商店</option>
+                            @foreach($stores as $store)
+                                <option value="{{$store->id}}"
+                                        title="{{$store->info}}">{{$store->storeName}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
             </div>
@@ -190,28 +243,29 @@
                     <label class="col-xs-6 control-label" for="cartId">订单ID <span class="label-danger" id="cartId_error"></span></label>
                     <label class="col-xs-2 control-label" for=""></label>
                     <label class="col-xs-2 control-label" for=""></label>
-                    <label class="col-xs-2 control-label" for="">上传图片</label>
+                    {{--<label class="col-xs-2 control-label" for="">上传图片</label>--}}
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
                         <input yt-validation="yes" yt-check="id" yt-errorMessage="请输入一个有效的数字" yt-target="cartId_error" class="form-control input-sm"  name="cartId" id="cartId">
                     </div>
-                    <input type="button" value="新开订单" class="button green" onclick="createCartinfor()" name="newopencart" id="newopencart">
+
+                    <input type="button" value="新开订单" class="button green" onclick="createCartinfor({{$dm}})" name="newopencart" id="newopencart">
                     <input type="button" value="查询订单" class="button green" onclick="getCartInfor()">
-                    <input type="button" value="点击上传" class="button orange" onclick="">
+                    {{--<input type="button" value="点击上传" class="button orange" onclick="">--}}
                 </div>
             </div>
 
             {{--市场价格 促销价格 实际支付--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-4 control-label" for="marketPrice">市场价格 <span class="label-danger" id="marketPrice_error"></span></label>
+                    <label class="col-xs-4 control-label" for="marketPrice">市场价格 $<span class="label-danger" id="marketPrice_error"></span></label>
                     <label class="col-xs-4 control-label" for="specialPrice">促销价格 <input type="button" value="同步于市场价格" class="button small green" onclick="synMartketPrice('specialPrice')"> <span class="label-danger" id="specialPrice_error"></span></label>
-                    <label class="col-xs-4 control-label" for="costPrice">实际支付 <input type="button" value="同步于市场价格" class="button small green" onclick="synMartketPrice('costPrice')"><span class="label-danger" id="costPrice_error"></span></label>
+                    <label class="col-xs-4 control-label" for="costPrice">实际支付 <input type="button" value="计算税后价格" class="button small green" onclick="getPriceAfterTax('costPrice')"><span class="label-danger" id="costPrice_error"></span></label>
                 </div>
                 <div class="row">
                     <div class="col-xs-4">
-                        <input yt-validation="yes" yt-check="money" yt-errorMessage="请填写正确价格" yt-target="marketPrice_error" name="marketPrice" id="marketPrice" class="form-control input-sm" placeholder="对客户显示的价格">
+                        <input yt-validation="yes" yt-check="money" yt-errorMessage="请填写正确价格" yt-target="marketPrice_error" name="marketPrice" id="marketPrice" class="form-control input-sm" placeholder="对客户显示的价格" onkeyup="syc(this.value);">
                     </div>
                     <div class="col-xs-4">
                         <input yt-validation="yes" yt-check="money" yt-errorMessage="<-点 *" yt-target="specialPrice_error" name="specialPrice" id="specialPrice" class="form-control input-sm" placeholder="促销价格">
@@ -225,25 +279,25 @@
             {{--物品重量 快递费率 购买地点--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-4 control-label" for="weight">物品重量 <span class="label-danger" id="weight_error"></span></label>
-                    <label class="col-xs-4 control-label" for="postRate">快递费率 <span class="label-danger" id="postRate_error"></span></label>
-                    <label class="col-xs-4 control-label" for="storeId">购买地点 <input type="button" value="添加商店" class="button small green" onclick="addStore();"> <span class="label-danger" id="storeId_error"></span></label>
+                    <label class="col-xs-4 control-label" for="date">购买日期 <span class="label-danger" id="date_error"></span></label>
+                    <label class="col-xs-4 control-label" for="storeId">兑换汇率 <span class="label-danger" id="exchangeRate_error"></span></label>
                 </div>
                 <div class="row">
                     <div class="col-xs-4">
-                        <input yt-validation="yes" yt-check="money" yt-errorMessage="请填写正确价格" yt-target="weight_error" name="weight"  class="form-control input-sm" placeholder="单位磅">
+                        <input yt-validation="yes" yt-check="null" yt-errorMessage="日期格式不正确" yt-target="date_error" name="date" class="form-control input-sm laydate-icon" id="showDate" onclick="laydate()">
                     </div>
                     <div class="col-xs-4">
-                        <input yt-validation="yes" yt-check="money" yt-errorMessage="格式不对" yt-target="postRate_error" name="postRate"  class="form-control input-sm" value="4.5">
-                    </div>
-                    <div class="col-xs-4">
-                        <select yt-validation="yes" yt-check="null" yt-errorMessage="请选择商店" yt-target="storeId_error" class="form-control input-sm" name="storeId" id="storeId">
-                            <option value="" selected>选择商店</option>
-                            @foreach($stores as $store)
-                                <option value="{{$store->id}}"
-                                        title="{{$store->info}}">{{$store->storeName}}</option>
-                            @endforeach
-                        </select>
+                        @if($dm)
+                            <span class="label label-primary">代买模式:无需填写</span>
+                        @else
+                            <input yt-validation="yes" yt-check="money" yt-errorMessage="数字" yt-target="exchangeRate_error" name="exchangeRate" id="exchangeRate"  class="form-control input-sm" value="6.8" title="美金兑人民币">
+                            </div>
+                            <div class="col-xs-1">
+                                <h4><span class="label label-primary" style="cursor: pointer" onclick="setExchangeRate(6.8);">6.8</span></h4>
+                            </div>
+                            <div class="col-xs-1">
+                                <h4><span class="label label-primary" style="cursor: pointer" onclick="setExchangeRate(7.0);">7.0</span></h4>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -251,15 +305,11 @@
             {{--购买日期 备注信息 是否付款--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-4 control-label" for="date">购买日期 <span class="label-danger" id="date_error"></span></label>
-                    <label class="col-xs-4 control-label" for="info">备注信息</label>
+                    <label class="col-xs-8 control-label" for="info">备注信息</label>
                     <label class="col-xs-4 control-label" for="view">是否付款</label>
                 </div>
                 <div class="row">
-                    <div class="col-xs-4">
-                        <input yt-validation="yes" yt-check="null" yt-errorMessage="日期格式不正确" yt-target="date_error" name="date" class="form-control input-sm laydate-icon" id="showDate" onclick="laydate()" readonly>
-                    </div>
-                    <div class="col-xs-4">
+                    <div class="col-xs-8">
                         <input name="info" type="text" class="form-control input-sm" placeholder="备注">
                     </div>
                     <div class="col-xs-4">

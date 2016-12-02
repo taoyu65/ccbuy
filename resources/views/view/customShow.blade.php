@@ -68,7 +68,10 @@
 
         //检查数据
         function checkCustomData() {
-
+            var index = layer.load(0, {
+                shade: [0.5,'#393D49'] //0.1透明度的白色背景
+            });
+            jQuery('#customsubmit').attr('disabled', 'disabled');
         }
 
         //关闭窗口

@@ -28,6 +28,10 @@
                 if(!checkForm('addStoreForm')) {
                     return false;
                 }else {
+                    //add shade to prevent add additional data
+                    var index = layer.load(0, {
+                        shade: [0.5,'#393D49'] //0.1透明度的白色背景
+                    });
                     jQuery('#addStoreForm').submit();
                 }
             });
@@ -105,7 +109,7 @@
     <div class="addheight"></div>
 
     <div class="form-group">
-        <div class="col-xs-5 text-right"><p><button class="submitButton" name="storeNameBtn" id="storeNameBtn" type="submit"><strong>添加客户</strong></button></p></div>
+        <div class="col-xs-5 text-right"><p><button class="submitButton" name="storeNameBtn" id="storeNameBtn" type="submit"><strong>添加商店</strong></button></p></div>
         <div class="col-xs-2"></div>
         <div class="col-xs-5 text-left"><p><button class="submitButton" onclick="closeWindos_store()"><strong>关闭窗口</strong></button></p></div>
     </div>

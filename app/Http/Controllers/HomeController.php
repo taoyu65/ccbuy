@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-//use App\Http\Requests;
-//use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-//use App\Http\Controllers\Controller;
+use App\Http\Requests;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -16,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('auth');
+        $this->middleware('auth');
     }
 
     /**
@@ -26,27 +24,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('welcome');
+        return view('home');
     }
 
-    /**
-     * welcome
-     */
     public function welcome()
     {
-        $items = DB::table('items');
-        $perPage = 5;
-        $totalItems = $items->count();
-        $totalPage = ceil($totalItems / $perPage);
-        $currentItems = $items->paginate($perPage);
-        return view('firstpage', ['items' => $currentItems, 'count' => $totalPage]);
-    }
-
-    /**
-     * add item
-     */
-    public function add()
-    {
-        return view('add');
+        return view('firstpage');
     }
 }
