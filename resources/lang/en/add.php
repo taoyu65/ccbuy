@@ -3,7 +3,6 @@ return [
     'error'         => '发生未知错误! 请连续涛哥!',
     'success'       => '上传成功',
     'selectCart'    => '选择所属于的订单',
-    'addCart'       => '添加新订单',
     'addStore'      => '添加商店',
     'addCustomer'   => '用户添加',
     'error_tax'     => '不能连续2次加税!~价格已经是税后!',

@@ -11,3 +11,11 @@ Homestead.json
 Command Prompt.lnk
 *.xml
 /public/uploads
+*.iml
+desktop.ini
+.idea/workspace.xml
+public/json/profit2016.json
+public/json/profitAll.json
+*.json
+.idea/workspace.xml
+*.iml
