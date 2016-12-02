@@ -11,17 +11,27 @@ use Illuminate\Support\Facades\DB;
 
 class ccTableController extends Controller
 {
+    protected $configFileName = 'ccbuy';
     //build table //required table name
     public function showTable($table)
     {
         //get the column which will be shown on the page from ccbuy config
-        $showingColumn = Config::get('ccbuy.showColumn.'.$table);
+        $showingColumn = Config::get($this->configFileName . '.showColumn.'.$table);
         //set second para to show column that you want to review
         $data = new Table($table, $showingColumn);
         $html = $data->getHtml();
         return view('cc_admin/table', ['html' => $html, 'table' => $table]);
     }
 
+    public function showTableBySearch($table)
+    {
+        //get the column which will be shown on the page from ccbuy config
+        $showingColumn = Config::get($this->configFileName . '.showColumn.'.$table);
+        //set second para to show column that you want to review
+        $data = new Table($table, $showingColumn);
+        $html = $data->getHtml();
+        return view('cc_admin/table', ['html' => $html, 'table' => $table]);
+    }
     /**
      * edit page to show
      * @param $tableName
@@ -30,13 +40,14 @@ class ccTableController extends Controller
      */
     public function editShow($tableName, $id)
     {
-        $validation = Config::get('ccbuy.validation.' . $tableName);
+
         //get the column which will be shown on the page from ccbuy config
-        $showingColumn = Config::get('ccbuy.showColumn.'.$tableName);
+        $showingColumn = Config::get($this->configFileName . '.showColumn.'.$tableName);
         //don't set second para to show all the field that can be edited
         $data = new Table($tableName, $showingColumn);
-        //set validation for every field
-        $data->setValidation($validation);
+        /*//set validation for every field
+        $validation = Config::get($this->configFileName . '.validation.' . $tableName);
+        $data->setValidation($validation);*/
         $html = $data->getHtmlToEdit($id);
         return view('cc_admin/tableEdit', ['html' => $html, 'tableName' => $tableName, 'id' => $id]);
     }
@@ -50,7 +61,7 @@ class ccTableController extends Controller
     public function edit($tableName, $id)
     {
         $_REQUEST['id'] = $id;
-        $fieldsName = $_REQUEST['fields'];
+        $fieldsName = $_REQUEST['fields'];  //field name (string with ,) from database waiting for to be updated
         $fieldsName = rtrim($fieldsName, ',');
         $fieldsList = explode(',', $fieldsName);
         $data = [];
@@ -98,7 +109,7 @@ class ccTableController extends Controller
             $where = $getOne[1];
             DB::delete('delete from ' . $tableName . ' where ' . $where);
         }
-        //execute special delete
+        //execute special delete (if use for another project special operation must be deleted)
         $this->special($_REQUEST['tbName']);
     }
 

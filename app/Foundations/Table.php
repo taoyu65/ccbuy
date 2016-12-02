@@ -21,7 +21,7 @@ class Table
     private $columnName;
     private $perPage = 10;
     private $validation = [];
-
+    private $configFileName = 'ccbuy';
     /**
      * Table constructor.
      * @param $tableName Type:String
@@ -74,21 +74,19 @@ class Table
     {
         $this->perPage = $num;
     }
-    #get item's row
-    private function getData()
-    {
-        $data = DB::table($this->tableName)->select($this->columnName)->orderBy('id', 'desc')->Paginate($this->perPage);
-        return $data;
-    }
-    #region get all data and operation button
-    public function getHtml()
+    #region table - get all data and operation button
+    public function getHtml($search = false)
     {
         if ($this->columnCount == 0) {
            return '没有任何数据';
         }
-        $tables = $this->getData();
+        /*get where according with search option*/
+        $where = $this->getWhereBySearch();
+        $tables = $this->getData($where);
         /*building html*/
         $html = '';
+        /* search */
+        $html .= $this->getSearchHtml();
         /*Table Head*/
         $html .= '<table class="table table-hover">';
         $html .= '  <thead>';
@@ -120,6 +118,23 @@ class Table
         $html .= '<div class="text-center">'.$pageHtml.'</div>';
         return $html;
     }
+    #get item's row
+    private function getData($where = '')
+    {
+        if ($where != '') {
+            $data = DB::table($this->tableName)->whereRaw($where)->select($this->columnName)->orderBy('id', 'desc')->Paginate($this->perPage);
+        }else{
+            $data = DB::table($this->tableName)->select($this->columnName)->orderBy('id', 'desc')->Paginate($this->perPage);
+        }
+        return $data;
+    }
+    #joint a where to sql according with search option
+    private function getWhereBySearch()
+    {
+        /*$where = '`id`>140';
+
+        return $where;*/
+    }
     #get edit page. html for edit table
     public function getHtmlToEdit($id)
     {
@@ -145,7 +160,58 @@ class Table
         $html .= '</form>';
         return $html;
     }
+    #get search html
+    private function getSearchHtml()
+    {
+        $isShowSearch = Config::get($this->configFileName . '.search.isShowSearch');   //if show the search for all the table
+        if($isShowSearch == 'false')
+            return '';
+        $searchConfig = Config::get($this->configFileName . '.search.tables');
+        if(!array_key_exists($this->tableName, $searchConfig) || $searchConfig[$this->tableName] == '' || count($searchConfig[$this->tableName]) === 0) //make sure the rule has been set up, check to see if the rule present
+            return '';
+        if($searchConfig[$this->tableName]['isShow'] != 'true')     //if show the search for this table
+            return '';
+        $html = '';
+        $html .= '<div class="tab border-green">';
+        $html .= '        <div class="tab-head">';
+        $html .= '            <strong><h2><span class="tag bg-sub">搜索</span></h2></strong> <span class="tab-more"><a href="#"></a></span>';
+        $html .= '            <ul class="tab-nav">';
+        $configTabTitle = $searchConfig[$this->tableName]['tabTitles'];
+        $active = 'class="active"';     //only add in the html on the first time loaded
+        foreach ($configTabTitle as $num => $tabName) {     //add tab
+            $html .= '                <li '.$active.'><a href="#'.$tabName.'">'.$tabName.'</a></li>';
+            $active = '';
+        }
+        $html .= '            </ul>';
+        $html .= '        </div>';
+        $html .= '        <div class="tab-body tab-body-bordered">';
+        $configTab = $searchConfig[$this->tableName]['tab'];
+        $active = 'active';     //only add in the html on the first time loaded
+        foreach ($configTab as $tabName => $tabRule) {  //add contain to tab
+            $html .= '        <div class="tab-panel '.$active.'" id="'.$tabName.'">';
+            $html .= '                '.$tabName.'</div>';
+            $html .= $this->getContainForTab();
+            $active = '';
+        }
+        $html .= '        </div>';
+        $html .= '    </div>';
+        return $html;
+    }
+    #check if config available or not
+    private function checkConfig($checkingItem, $configName)
+    {
+        $configList = Config::get($this->configFileName . '.' . $configName);
+        $nameList = [];
+        if(array_key_exists($checkingItem, $configList))
+            return true;
+        return false;
+    }
+    private function getContainForTab()
+    {
+        $html = '';
 
+        return $html;
+    }
     /**
      *  delete page
      * @param $data - field's value
@@ -185,7 +251,9 @@ class Table
      */
     private function getCustomName($fieldName)
     {
-        $nameList = Config::get('ccbuy.rename.'.$this->tableName);
+        $nameList = [];
+        if($this->checkConfig( $this->tableName, 'rename'))
+            $nameList = Config::get($this->configFileName . '.rename.'.$this->tableName);
         $rename = $fieldName;
         if(array_key_exists($fieldName, $nameList))
             $rename = $nameList[$fieldName];
@@ -199,7 +267,9 @@ class Table
      */
     private function getInputHtml($data, $fieldName)
     {
-        $validationList = Config::get('ccbuy.validation.'.$this->tableName);
+        $validationList = [];
+        if($this->checkConfig($this->tableName, 'validation'))
+            $validationList = Config::get($this->configFileName . '.validation.' . $this->tableName);
         $validation = '';
         if(array_key_exists($fieldName, $validationList))
             $validation = $validationList[$fieldName];
@@ -245,9 +315,8 @@ class Table
             case 'none':
                 $html = '<input id="'.$fieldName.'" name="'.$fieldName.'" value="'.$data.'" class="form-control input-sm" type="text">';
                 break;
-            case '':
-                break;
             default:
+                $html = '<input id="'.$fieldName.'" name="'.$fieldName.'" value="'.$data.'" class="form-control input-sm" type="text">';
                 break;
         }
         return $html;
@@ -261,9 +330,16 @@ class Table
     {
         $html = '<label >'.$data.'</label>';
         #region //special operation - adding hidden field to located foreign key and special value and transfer them to finish logical operation - defined in config file
-        $specialList = Config::get('ccbuy.special.' . $this->tableName . '.delete');
-        if (count($specialList) > 0) {
-            foreach ($specialList as $special) {
+        $specialList_delete = Config::get($this->configFileName . '.special.' . $this->tableName . '.delete');
+        if (count($specialList_delete) > 0 && is_array($specialList_delete)) {
+            foreach ($specialList_delete as $special) {
+                if($special == $fieldName)
+                    $html .= '<input type="hidden" name="'.$fieldName.'" value="'.$data.'">';
+            }
+        }
+        $specialList_update = Config::get($this->configFileName . '.special.' . $this->tableName . '.update');
+        if (count($specialList_update) > 0 && is_array($specialList_update)) {
+            foreach ($specialList_update as $special) {
                 if($special == $fieldName)
                     $html .= '<input type="hidden" name="'.$fieldName.'" value="'.$data.'">';
             }
@@ -307,7 +383,7 @@ class Table
      */
     private function getDropDownName($tableName)
     {
-        $nameList = Config::get('ccbuy.dropDownName');
+        $nameList = Config::get($this->configFileName . '.dropDownName');
         if (array_key_exists($tableName, $nameList)) {
             return $nameList[$tableName];
         }
@@ -339,7 +415,7 @@ class Table
         $html .= '<input type="hidden" name="" value="">';
         #endregion
         #region get all the warning information
-        $config = Config::get('ccbuy.delete');
+        $config = Config::get($this->configFileName . '.delete');
         $buttonActive = true;      //if there is a record of another table still related this record that want to be deleted than button is not gonna be available.
         if (array_key_exists($this->tableName, $config)) {
             $config = $config[$this->tableName];
@@ -372,7 +448,7 @@ class Table
             $html .= ' disabled=true';
         $html .= '><strong>确认删除</strong></button></p></div>';
         $html .= '<div class="col-xs-2"></div>';
-        $html .= '<div class="col-xs-5 text-left"><p><button class="submitButton" onclick="closeWindos_store()"><strong>关闭窗口</strong></button></p></div>';
+        $html .= '<div class="col-xs-5 text-left"><p><button class="submitButton" onclick="closeWindos_store()" type="button"><strong>关闭窗口</strong></button></p></div>';
         $html .= '</div>';
         $html .= '<input type="hidden" name="deleteString" value="'.Crypt::encrypt($deleteString).'">';
         $html .= '</form>';

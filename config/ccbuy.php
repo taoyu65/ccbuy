@@ -47,7 +47,7 @@ return [
     ],
         'items'     => [
         'id'            => 'readOnly',
-        'carts_id'      => 'foreignKey',
+        'carts_id'      => 'int',
         'stores_id'     => 'foreignKey',
         'itemName'      => 'required',
         'itemAmount'    => 'required',
@@ -137,7 +137,9 @@ return [
             'updated_at'    => ''
         ]
     ],
-    //on the back end table edit pages , use for located which column will be showing on the drop down list
+    /* on the back end table edit pages , use for located which column will be showing on the drop down list
+       'tableName' => 'showingField'    - if 'id' of table A as a foreign key is showing on table B, than 'showingField' will be showing on the output of drop down list
+    */
     'dropDownName'  => [
         'carts'     => 'rename',
         'customs'   => 'customName',
@@ -146,7 +148,7 @@ return [
         'stores'    => 'storeName',
         'users'     => 'name'
     ],
-    //show which field(column) will be showing
+    //show which field(column) will be showing - all the table name array must be present when you new table (class) and showColum as a parameter
     'showColumn'    => [
         'carts'     => '*',
         'customs'   => '*',
@@ -164,7 +166,7 @@ return [
         'carts' => [
             'interlock' => [
                 'items' => [
-                    'field' => [
+                    'field' => [    //use for showing on the output page
                         'id' => 'ID',
                         'itemName' => '物品名称',
                         'sellPrice' => '出售金额',
@@ -180,11 +182,12 @@ return [
             'existing' => 'items'
         ]
     ],
-    //special operation (only focus on the effect of data change) like delete one record from A table, than the data of a record from table B will be changed. the role can be customized
+    /*special operation (only focus on the effect of data change) like delete one record from A table, than the data of a record from table B will be changed. the role can be customized
+      every table including a update and delete which is showing when update or delete action is occur than the field value will be transferred
+    */
     'special'       => [
-        'items'     => [
-            'update'    => '',
-            //every element in the 'delete' will be transferred into delete action as hidden field
+        'items'     => [    //every element in the 'update or delete' will be transferred into delete action as hidden field
+            'update'    => [],
             'delete'    => ['carts_id', 'itemProfit'],
         ],
     ],
@@ -199,33 +202,50 @@ return [
         'isShowSearch'  => 'true',
         //all table's rule for search
         'tables'        => [
-            'carts'         => [
+            'carts'         => [    //if table is defined than it's attribute must be present which are 'isShow,tabTitles,tab'
                 'isShow'    => 'true',
                 'tabTitles' => ['订单名称', '是否代买', '客户名称', '组合搜索'],    //tabTitles's name must be the same with name under 'tab' to make sure the css which is showing on the page will be corrected
                 'tab'       => [
                     '订单名称'      => [
-                        'columnName'    => 'rename',
-                        'validation'    => 'required',
-                        'isForeignKey'  => 'false',
+                        [
+                            'columnName'    => 'rename',
+                            'title'         => '订单名称',
+                            'validation'    => 'required',
+                            'isForeignKey'  => 'false',
+                        ]
                     ],
                     '是否代买'      => [
-                        'columnName'    => 'isHelpBuy',
-                        'validation'    => 'bool',
-                        'isForeignKey'  => 'false',
+                        [
+                            'columnName'    => 'isHelpBuy',
+                            'validation'    => 'bool',
+                            'isForeignKey'  => 'false',
+                        ]
                     ],
                     '客户名称'      => [
-                        'columnName'    => 'customs_id',
-                        'validation'    => 'foreignKey',
-                        'isForeignKey'  => 'true',
+                        [
+                            'columnName'    => 'customs_id',
+                            'validation'    => 'foreignKey',
+                            'isForeignKey'  => 'true',
+                        ]
                     ],
                     '组合搜索'      => [
-                        'columnName'    => 'customs_id,rename,isHelpBuy',
-                        'validation'    => 'foreignKey,required,bool',
-                        'isForeignKey'  => 'false',
+                        [
+                            'columnName'    => 'customs_id',
+                            'validation'    => 'foreignKey',
+                            'isForeignKey'  => 'false',
+                        ],[
+                            'columnName'    => 'rename',
+                            'validation'    => 'required',
+                            'isForeignKey'  => 'false',
+                        ],[
+                            'columnName'    => 'isHelpBuy',
+                            'validation'    => 'bool',
+                            'isForeignKey'  => 'false',
+                        ]
                     ],
                 ],
             ],
-            'customs'       => '',
+            'customs'       => [],
             'incomes'       => '',
             'items'         => '',
             'stores'        => '',

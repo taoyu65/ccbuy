@@ -90,6 +90,8 @@ class CartController extends Controller
         foreach ($carts as $cart) {
             $cartId = $cart->id;
             $sumPrice = DB::table('items')->where('carts_id','=', $cartId)->sum('costPrice');
+            if($sumPrice == 0)  //if item's cost price is 0 (item is not from buying) then profit ratio is 100%
+                $sumPrice = $cart->profits;
             $cart->profitRatio = @((round(($cart->profits / $sumPrice),2)*100).'%');
         }
         return view('view/collecting', ['carts' => $carts]);
