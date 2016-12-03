@@ -25,29 +25,29 @@
         }
     }
 </script>
-    <div class="c03" > <a href="#"><img id="addimg" src="images/yl.jpg"></a></div>
+    <div class="c03" > <a href="#"><img id="addimg" src="images/yl{{trans('collecting.pic')}}.jpg"></a></div>
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>订单名称</th>
-            <th>订单重量</th>
-            <th>创建日期</th>
-            <th>订单利润</th>
-            <th>利 润 率</th>
+            <th>{{trans('collecting.cartName')}}</th>
+            <th>{{trans('collecting.weight')}}</th>
+            <th>{{trans('collecting.date')}}</th>
+            <th>{{trans('collecting.profits')}}</th>
+            <th>{{trans('collecting.profitRatio')}}</th>
         </tr>
         </thead>
         <tbody>
         @foreach($carts as $cart)
             @if($cart->isHelpBuy == 1)
 
-                <tr title="代买" onclick="showItemRow({{$cart->id}});" style="cursor:pointer;color: #f47a20;" class="red">
+                <tr title="{{trans('collecting.dmMode')}}" onclick="showItemRow({{$cart->id}});" style="cursor:pointer;color: #f47a20;" class="red">
 
             @else
                 <tr onclick="showItemRow({{$cart->id}});" style="cursor:pointer">
             @endif
                     <td>{{$cart->rename}}</td>
                     @if($cart->isHelpBuy == 1)
-                        <td>代买</td>
+                        <td>{{trans('collecting.dmMode')}}</td>
                         <td>{{$cart->date}}</td>
                         <td >{{$cart->profits}}$</td>
                         <td>{{$cart->profitRatio}}</td>

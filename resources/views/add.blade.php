@@ -174,7 +174,7 @@
     </script>
 
 <div id="additemdiv">
-    <div><img src='{{url("images/addtop.jpg")}}'/></div>
+    <div><img src='{{url("images/addtop".trans('add.pic').".jpg")}}'/></div>
     @include('error')
     @if(session('status'))
         <script>showReturnMessage('{{session("status")}}');</script>
@@ -220,7 +220,7 @@
             <div class="form-group">
                 <div class="row">
                     <label class="col-xs-6 control-label" for="itemName">{{trans('add.itemName')}} <span class="label-danger" id="itemName_error"></span></label>
-                    <label class="col-xs-6 control-label" for="storeId">购买地点 <input type="button" value="添加商店" class="button small green" onclick="addStore();"> <span class="label-danger" id="storeId_error"></span></label>
+                    <label class="col-xs-6 control-label" for="storeId">{{trans('add.placeToBuy')}} <input type="button" value="{{trans('add.addStore')}}" class="button small green" onclick="addStore();"> <span class="label-danger" id="storeId_error"></span></label>
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
@@ -279,7 +279,7 @@
             {{--物品重量 快递费率 购买地点--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-4 control-label" for="date">{{trans('add.dataToBuy')}} <span class="label-danger" id="date_error"></span></label>
+                    <label class="col-xs-4 control-label" for="date">{{trans('add.dateToBuy')}} <span class="label-danger" id="date_error"></span></label>
                     <label class="col-xs-4 control-label" for="storeId">{{trans('add.exchange')}} <span class="label-danger" id="exchangeRate_error"></span></label>
                 </div>
                 <div class="row">
@@ -289,9 +289,9 @@
                     </div>
                     <div class="col-xs-4">
                         @if($dm)
-                            <span class="label label-primary">代买模式:无需填写</span>
+                            <span class="label label-primary">{{trans('add.dmMode')}}</span>
                         @else
-                            <input yt-validation="yes" yt-check="money" yt-errorMessage="数字" yt-target="exchangeRate_error" name="exchangeRate" id="exchangeRate"  class="form-control input-sm" value="6.8" title="美金兑人民币">
+                            <input yt-validation="yes" yt-check="money" yt-errorMessage="{{trans('add.num')}}" yt-target="exchangeRate_error" name="exchangeRate" id="exchangeRate"  class="form-control input-sm" value="6.8" title="{{trans('add.dollarToYuan')}}">
                             </div>
                             <div class="col-xs-1">
                                 <h4><span class="label label-primary" style="cursor: pointer" onclick="setExchangeRate(6.8);">6.8</span></h4>
@@ -306,19 +306,19 @@
             {{--购买日期 备注信息 是否付款--}}
             <div class="form-group">
                 <div class="row">
-                    <label class="col-xs-8 control-label" for="info">备注信息</label>
-                    <label class="col-xs-4 control-label" for="view">是否付款</label>
+                    <label class="col-xs-8 control-label" for="info">{{trans('add.info')}}</label>
+                    <label class="col-xs-4 control-label" for="view">{{trans('add.isPayed')}}</label>
                 </div>
                 <div class="row">
                     <div class="col-xs-8">
-                        <input name="info" type="text" class="form-control input-sm" placeholder="备注">
+                        <input name="info" type="text" class="form-control input-sm" placeholder="{{trans('add.info')}}">
                     </div>
                     <div class="col-xs-4">
                         <div class="switch">
                             <input type="radio" class="switch-input" name="view" value="0" id="nopay" checked>
-                            <label for="nopay" class="switch-label switch-label-off">还没</label>
+                            <label for="nopay" class="switch-label switch-label-off">{{trans('add.no')}}</label>
                             <input type="radio" class="switch-input" name="view" value="1" id="yespay">
-                            <label for="yespay" class="switch-label switch-label-on">已付</label>
+                            <label for="yespay" class="switch-label switch-label-on">{{trans('add.yes')}}</label>
                             <span class="switch-selection"></span>
                         </div>
                     </div>
@@ -327,7 +327,7 @@
             {{--submit--}}
             <div class="form-group">
                 <div class="col-xs-12">
-                    <input class="button orange" style="width: 100%" type="button" value="添加记录" id="submitBtn">
+                    <input class="button orange" style="width: 100%" type="button" value="{{trans('add.addItem')}}" id="submitBtn">
                 </div>
             </div>
         </div>

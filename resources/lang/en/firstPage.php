@@ -5,4 +5,5 @@ return[
     'itemCost'      => 'cost',
     'profit'        => 'profit $(without express fee)',
     'date'          => 'date',
+    'pic'           => '_en',
 ];

@@ -48,7 +48,7 @@
                     checkCustomData();
                 },
                 success: function() {
-                    layer.alert('添加成功',  {
+                    layer.alert('{{trans('customShow.addSuccess')}}}',  {
                         skin: 'layui-layer-molv', //样式类名
                         closeBtn: 0
                     }, function () {
@@ -56,7 +56,7 @@
                     });
                 },
                 error: function(){
-                    layer.alert('发生未知错误, 请联系涛哥', {icon:2});
+                    layer.alert('{{trans('customShow.error')}}', {icon:2});
                 }
             };
 
@@ -103,7 +103,7 @@
         {
             var relationName = jQuery('#relationship').val();
             if(relationName.trim() == ''){
-                layer.tips('小样! 还想用空名字?', '#relationship', {
+                layer.tips('{{trans('customShow.name_error')}}', '#relationship', {
                     tips: [1, '#78BA32']
                 });
                 return;
@@ -114,13 +114,13 @@
             {
                 //判断是否已经存在这个名称
                 if(relationName == list[i].getAttribute('value')){
-                    layer.tips('小样! 这个名字已经存在了', '#relationship', {
+                    layer.tips('{{trans('customShow.name_error2')}}', '#relationship', {
                         tips: [1, '#78BA32']
                     });
                     return;
                 }
             }
-            layer.tips('<strong>此功能暂时被取消, 录入信息后直接点击添加客户即可</strong>', '#customsubmit', {
+            layer.tips('<strong>{{trans('customShow.warning')}}</strong>', '#customsubmit', {
                 tips: [1, '#78BA32']
             });
         }
@@ -129,7 +129,7 @@
         {
             var dgFrom = jQuery('#dgFrom').val();
             if(dgFrom.trim() == ''){
-                layer.tips('小样! 还想用空名字?', '#dgFrom', {
+                layer.tips('{{trans('customShow.name_error')}}', '#dgFrom', {
                     tips: [1, '#78BA32']
                 });
                 return;
@@ -140,13 +140,13 @@
             {
                 //判断是否已经存在这个名称
                 if(dgFrom == list[i].getAttribute('value')){
-                    layer.tips('小样! 这个名字已经存在了', '#dgFrom', {
+                    layer.tips('{{trans('customShow.name_error2')}}', '#dgFrom', {
                         tips: [1, '#78BA32']
                     });
                     return;
                 }
             }
-            layer.tips('<strong>此功能暂时被取消, 录入信息后直接点击添加客户即可</strong>', '#customsubmit', {
+            layer.tips('<strong>{{trans('customShow.warning')}}</strong>', '#customsubmit', {
                 tips: [1, '#78BA32']
             });
         }
@@ -166,21 +166,21 @@
     <div class="addheight"></div>
 
     <div class="form-group">
-        <label class="col-xs-2 control-label" for="customName">客户姓名</label>
+        <label class="col-xs-2 control-label" for="customName">{{trans('customShow.customerName')}}</label>
         <div class="col-xs-9">
-            <input class="form-control input-sm" required type="text" name="customName" id="customName" placeholder="比如 隔壁老王的小老婆">
+            <input class="form-control input-sm" required type="text" name="customName" id="customName" placeholder="{{trans('customShow.nickName')}}">
         </div>
     </div>
 
     <div class="form-group">
-        <label class="col-xs-2 control-label" for="relationship">客户关系</label>
+        <label class="col-xs-2 control-label" for="relationship">{{trans('customShow.relationship')}}</label>
         <div class="col-xs-6">
-            <input class="form-control input-sm" type="text" name="relationship" id="relationship" placeholder="比如 家人 朋友, 或输入新名字点击右侧按钮添加" required>
+            <input class="form-control input-sm" type="text" name="relationship" id="relationship" placeholder="{{trans('customShow.relationship_info')}}" required>
         </div>
         <div class="col-xs-4">
             <!-- Split button -->
             <div class="btn-group">
-                <button type="button" class="btn btn-warning" onclick="addNewRelationship()">确认添加新客户关系</button>
+                <button type="button" class="btn btn-warning" onclick="addNewRelationship()">{{trans('customShow.confirmAdd')}}</button>
                 <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
@@ -192,14 +192,14 @@
     </div>
 
     <div class="form-group">
-        <label class="col-xs-2 control-label" for="dgFrom">客户来源</label>
+        <label class="col-xs-2 control-label" for="dgFrom">{{trans('customShow.source')}}</label>
         <div class="col-xs-6">
-            <input class="form-control input-sm" type="text" name="dgFrom" id="dgFrom" placeholder="比如 涛哥 灿灿" required>
+            <input class="form-control input-sm" type="text" name="dgFrom" id="dgFrom" placeholder="{{trans('customShow.source_info')}}" required>
         </div>
         <div class="col-xs-4">
             <!-- Split button -->
             <div class="btn-group">
-                <button type="button" class="btn btn-warning" onclick="addNewFrom()">确认添加新客户来源</button>
+                <button type="button" class="btn btn-warning" onclick="addNewFrom()">{{trans('customShow.confirmAddSource')}}</button>
                 <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
@@ -211,18 +211,18 @@
     </div>
 
     <div class="form-group">
-        <label class="col-xs-2 control-label" for="info">备注</label>
+        <label class="col-xs-2 control-label" for="info">{{trans('customShow.remark')}}</label>
         <div class="col-xs-9">
-            <input class="form-control input-sm" type="text" name="info" id="info" placeholder="额外信息">
+            <input class="form-control input-sm" type="text" name="info" id="info" placeholder="{{trans('customShow.info')}}">
         </div>
     </div>
 
     <div class="addheight"></div>
     <div id="showResult"></div>
     <div class="form-group">
-        <div class="col-xs-5 text-right"><p><button class="submitButton" name="customsubmit" id="customsubmit" type="submit"><strong>添加客户</strong></button></p></div>
+        <div class="col-xs-5 text-right"><p><button class="submitButton" name="customsubmit" id="customsubmit" type="submit"><strong>{{trans('customShow.add')}}</strong></button></p></div>
         <div class="col-xs-2"></div>
-        <div class="col-xs-5 text-left"><p><button class="submitButton" onclick="closeWindos()"><strong>关闭窗口</strong></button></p></div>
+        <div class="col-xs-5 text-left"><p><button class="submitButton" onclick="closeWindos()"><strong>{{trans('customShow.close')}}</strong></button></p></div>
     </div>{!! csrf_field() !!}
 </form>
 

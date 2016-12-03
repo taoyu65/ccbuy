@@ -140,10 +140,10 @@ class ItemController extends Controller
         $html .= '<table class="table table-hover">';
         $html .= '<thead class="bg-warning">';
         $html .= '<tr>';
-        $html .= '    <th>物品名称</th>';
-        $html .= '    <th>售价</th>';
-        $html .= '    <th>利润</th>';
-        $html .= '    <th>付费</th>';
+        $html .= '    <th>'.trans('collecting.itemName').'</th>';
+        $html .= '    <th>'.trans('collecting.sellPrice').'</th>';
+        $html .= '    <th>'.trans('collecting.profit').'</th>';
+        $html .= '    <th>'.trans('collecting.isPayed').'</th>';
         $html .= '</tr>';
         $html .= '</thead>';
         $html .= '<tbody>';

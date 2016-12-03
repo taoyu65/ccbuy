@@ -1,0 +1,20 @@
+<?php
+return [
+    'addSuccess'            => '添加成功',
+    'error'                 => '发生未知错误, 请联系涛哥',
+    'name_error'            => '小样! 还想用空名字?',
+    'name_error2'           => '小样! 这个名字已经存在了',
+    'warning'               => '此功能暂时被取消, 录入信息后直接点击添加客户即可',
+    'customerName'          => '客户姓名',
+    'nickName'              => '比如 隔壁老王的小老婆',
+    'relationship'          => '客户关系',
+    'relationship_info'     => '比如 家人 朋友, 或输入新名字点击右侧按钮添加',
+    'confirmAdd'            => '确认添加新客户关系',
+    'source'                => '客户来源',
+    'source_info'           => '比如 涛哥 灿灿',
+    'confirmAddSource'      => '确认添加新客户来源',
+    'remark'                => '备注',
+    'info'                  => '额外信息',
+    'add'                   => '添加客户',
+    'close'                 => '添加客户',
+];

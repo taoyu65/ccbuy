@@ -52,11 +52,11 @@ class statisticController extends Controller
             //get all month x axis
             if ($year == 'all') {
                 $month = Config::get('ccbuy.statistic.profitAll');
-                $year = '所有年份';
+                $year = trans('statistic.allYear');
             }else{
                 $month = Config::get('ccbuy.statistic.profitMonth');
             }
-            $title = $year . '利润图表';
+            $title = $year . trans('statistic.chart');
             return view('statistic', ['data' => $data, 'month' => $month, 'title' => $title]);
         }else{
             return '';

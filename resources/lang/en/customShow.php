@@ -1,0 +1,20 @@
+<?php
+return [
+    'addSuccess'            => 'add success',
+    'error'                 => 'something wrong, please contact administrator',
+    'name_error'            => 'input a name',
+    'name_error2'           => 'name already exist',
+    'warning'               => 'this function is cancel, just type name and save',
+    'customerName'          => 'customer name',
+    'nickName'              => 'name or nick name',
+    'relationship'          => 'relationship',
+    'relationship_info'     => 'like family friends or select one drop down list',
+    'confirmAdd'            => 'confirm add',
+    'source'                => 'source',
+    'source_info'           => 'like Tao, Cancan',
+    'confirmAddSource'      => 'confirm add source',
+    'remark'                => 'remark',
+    'info'                  => 'other information',
+    'add'                   => 'add',
+    'close'                 => 'close',
+];

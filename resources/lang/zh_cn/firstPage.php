@@ -5,4 +5,5 @@ return[
     'itemCost'      => '成本',
     'profit'        => '净利 $(不含邮费)',
     'date'          => '日期',
+    'pic'           => '_zhcn',
 ];

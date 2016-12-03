@@ -91,8 +91,8 @@
                 },
                 success: function(data){
                     //layer.alert('添加成功! 页面自动返回并添加此订单ID', {icon:1});
-                    layer.confirm('添加成功!返回上一层继续 或者 在继续添加订单', {
-                        btn: ['确认离开','再添订单'] //按钮
+                    layer.confirm('{{trans('addCart.addSucceed')}}', {
+                        btn: ['{{trans('addCart.goBack')}}','{{trans('addCart.addOneMore')}}'] //按钮
                     }, function(){
                         jQuery('#cartId',window.parent.document).val(data);
                         closeWindos();
@@ -101,7 +101,7 @@
                     });
                 },
                 error: function () {
-                    layer.alert('发生未知错误! 请连续涛哥!',{icon:2});
+                    layer.alert('{{trans('addCart.error')}}',{icon:2});
                 }
             };
             $('#addCartForm').submit(function () {
@@ -154,18 +154,18 @@
                 var uid = jQuery('#customId').val();
                 uid = uid.trim();
                 if(uid)
-                    jQuery('#showCustomName').html('不能为空格');
+                    jQuery('#showCustomName').html('{{trans('addCart.noNull')}}');
                 if(isNaN(uid)){
-                    jQuery('#showCustomName').html('一个ID必然是数字, 请不要尝试黑客的行为');
+                    jQuery('#showCustomName').html('{{trans('addCart.num')}}');
                     jQuery('#customId').val('');
                     return;
                 }
                 //return para[custom's name, is in the database]
                 $.get('getcustomname/'+uid, function (data, status) {
                     if(data[1]) {
-                        jQuery('#showCustomName').html('客户ID:' + uid + '的姓名是: ' + '<p style="color: green;font-weight:bold ">' + data[0] + '</p>');
+                        jQuery('#showCustomName').html('{{trans('addCart.customId')}}:' + uid + '{{trans('addCart.customerName')}}: ' + '<p style="color: green;font-weight:bold ">' + data[0] + '</p>');
                     }else {
-                        jQuery('#showCustomName').html('客户ID:' + uid + '的姓名是: ' + '<p style="color: red;font-weight:bold ">' + data[0] + '</p>');
+                        jQuery('#showCustomName').html('{{trans('addCart.customId')}}:' + uid + '{{trans('addCart.customerName')}}: ' + '<p style="color: red;font-weight:bold ">' + data[0] + '</p>');
                         jQuery('#customId').val('');
                     }
                 });
@@ -188,14 +188,14 @@
             var isChecked = document.getElementById('icheck1').checked;
             if(isChecked){
                 if(customId2 == '') {
-                    layer.tips('小样! 你还没有选择ID', '#customId', {
+                    layer.tips('', '#customId', {
                         tips: [1, '#78BA32']
                     });
                     return;
                 }
             }else{
                 if(customId == 0) {
-                    layer.tips('小样! 你还没有选择ID', '#customsNameList', {
+                    layer.tips('{{trans('addCart.selectId')}}', '#customsNameList', {
                         tips: [1, '#78BA32']
                     });
                     return;
@@ -203,14 +203,14 @@
             }
             if(rename == '')
             {
-                layer.tips('小样! 写些什么啊. 懒死了.', '#reName', {
+                layer.tips('{{trans('addCart.rename')}}', '#reName', {
                     tips: [3, '#78BA32']
                 });
                 return;
             }
             if(date == '')
             {
-                layer.tips('小样! 点这个可以快速设置日期为今天.', '#selectDate', {
+                layer.tips('{{trans('addCart.selectDate')}}', '#selectDate', {
                     tips: [3, '#78BA32']
                 });
                 return;
@@ -230,7 +230,7 @@
                 type: 2,    //iframe
                 shade: [0.8, '#393D49'],
                 area: ['850px', '500px'],
-                title: ['添加新客户', 'font-size:12px;color:white;background-color:#F90'],
+                title: ['{{trans('addCart.addCustomer')}}', 'font-size:12px;color:white;background-color:#F90'],
                 scrollbar: false,
                 content: ["{{url('showcustomwindow')}}", 'yes'],
                 closeBtn:1,
@@ -280,11 +280,11 @@
     <div class="addheight"></div>
 
     <div class="form-group">
-        <label class="col-xs-2 control-label" for="customsNameList">客户选择</label>
+        <label class="col-xs-2 control-label" for="customsNameList">{{trans('addCart.selectCustomer')}}</label>
         <div class="col-xs-2">
             {{--<input class="form-control input-sm" type="text" id="customsNameList">--}}
             <select class="form-control input-sm" id="customsNameList" name="customsNameList" onchange="setCartName();">
-                <option  value="0">选择客户</option>
+                <option  value="0">{{trans('addCart.selectCustomer')}}</option>
                 @foreach($customs as $custom)
                 <option value="{{$custom->id}}" title="{{$custom->dgFrom}}'的'{{$custom->relationship}}">{{$custom->customName}}</option>
                 @endforeach
@@ -292,7 +292,7 @@
         </div>
 
         <div class="col-xs-2 text-right" id="col1">
-            <input type="checkbox" name="icheck1" id="icheck1"><label>ID模式</label>
+            <input type="checkbox" name="icheck1" id="icheck1"><label>{{trans('addCart.idMode')}}</label>
            {{-- <label class="control-label">点击输入ID</label>--}}
         </div>
 
@@ -300,32 +300,32 @@
             <input class="form-control input-sm" type="text" id="customId" name="customId"  disabled>
         </div>
         <div class="col-xs-4" >
-            <div class="warning" id="showCustomName">请确认客户ID在输入,以免数据混乱</div>
+            <div class="warning" id="showCustomName">{{trans('addCart.confirmCustomerId')}}</div>
         </div>
         <input type="hidden" name="dmCart" value={{$dmCart}}>
     </div>
 
     <div class="form-group">
-        <label class="col-xs-2 control-label">创建客户</label>
+        <label class="col-xs-2 control-label">{{trans('addCart.addCustomer')}}</label>
         <div class="col-xs-2">
-            <button type="button" class="btn btn-warning" onclick="addCustomWindow()">创建新客户</button>
+            <button type="button" class="btn btn-warning" onclick="addCustomWindow()">{{trans('addCart.add')}}</button>
         </div>
     </div>
 
     <div class="form-group">
-        <label class="col-xs-2 control-label" for="reName">订单别名</label>
+        <label class="col-xs-2 control-label" for="reName">{{trans('addCart.orderName')}}</label>
         <div class="col-xs-9">
-            <input class="form-control input-sm" type="text" name="reName" id="reName" placeholder="简单介绍谁买的什么  例如:隔壁老王买的印度神油">
+            <input class="form-control input-sm" type="text" name="reName" id="reName" placeholder="{{trans('addCart.orderNameInfo')}}">
         </div>
     </div>
 
     <div class="form-group">
-        <label class="col-xs-2 control-label" for="postRate">快递费率</label>
+        <label class="col-xs-2 control-label" for="postRate">{{trans('addCart.postRate')}}</label>
         <div class="col-xs-2">
             @if($dmCart)
-                <span class="label label-primary">代买模式:无需填写</span>
+                <span class="label label-primary">{{trans('addCart.dmMode')}}</span>
             @else
-                <input yt-validation="yes" yt-check="money" yt-errorMessage="格式不对" yt-target="postRate_error" name="postRate" id="postRate" class="form-control input-sm" value="0">
+                <input yt-validation="yes" yt-check="money" yt-errorMessage="{{trans('addCart.postRate_error')}}" yt-target="postRate_error" name="postRate" id="postRate" class="form-control input-sm" value="0">
             @endif
 
         </div>
@@ -347,17 +347,17 @@
     </div>
 
     <div class="form-group">
-        <label class="col-xs-2 control-label" for="weight">订单重量</label>
+        <label class="col-xs-2 control-label" for="weight">{{trans('addCart.weight')}}</label>
         <div class="col-xs-2">
     @if($dmCart)
-            <span class="label label-primary">代买模式:无需填写</span>
+            <span class="label label-primary">{{trans('addCart.dmMode')}}</span>
         </div>
     @else
             <input yt-validation="yes" yt-check="money" yt-errorMessage="**" yt-target="weight_error" name="weight" id="weight" class="form-control input-sm" value="0" onkeyup="sycPrice(this.value);">
         </div>
-        <span class="label-danger" id="weight_error"></span>
-        <div class="warning col-xs-3 control-label" >单位:磅 邮寄之前默认为0</div>
-        <label class="col-xs-2 control-label" for="weight">邮递运费</label>
+    <div class="col-xs-1"><span class="label-danger" id="weight_error"></span></div>
+        <div class="warning col-xs-3 control-label" >{{trans('addCart.postInfo')}}</div>
+        <label class="col-xs-2 control-label" for="weight">{{trans('addCart.postCost')}}</label>
         <div class="col-xs-2">
             <input name="postPrice" id="postPrice" class="form-control input-sm" onkeyup="sycWeight(this.value);">
         </div>
@@ -365,7 +365,7 @@
     </div>
 
     <div class="form-group">
-        <label class="col-xs-2 control-label" for="date">创建日期</label>
+        <label class="col-xs-2 control-label" for="date">{{trans('addCart.date')}}</label>
         <div class="col-xs-3">
             <input id="dateInput" name="dateInput" class="laydate-icon">
             <script>
@@ -378,15 +378,15 @@
                 });
             </script>
         </div>
-        <div class="col-xs-2">今日 <input type="checkbox" id="selectDate" ></div>
+        <div class="col-xs-2">{{trans('addCart.today')}} <input type="checkbox" id="selectDate" ></div>
     </div>
 
     <div class="addheight"></div>
     <div id="showResult"></div>
     <div class="form-group">
-        <div class="col-xs-5 text-right"><p><button class="submitButton" id="btsubmit" type="submit"><span>添加记录</span></button></p></div>
+        <div class="col-xs-5 text-right"><p><button class="submitButton" id="btsubmit" type="submit"><span>{{trans('addCart.add')}}</span></button></p></div>
         <div class="col-xs-2"></div>
-        <div class="col-xs-5 text-left"><p><button class="submitButton" onclick="closeWindos()"><span>关闭窗口</span></button></p></div>
+        <div class="col-xs-5 text-left"><p><button class="submitButton" onclick="closeWindos()"><span>{{trans('addCart.close')}}</span></button></p></div>
     </div>
 
     <input type="hidden" id="idModel" name="idModel" value="name">

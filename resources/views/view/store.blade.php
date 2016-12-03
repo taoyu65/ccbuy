@@ -54,9 +54,9 @@
         //show the message
         //str: text->value
         function showReturnMessage() {
-            layer.alert('添加成功',{
+            layer.alert('{{trans('store.success')}}',{
                 skin: 'layui-layer-molv',
-                title:'商店添加',
+                title:'{{trans('store.add')}}',
                 closeBtn:0}
             );
         }
@@ -85,9 +85,9 @@
     <input type="hidden" id="selectText" value="">
     <div class="form-group">
         <div class="row">
-            <label class="col-xs-2 control-label" for="storeName">商店名称</label>
+            <label class="col-xs-2 control-label" for="storeName">{{trans('store.name')}}</label>
             <div class="col-xs-9">
-                <input yt-validation="yes" yt-check="null" yt-errorMessage="不能为空" yt-target="storeName_error" class="form-control input-sm" type="text" name="storeName" id="storeName" placeholder="比如 JET, Amazon">
+                <input yt-validation="yes" yt-check="null" yt-errorMessage="{{trans('store.noNull')}}" yt-target="storeName_error" class="form-control input-sm" type="text" name="storeName" id="storeName" placeholder="{{trans('store.like')}} JET, Amazon">
             </div>
         </div>
         <div class="row">
@@ -99,9 +99,9 @@
 
     <div class="form-group">
         <div class="row">
-            <label class="col-xs-2 control-label" for="info">备注</label>
+            <label class="col-xs-2 control-label" for="info">{{trans('store.remark')}}</label>
             <div class="col-xs-9">
-                <input class="form-control input-sm" type="text" name="info" id="info" placeholder="额外信息">
+                <input class="form-control input-sm" type="text" name="info" id="info" placeholder="{{trans('store.info')}}">
             </div>
         </div>
     </div>
@@ -109,9 +109,9 @@
     <div class="addheight"></div>
 
     <div class="form-group">
-        <div class="col-xs-5 text-right"><p><button class="submitButton" name="storeNameBtn" id="storeNameBtn" type="submit"><strong>添加商店</strong></button></p></div>
+        <div class="col-xs-5 text-right"><p><button class="submitButton" name="storeNameBtn" id="storeNameBtn" type="submit"><strong>{{trans('store.addStore')}}</strong></button></p></div>
         <div class="col-xs-2"></div>
-        <div class="col-xs-5 text-left"><p><button class="submitButton" onclick="closeWindos_store()"><strong>关闭窗口</strong></button></p></div>
+        <div class="col-xs-5 text-left"><p><button class="submitButton" onclick="closeWindos_store()"><strong>{{trans('store.close')}}</strong></button></p></div>
     </div>
 </form>
 

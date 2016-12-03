@@ -84,7 +84,7 @@ class CustomController extends Controller
         $custom = Custom::find($id);
         //return para[custom's name, is in the database]
         if ($custom == null) {
-            return ['没有客户信息,请核对在输入', false];
+            return [trans('addCart.warning'), false];
         }else {
             return [$custom->customName,true];
         }

@@ -24,16 +24,16 @@
         });
     </script>
     <a href="#">
-        <div class="c02" ><img src="images/example_head.png" alt="" id="headfack" /></div>
+        <div class="c02" ><img src="images/example_head{{trans('firstPage.pic')}}.png" alt="" id="headfack" /></div>
         <div id="bian"></div>
     </a>
     <!--/*add*/-->
     <div class="row">
         <div class="col-xs-6 complete">
-            <a href="{{url('/item/create')}}"><img id="addimg" src="images/add.png" width="100%"></a>
+            <a href="{{url('/item/create')}}"><img id="addimg" src="images/add{{trans('firstPage.pic')}}.png" width="100%"></a>
         </div>
         <div class="col-xs-6 ">
-            <a href="{{url('/item/create/daimai')}}"><img id="addimg" src="images/dm.png" width="100%"></a>
+            <a href="{{url('/item/create/daimai')}}"><img id="addimg" src="images/dm{{trans('firstPage.pic')}}.png" width="100%"></a>
         </div>
     </div>
     {{----}}

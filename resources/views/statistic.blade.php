@@ -1,31 +1,53 @@
 
 @extends('layouts.foot')
 @section('content')
+<style>
+    .btn130Width{
+        width:130px;text-align: left;
+    }
 
-    <div>
-        <button class="btn btn-primary" type="button" onclick="javascript:window.location.href='{{url('statistics/2016/profits')}}'">
-            按利润 <span class="badge">2016</span>
-        </button>
-        <button class="btn btn-primary" type="button" onclick="javascript:window.location.href='{{url('statistics/2017/profits')}}'">
-            按利润 <span class="badge">2017</span>
-        </button>
-        <button class="btn btn-primary" type="button" onclick="javascript:window.location.href='{{url('statistics/all/profits')}}'">
-            按利润 <span class="badge">所有</span>
-        </button>
-        <button class="btn btn-warning" type="button">
-            按客户 <span class="badge">2016</span>
-        </button>
-        <button class="btn btn-warning" type="button">
-            按客户 <span class="badge">2017</span>
-        </button>
-        <button class="btn btn-warning" type="button">
-            按客户 <span class="badge">所有</span>
-        </button>
+</style>
+    <div class="line">
+        <div class="xl3">
+            <button class="btn btn-primary btn130Width" type="button" onclick="javascript:window.location.href='{{url('statistics/2016/profits')}}'">
+                {{trans('statistic.profits')}} <span class="badge">2016</span>
+            </button>
+        </div>
+        <div class="xl3">
+            <button class="btn btn-primary btn130Width" type="button" onclick="javascript:window.location.href='{{url('statistics/2017/profits')}}'">
+                {{trans('statistic.profits')}} <span class="badge">2017</span>
+            </button>
+        </div>
+        <div class="xl3">
+            <button class="btn btn-primary btn130Width" type="button" onclick="javascript:window.location.href='{{url('statistics/all/profits')}}'">
+                {{trans('statistic.profits')}} <span class="badge">{{trans('statistic.all')}}</span>
+            </button>
+        </div>
     </div>
-    <div style="padding-top: 15px">
-        <button class="btn btn-success" type="button">
-            按物品 <span class="badge">所有</span>
-        </button>
+    <div class="line" style="padding-top: 10px">
+        <div class="xl3">
+            <button class="btn btn-warning btn130Width" type="button">
+                {{trans('statistic.customer')}} <span class="badge">2016</span>
+            </button>
+        </div>
+        <div class="xl3">
+            <button class="btn btn-warning btn130Width" type="button">
+                {{trans('statistic.customer')}} <span class="badge">2017</span>
+            </button>
+        </div>
+        <div class="xl3">
+            <button class="btn btn-warning btn130Width" type="button">
+                {{trans('statistic.customer')}} <span class="badge">{{trans('statistic.all')}}</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="line-middle" style="padding-top: 10px">
+        <div class="xl2">
+            <button class="btn btn-success btn130Width" type="button">
+                {{trans('statistic.items')}} <span class="badge">{{trans('statistic.all')}}</span>
+            </button>
+        </div>
     </div>
 
     <script type="text/javascript" src='{{url("js/Chart.min.js")}}'></script>
@@ -90,5 +112,5 @@
             window.location.href = url;
         }
     </script>
-    <button type="button" class="btn btn-default btn-lg btn-block" onclick="refresh();"><strong>刷 新 图 表</strong></button>
+    <button type="button" class="btn btn-default btn-lg btn-block" onclick="refresh();"><strong>{{trans('statistic.refresh')}}</strong></button>
 @endsection

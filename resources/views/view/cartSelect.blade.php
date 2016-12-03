@@ -75,12 +75,12 @@
     <div class="addheight"></div>
 
     <div class="form-group">
-        <label class="col-xs-2 control-label" for="customsNameList">按客户搜</label>
+        <label class="col-xs-2 control-label" for="customsNameList">{{trans('cartSelect.searchByCustomer')}}</label>
         <div class="col-xs-9">
             <select class="form-control input-sm" id="customsNameList" name="customsNameList" onchange="filterByCustomName(this.value)">
-                <option  value="">选择客户名称</option>
+                <option  value="">{{trans('cartSelect.customerName')}}</option>
                 @foreach($customs as $custom)
-                    <option value="{{$custom->id}}" title="{{$custom->dgFrom}}'的'{{$custom->relationship}}">{{$custom->customName}}</option>
+                    <option value="{{$custom->id}}" title="{{$custom->dgFrom}}'{{trans('cartSelect.d')}}'{{$custom->relationship}}">{{$custom->customName}}</option>
                 @endforeach
             </select>
         </div>
@@ -90,7 +90,7 @@
         <div class="col-xs-2 control-label"></div>
         <div class="col-xs-9">
             <div class="panel panel-default panel-success">
-                <div class="panel-heading">点击选择订单 并返回相应ID到上一页 </div>
+                <div class="panel-heading">{{trans('cartSelect.select')}} </div>
                 <div class="panel-body">
                     <div class="list-group">
                         @foreach($carts as $cart)
@@ -118,7 +118,7 @@
 
     <div class="form-group">
         <div class="col-xs-5"></div>
-        <div class="col-xs-6 text-left"><p><button class="submitButton" onclick="closeWindos()"><strong>关闭窗口</strong></button></p></div>
+        <div class="col-xs-6 text-left"><p><button class="submitButton" onclick="closeWindos()"><strong>{{trans('cartSelect.close')}}</strong></button></p></div>
     </div>
 </form>
 </body>
