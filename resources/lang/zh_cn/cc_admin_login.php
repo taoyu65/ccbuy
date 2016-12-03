@@ -5,4 +5,6 @@ return [
     'wymb'      => '网页模板',
     'username'  => '用户名',
     'password'  => '密码',
+    'yes'       => '游客',
+    'no'        => '用户',
 ];

@@ -316,9 +316,9 @@
                     <div class="col-xs-4">
                         <div class="switch">
                             <input type="radio" class="switch-input" name="view" value="0" id="nopay" checked>
-                            <label for="nopay" class="switch-label switch-label-off">{{trans('add.no')}}</label>
+                            <label for="nopay" class="switch-label switch-label-off">{{trans('add.yes')}}</label>
                             <input type="radio" class="switch-input" name="view" value="1" id="yespay">
-                            <label for="yespay" class="switch-label switch-label-on">{{trans('add.yes')}}</label>
+                            <label for="yespay" class="switch-label switch-label-on">{{trans('add.no')}}</label>
                             <span class="switch-selection"></span>
                         </div>
                     </div>

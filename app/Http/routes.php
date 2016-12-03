@@ -39,8 +39,7 @@ Route::group(['middleware' => 'web'], function () {
         return view('cc_admin/login');
     });
 
-    Route::auth();
-    Route::get('/home', 'HomeController@index');
+
     /*
     |--------------------------------------------------------------------------
     | login
@@ -65,10 +64,17 @@ Route::group(['middleware' => 'web'], function () {
     });
     /*
     |--------------------------------------------------------------------------
+    | get demo (if demo login than will be transferred to separate database)
+    |--------------------------------------------------------------------------
+    */
+    Route::get('type/{demo}', 'UserController@demo');
+    /*
+    |--------------------------------------------------------------------------
     | Auth : pages need to be logged in
     |--------------------------------------------------------------------------
     */
     Route::group(['middleware' => 'auth'], function () {
+
         #default page
         Route::get('firstpage', 'ItemController@firstPage');
         #statistics
@@ -111,3 +117,7 @@ Route::group(['middleware' => 'web'], function () {
     });
 });
 
+/*Route::group(['middleware' => 'web'], function () {
+    Route::auth();
+    Route::get('/home', 'HomeController@index');
+});*/
