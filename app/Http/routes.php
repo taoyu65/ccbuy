@@ -39,10 +39,8 @@ Route::group(['middleware' => 'web'], function () {
         return view('cc_admin/login');
     });
 
-    /*Route::get('{locale}/welcome', function ($locale) {
-        App::setLocale($locale);
-        return view('welcome');
-    });*/
+    Route::auth();
+    Route::get('/home', 'HomeController@index');
     /*
     |--------------------------------------------------------------------------
     | login

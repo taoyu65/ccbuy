@@ -32,7 +32,7 @@ class Table
     {
         $this->tableName = $tableName;
         if ($columnName == '*') {
-            $obj = DB::table('information_schema.columns')->select('column_name')->where('table_name', $tableName)->get();
+            $obj = DB::table('information_schema.COLUMNS')->select('COLUMN_NAME')->where(['TABLE_SCHEMA'=>'ccbuy','TABLE_NAME'=>$tableName])->get();
             $this->columnName = $this->getColumn($obj);
         }else{
             if (is_string($columnName)) {

@@ -27,7 +27,7 @@ return [
     'click'         => '点',
     'priceForCustom'=> '对客户显示的价格',
     'actualPrice'   => '实际购买价格',
-    'dataToBuy'     => '购买日期',
+    'dateToBuy'     => '购买日期',
     'exchange'      => '兑换汇率',
     'errorDate'     => '日期格式不正确',
     'placeToBuy'    => '购买地点',
