@@ -10,7 +10,9 @@ return [
     //to show the function of about showing customs
     'json'          => 'json/ccbuy.json',
     //database name
-    'database'      => 'ccbuy',
+    'database'      => env('DB'),
+    'database_demo' => env('DB_DEMO'),
+    'currentDatabase'=> env('DB_DATABASE'),
     //set how many items will be showing on page
     'page'          => [
         'firstPage'     => 8,

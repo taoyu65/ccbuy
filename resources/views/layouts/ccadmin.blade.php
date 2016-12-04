@@ -33,7 +33,9 @@
     <div class="mainer">
         <div class="admin-navbar">
             <span class="float-right">Click to Change Language (点击切换语言)
-                <img src="{{url('images/lang.en.png')}}" onclick="setLanguage('en');" style="cursor: pointer;">  <img src="{{url('images/lang.zh.png')}}" onclick="setLanguage('zh_cn');" style="cursor: pointer">
+                <img src="{{url('images/lang.en.png')}}" onclick="setLanguage('en');" style="cursor: pointer;">
+                <img src="{{url('images/lang.zh.png')}}" onclick="setLanguage('zh_cn');" style="cursor: pointer">
+                <img src="{{url('images/lang.mexico.png')}}" onclick="" title="Está en la construcción" >
                 <a class="button button-little bg-main" href='{{url('firstpage')}}' target="_blank">{{trans('cc_admin/ccadmin.front')}}</a>
                 <a class="button button-little bg-yellow" href="{{url('cc_admin/logout')}}">{{trans('cc_admin/ccadmin.logout')}}</a>
             </span>

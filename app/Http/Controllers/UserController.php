@@ -47,8 +47,9 @@ class UserController extends Controller
     private function setDemoDatabase()
     {
         //demo will be direct to separated database
+        $name = Config::get('ccbuy.database_demo');
         $data = [
-            'DB_DATABASE' => 'ccbuy_demo',
+            'DB_DATABASE' => $name,
         ];
         $this->modifyEnv($data);
     }

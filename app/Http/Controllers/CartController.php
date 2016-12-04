@@ -81,7 +81,7 @@ class CartController extends Controller
 
 
     /**
-     *  showing all the deal that have not done
+     *  collecting - showing all actual profit (after minus express fee)
      */
     public function unFinishDeal()
     {
@@ -89,10 +89,15 @@ class CartController extends Controller
         $carts = Cart::orderBy('id', 'desc')->paginate($perPage);
         foreach ($carts as $cart) {
             $cartId = $cart->id;
-            $sumPrice = DB::table('items')->where('carts_id','=', $cartId)->sum('costPrice');
-            if($sumPrice == 0)  //if item's cost price is 0 (item is not from buying) then profit ratio is 100%
-                $sumPrice = $cart->profits;
-            $cart->profitRatio = @((round(($cart->profits / $sumPrice),2)*100).'%');
+            //$sumPrice = DB::table('items')->select(DB::raw('IFNULL(sum(itemAmount*costPrice),-1) as t'))->where('carts_id','=', $cartId)->first();    //if return null will be set -1 as default
+            $sumPrice = DB::table('items')->select(DB::raw('sum(itemAmount*costPrice) as t'))->where('carts_id','=', $cartId)->first()->t;
+            if($sumPrice == null) {     //nothing in the cart
+                $cart->profitRatio = '0%';
+            }else{
+                if($sumPrice == 0)  //if item's cost price is 0 (item is not from buying) then profit ratio is 100%
+                    $sumPrice = $cart->profits;
+                $cart->profitRatio = @((round(($cart->profits / $sumPrice),4)*100).'%');
+            }
         }
         return view('view/collecting', ['carts' => $carts]);
     }
