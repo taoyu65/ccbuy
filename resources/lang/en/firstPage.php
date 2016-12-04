@@ -6,4 +6,5 @@ return[
     'profit'        => 'profit $(without express fee)',
     'date'          => 'date',
     'pic'           => '_en',
+    'logout'        => 'logout',
 ];

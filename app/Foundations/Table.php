@@ -30,9 +30,10 @@ class Table
      */
     public function __construct($tableName, $columnName = '*', $operate = true)
     {
+        $databaseName = Config::get($this->configFileName.'.currentDatabase');
         $this->tableName = $tableName;
         if ($columnName == '*') {
-            $obj = DB::table('information_schema.COLUMNS')->select('COLUMN_NAME')->where(['TABLE_SCHEMA'=>'ccbuy','TABLE_NAME'=>$tableName])->get();
+            $obj = DB::table('information_schema.COLUMNS')->select('COLUMN_NAME')->where(['TABLE_SCHEMA'=>$databaseName,'TABLE_NAME'=>$tableName])->get();
             $this->columnName = $this->getColumn($obj);
         }else{
             if (is_string($columnName)) {

@@ -6,4 +6,5 @@ return[
     'profit'        => '净利 $(不含邮费)',
     'date'          => '日期',
     'pic'           => '_zhcn',
+    'logout'        => '退出登录',
 ];
