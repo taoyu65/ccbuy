@@ -9,7 +9,7 @@
     <script type="text/javascript" src='{{url("ui/laydate/laydate.js")}}'></script>
     <script type="text/javascript" src='{{url("js/jquery.form.js")}}'></script>
     <script type="text/javascript" src='{{url("js/yt_validation.js")}}'></script>
-
+    <link href='{{url("css/radio.css")}}' rel='stylesheet' type='text/css'>
     <script type="text/javascript">
         $(document).ready(function(){
             $.ajaxSetup({

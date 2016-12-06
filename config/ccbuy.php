@@ -84,58 +84,56 @@ return [
     //showing the title for easier to read the column name
     'rename'        => [
         'carts'     =>[
-            'id'            => 'ID',
-            'customs_id'    => '客户ID',
-            'rename'        => '订单名称',
-            'weight'        => '重量',
-            'postRate'      => '邮费每磅',
-            'profits'       => '订单利润',
-            'isHelpBuy'     => '是否代买',
-            'date'          => '日期'
+            'id'            => '@id',
+            'customs_id'    => '@customs_id',
+            'rename'        => '@rename',
+            'weight'        => '@weight',
+            'postRate'      => '@postRate',
+            'profits'       => '@profits',
+            'isHelpBuy'     => '@isHelpBuy',
+            'date'          => '@date'
         ],
         'customs'   => [
-            'id'            => 'ID',
-            'customName'    => '客户姓名',
-            'relationship'  => '客户关系',
-            'dgFrom'        => '客户来源',
-            'info'          => '备注'
+            'id'            => '@id',
+            'customName'    => '@customName',
+            'relationship'  => '@relationship',
+            'dgFrom'        => '@dgFrom',
+            'info'          => '@info'
         ],
         'incomes'   => [
-            'id'            => 'ID',
-            'items_id'      => '物品ID',
-            'moneyDue'      => '金额应付',
-            'moneyReceived' => '金额实收',
-            'moneyGain'     => '利润',
-            'moneyToWhere'  => '金额去向',
-            'info'          => '备注'
+            'id'            => '@id',
+            'items_id'      => '@items_id',
+            'moneyDue'      => '@moneyDue',
+            'moneyReceived' => '@moneyReceived',
+            'moneyGain'     => '@moneyGain',
+            'moneyToWhere'  => '@moneyToWhere',
+            'info'          => '@info'
         ],
         'items'     => [
-            'id'            => 'ID',
-            'carts_id'      => '订单ID',
-            'stores_id'     => '商店ID',
-            'itemName'      => '物品名称',
-            'itemAmount'    => '物品数量',
-            'sellPrice'     => '出售金额',
-            'specialPrice'  => '促销金额',
-            'exchangeRate'  => '汇率转换',
-            'marketPrice'   => '市场价格',
-            'costPrice'     => '成本价格',
-            'itemProfit'    => '实际盈利',
-            'date'          => '日期',
-            'isDeal'        => '是否结算',
-            'itemPic'       => '物品图片',
-            'info'          => '备注'
+            'id'            => '@id',
+            'carts_id'      => '@carts_id',
+            'stores_id'     => '@stores_id',
+            'itemName'      => '@itemName',
+            'itemAmount'    => '@itemAmount',
+            'sellPrice'     => '@sellPrice',
+            'specialPrice'  => '@specialPrice',
+            'exchangeRate'  => '@specialPrice',
+            'marketPrice'   => '@marketPrice',
+            'costPrice'     => '@costPrice',
+            'itemProfit'    => '@itemProfit',
+            'date'          => '@date',
+            'isDeal'        => '@isDeal',
+            'itemPic'       => '@itemPic',
+            'info'          => '@info'
         ],
         'stores'    => [
-            'id'            => 'ID',
-            'storeName'     => '商店名称',
-            'info'          => '备注'
+            'id'            => '@id',
+            'storeName'     => '@storeName',
+            'info'          => '@info'
         ],
         'users'     => [
-            'id'            => 'ID',
-            'name'          => '登录名称',
-            'email'         => '邮箱名称',
-            'password'      => '密码',
+            'id'            => '@id',
+            'name'          => '@name',
             'remember_token'=> '',
             'created_at'    => '',
             'updated_at'    => ''
@@ -200,7 +198,7 @@ return [
      *  'title'         => '',      //show the name on the search page
      *  'columnName'    => '',      //field name use for to do search on database
      *  'validation'    => '',      //make a validation rule for the search area
-     *  'isForeignKey'  => '',      //if is foreign key then will be showing the drop down list to do the search
+     *  'fuzzySearch'   => '',      //fuzzy search
      */
     'search' => [
         'isShowSearch'  => 'true',
@@ -208,52 +206,135 @@ return [
         'tables'        => [
             'carts'         => [    //if table is defined than it's attribute must be present which are 'isShow,tabTitles,tab'
                 'isShow'    => 'true',
-                'tabTitles' => ['订单名称', '是否代买', '客户名称', '组合搜索'],    //tabTitles's name must be the same with name under 'tab' to make sure the css which is showing on the page will be corrected
+                'tabTitles' => [    //all the tab field=>showing title
+                    'order'     => '@orderName',
+                    'helpBuy'   => '@helpBuy',
+                    'customer'  => '@customer',
+                    'combined'  => '@combined'
+                ],    //tabTitles's name must be the same with name under 'tab' to make sure the css which is showing on the page will be corrected
                 'tab'       => [
-                    '订单名称'      => [
+                    'order'         => [
                         [
-                            'columnName'    => 'rename',
-                            'title'         => '订单名称',
-                            'validation'    => 'required',
-                            'isForeignKey'  => 'false',
+                            'columnName'    => 'rename',    //has to be database column name
+                            'title'         => '@orderName',
+                            'validation'    => 'none',
+                            'fuzzySearch'   => 'true',
                         ]
                     ],
-                    '是否代买'      => [
+                    'helpBuy'      => [
                         [
                             'columnName'    => 'isHelpBuy',
+                            'title'         => '@helpBuy',
                             'validation'    => 'bool',
-                            'isForeignKey'  => 'false',
+                            'fuzzySearch'   => 'false',
                         ]
                     ],
-                    '客户名称'      => [
+                    'customer'      => [
                         [
                             'columnName'    => 'customs_id',
+                            'title'         => '@customer',
                             'validation'    => 'foreignKey',
-                            'isForeignKey'  => 'true',
+                            'fuzzySearch'   => 'false',
                         ]
                     ],
-                    '组合搜索'      => [
+                    'combined'     => [
                         [
-                            'columnName'    => 'customs_id',
-                            'validation'    => 'foreignKey',
-                            'isForeignKey'  => 'false',
-                        ],[
-                            'columnName'    => 'rename',
-                            'validation'    => 'required',
-                            'isForeignKey'  => 'false',
-                        ],[
-                            'columnName'    => 'isHelpBuy',
-                            'validation'    => 'bool',
-                            'isForeignKey'  => 'false',
-                        ]
+                        'columnName'    => 'customs_id',
+                        'title'         => '@customer',
+                        'validation'    => 'foreignKey',
+                        'fuzzySearch'   => 'false',
+                    ],[
+                        'columnName'    => 'rename',
+                        'title'         => '@orderName',
+                        'validation'    => 'none',
+                        'fuzzySearch'   => 'true',
+                    ],[
+                        'columnName'    => 'isHelpBuy',
+                        'title'         => '@helpBuy',
+                        'validation'    => 'bool',
+                        'fuzzySearch'   => 'false',
+                    ]
                     ],
                 ],
             ],
-            'customs'       => [],
+            'customs'       => [
+                'isShow'    => 'true',
+                'tabTitles' => [
+                    'customer'  => '@customer',
+                ],
+                'tab'       => [
+                    'customer'  => [
+                        [
+                            'columnName'    => 'customName',
+                            'title'         => '@customer',
+                            'validation'    => 'none',
+                            'fuzzySearch'   => 'true',
+                        ],
+                    ],
+                ],
+            ],
             'incomes'       => '',
-            'items'         => '',
+            'items'         => [
+                'isShow'    => 'true',
+                'tabTitles' => [
+                    'storeId'   => '@storeId',
+                    'itemName'  => '@itemName',
+                    'date'      => '@date',
+                    'isDeal'    => '@isDeal',
+                    'combined'  => '@combined',
+                ],
+                'tab'       => [
+                    'storeId'    => [
+                        [
+                            'columnName'    => 'stores_id',
+                            'title'         => '@storeId',
+                            'validation'    => 'foreignKey',
+                            'fuzzySearch'   => 'false'
+                        ]
+                    ],
+                    'itemName'    => [
+                        [
+                            'columnName'    => 'itemName',
+                            'title'         => '@itemName',
+                            'validation'    => 'none',
+                            'fuzzySearch'   => 'true'
+                        ]
+                    ],
+                    'date'    => [
+                        [
+                            'columnName'    => 'date',
+                            'title'         => '@date',
+                            'validation'    => 'date',
+                            'fuzzySearch'   => 'false'
+                        ]
+                    ],
+                    'isDeal'    => [
+                        [
+                            'columnName'    => 'isDeal',
+                            'title'         => '@isDeal',
+                            'validation'    => 'bool',
+                            'fuzzySearch'   => 'false'
+                        ]
+                    ],
+                    'combined'    => [
+                        [
+                            'columnName'    => 'itemName',
+                            'title'         => '@itemName',
+                            'validation'    => 'none',
+                            'fuzzySearch'   => 'true'
+                        ],
+                        [
+                            'columnName'    => 'isDeal',
+                            'title'         => '@isDeal',
+                            'validation'    => 'bool',
+                            'fuzzySearch'   => 'false'
+                        ],
+                    ],
+                ],
+            ],
             'stores'        => '',
             'users'         => '',
+
         ],
     ],
     #endregion

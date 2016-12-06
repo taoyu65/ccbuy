@@ -1,8 +1,8 @@
 <?php
 return [
     'title'     => 'ccBuy Admin',
-    'mbzj'      => 'temple\'s home',
-    'wymb'      => 'temple of website',
+    'mbzj'      => 'template\'s home',
+    'wymb'      => 'templates of website',
     'username'  => 'Username',
     'password'  => 'password',
     'yes'       => 'demo',

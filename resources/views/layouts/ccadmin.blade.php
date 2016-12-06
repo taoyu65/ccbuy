@@ -7,14 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
     <meta name="renderer" content="webkit">
     <title>ccBuy-{{trans('cc_admin/ccadmin.back')}}</title>
-    <link rel="stylesheet" href='{{url("cc_admin/css/pintuer.css")}}'>
-    <link rel="stylesheet" href='{{url("cc_admin/css/admin.css")}}'>
     <script src='{{url("js/jquery-1.8.3.mini.js")}}' type="text/javascript"></script>
     <script src='{{url("cc_admin/js/pintuer.js")}}' type="text/javascript"></script>
     <script type="text/javascript" src='{{url("ui/layer/layer.js")}}'></script>
-
+    <script type="text/javascript" src='{{url("js/yt_validation.js")}}'></script>
+    <link rel="stylesheet" href='{{url("cc_admin/css/pintuer.css")}}'>
+    <link rel="stylesheet" href='{{url("cc_admin/css/admin.css")}}'>
     <link type="image/x-icon" href='{{url("cc_admin/images/cc.ico")}}' rel="shortcut icon" >
     <link href='{{url("cc_admin/images/cc.ico")}}' rel="bookmark icon" >
+    <link href='{{url("css/radio.css")}}' rel='stylesheet' type='text/css'>
     <script>
         function setLanguage(lang) {
             location.href='{{url('setLanguage/')}}/' + lang;
@@ -35,7 +36,7 @@
             <span class="float-right">Click to Change Language (点击切换语言)
                 <img src="{{url('images/lang.en.png')}}" onclick="setLanguage('en');" style="cursor: pointer;">
                 <img src="{{url('images/lang.zh.png')}}" onclick="setLanguage('zh_cn');" style="cursor: pointer">
-                <img src="{{url('images/lang.mexico.png')}}" onclick="" title="Está en la construcción" >
+                <img src="{{url('images/lang.mexico.png')}}" onclick="alert('Está en la construcción')" title="Está en la construcción" >
                 <a class="button button-little bg-main" href='{{url('firstpage')}}' target="_blank">{{trans('cc_admin/ccadmin.front')}}</a>
                 <a class="button button-little bg-yellow" href="{{url('cc_admin/logout')}}">{{trans('cc_admin/ccadmin.logout')}}</a>
             </span>
@@ -43,12 +44,12 @@
                 <li id="li_main">
                     <a href='{{url("cc_admin/main")}}' class="icon-home"> {{trans('cc_admin/ccadmin.star')}}</a>
                     <ul>
-                        <li id="li_main_system"><a href='#'>{{trans('cc_admin/ccadmin.system')}}</a></li>
-                        <li id="li_main_content"><a href="#">{{trans('cc_admin/ccadmin.content')}}</a></li>
-                        <li><a href="#">{{trans('cc_admin/ccadmin.orders')}}</a></li>
+                        <li id="li_main_system"><a href='{{url("cc_admin/system")}}'>{{trans('cc_admin/ccadmin.system')}}</a></li>
+                        <li id="li_main_content"><a href="{{url("cc_admin/table/items")}}">{{trans('cc_admin/ccadmin.content')}}</a></li>
+                        {{--<li><a href="#">{{trans('cc_admin/ccadmin.orders')}}</a></li>
                         <li><a href="#">{{trans('cc_admin/ccadmin.member')}}</a></li>
                         <li><a href="#">{{trans('cc_admin/ccadmin.files')}}</a></li>
-                        <li><a href="#">{{trans('cc_admin/ccadmin.tabs')}}</a></li>
+                        <li><a href="#">{{trans('cc_admin/ccadmin.tabs')}}</a></li>--}}
                     </ul>
                 </li>
                 <li id="li_system">

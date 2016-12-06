@@ -1,6 +1,7 @@
 <?php
 namespace App\Foundations;
 
+use App\Http\Requests\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Crypt;
@@ -20,7 +21,7 @@ class Table
     private $columnCount = 0;
     private $columnName;
     private $perPage = 10;
-    private $validation = [];
+    private $validation = [];   //rules and what kind of input will be showing on page
     private $configFileName = 'ccbuy';
     /**
      * Table constructor.
@@ -76,18 +77,23 @@ class Table
         $this->perPage = $num;
     }
     #region table - get all data and operation button
-    public function getHtml($search = false)
+    /**
+     * @param bool $search - search function is open or not
+     * @param string $where - if search set true than can set where (sql)
+     * @param string $selectTab - which tab will be used for searching
+     * @return string
+     */
+    public function getHtml($search = true, $where = '', $selectTab = '')
     {
         if ($this->columnCount == 0) {
            return '没有任何数据';
         }
-        /*get where according with search option*/
-        $where = $this->getWhereBySearch();
         $tables = $this->getData($where);
         /*building html*/
         $html = '';
         /* search */
-        $html .= $this->getSearchHtml();
+        if($search)
+            $html .= $this->insertSearchHtml($selectTab);
         /*Table Head*/
         $html .= '<table class="table table-hover">';
         $html .= '  <thead>';
@@ -115,7 +121,8 @@ class Table
         }
         $html .= '</tbody>';
         $html .= '</table>';
-        $pageHtml = $tables->render();
+        //$pageHtml = $tables->render();
+        $pageHtml = $tables->appends(['w'=>base64_encode($where),'a'=>'aaa'])->links();
         $html .= '<div class="text-center">'.$pageHtml.'</div>';
         return $html;
     }
@@ -130,11 +137,35 @@ class Table
         return $data;
     }
     #joint a where to sql according with search option
-    private function getWhereBySearch()
+    private function getWhereBySearch($selectTab)
     {
-        /*$where = '`id`>140';
+        $where = '';
+        //do search on post method
+        if(\Request::isMethod('post'))
+        {
+            $rules = Config::get($this->configFileName . '.search.tables.' . $this->tableName . '.tab.' . $selectTab);
+            foreach ($rules as $rule) {
+                $fieldName = $selectTab . $rule['columnName'];
+                $value = (!isset($_REQUEST[$fieldName]))?'':$_REQUEST[$fieldName];
+                if ($value == '') {
+                    $where .= '';
+                }else{
+                    if ($rule['fuzzySearch'] === 'true') {
+                        $where .= '`'.$rule['columnName'].'` like \'%'.$value.'%\' and ';
 
-        return $where;*/
+                    } else {
+                        $where .= $rule['columnName'].'=\''.$value.'\' and ';
+                    }
+                }
+            }
+            $where .= ' 1=1';
+        }
+        else    //paginate will lose request, the parameter will be given in a url
+        {
+            if(isset($_REQUEST['w']))
+                $where = base64_decode($_REQUEST['w']);
+        }
+        return $where;
     }
     #get edit page. html for edit table
     public function getHtmlToEdit($id)
@@ -161,8 +192,19 @@ class Table
         $html .= '</form>';
         return $html;
     }
-    #get search html
-    private function getSearchHtml()
+    #get search html for invoke
+    /**
+     * @param $selectTab - selected tab
+     * @return string
+     */
+    public function getSearchHtml($selectTab)
+    {
+        /*get where according with search option*/
+        $where = $this->getWhereBySearch($selectTab);
+        return $this->getHtml(true, $where, $selectTab);
+    }
+    #insert search html
+    private function insertSearchHtml($selectTab)
     {
         $isShowSearch = Config::get($this->configFileName . '.search.isShowSearch');   //if show the search for all the table
         if($isShowSearch == 'false')
@@ -175,23 +217,27 @@ class Table
         $html = '';
         $html .= '<div class="tab border-green">';
         $html .= '        <div class="tab-head">';
-        $html .= '            <strong><h2><span class="tag bg-sub">搜索</span></h2></strong> <span class="tab-more"><a href="#"></a></span>';
+        $html .= '            <strong><h2><span class="tag bg-sub">'.trans('cc_admin/table.search').'</span></h2></strong> <span class="tab-more"><a href="#"></a></span>';
         $html .= '            <ul class="tab-nav">';
         $configTabTitle = $searchConfig[$this->tableName]['tabTitles'];
-        $active = 'class="active"';     //only add in the html on the first time loaded
+        $active = ($selectTab == '')?'class="active"':'';     //only add in the html on the first time loaded
         foreach ($configTabTitle as $num => $tabName) {     //add tab
-            $html .= '                <li '.$active.'><a href="#'.$tabName.'">'.$tabName.'</a></li>';
+            if($num == $selectTab)
+                $active = 'class="active"';
+            $html .= '                <li '.$active.'><a href="#'.$num.'">'.trans('cc_admin/table.'.$tabName).'</a></li>';
             $active = '';
         }
         $html .= '            </ul>';
         $html .= '        </div>';
         $html .= '        <div class="tab-body tab-body-bordered">';
         $configTab = $searchConfig[$this->tableName]['tab'];
-        $active = 'active';     //only add in the html on the first time loaded
-        foreach ($configTab as $tabName => $tabRule) {  //add contain to tab
-            $html .= '        <div class="tab-panel '.$active.'" id="'.$tabName.'">';
-            $html .= '                '.$tabName.'</div>';
-            $html .= $this->getContainForTab();
+        $active = ($selectTab == '')?'active':'';     //only add in the html on the first time loaded
+        foreach ($configTab as $tab => $tabRules) {  //add contain to tab
+            if($tab == $selectTab)
+                $active = 'active';
+            $html .= '        <div class="tab-panel '.$active.'" id="'.$tab.'">';
+            $html .= $this->getContainForTab($tab, $tabRules);
+            $html .= '        </div>';
             $active = '';
         }
         $html .= '        </div>';
@@ -202,15 +248,91 @@ class Table
     private function checkConfig($checkingItem, $configName)
     {
         $configList = Config::get($this->configFileName . '.' . $configName);
-        $nameList = [];
         if(array_key_exists($checkingItem, $configList))
             return true;
         return false;
     }
-    private function getContainForTab()
+    #create search form
+    private function getContainForTab($tab, $tabRules)
     {
         $html = '';
+        $html .= '<form id="search_'.$tab.'" method="post" action="'.url('cc_admin/table/'.$this->tableName.'/search/'.$tab).'" id="search_'.$tab.'">';
+        $html .= csrf_field();
+        $html .= '<div class="line">';
+        foreach ($tabRules as $num => $rule) {
+            if(array_key_exists('title', $rule)){
+                $html .= '<div class="xl3"><span class="text-gray" style="padding-right: 5px">'.trans('cc_admin/table.'.$rule['title']).'</span>';
+                if (array_key_exists('columnName', $rule) && array_key_exists('validation', $rule)) {
+                    $html .= '';
+                    $html .= $this->getInput($rule['validation'], $rule['columnName'], '', $tab);
+                    $html .= '</div>';
+                    //$hiddenValue = (empty($_REQUEST[$tab.$rule['columnName']]))? '':$_REQUEST[$tab.$rule['columnName']];
+                    //$html .= '<input type="hidden" name="'.$tab.$rule['columnName'].'_hidden" value="'.$hiddenValue.'">';   //use for paginate
+                }
+            }
+        }
+        $html .= '</div>';
+        $html .= '<div class="line" style="padding-top: 15px"><div class="xl2">';
+        $html .= '<button type="submit" class="button border-green" onclick="if(checkForm(\'search_'.$tab.'\')){sm(this.form);}">'.trans('cc_admin/table.search').'</button>';
+        $html .= '</div></div>';
+        $html .= '</form>';
+        return $html;
+    }
 
+    /**
+     * @param $validation
+     * @param $name
+     * @param $data
+     * @param $tab - prevent same id for input - during search option is created, in different tab might be have same id of input, id will be use tab name as prefix
+     * @return string
+     */
+    private function getInput($validation, $name, $data, $tab = '')
+    {
+        $html = '';
+        switch ($validation) {
+            case 'readOnly':
+                $html = '<input readonly disabled="true" style="background-color:gary" class="form-control input-sm" type="text" value="'.$data.'" id="'.$tab.$name.'" name="'.$tab.$name.'">';
+                break;
+            case 'money':
+                $html = '<input yt-validation="yes" yt-check="money" yt-errorMessage="格式不正确" yt-target="'.$tab.$name.'_error" class="form-control input-sm" type="text" value="'.$data.'" id="'.$tab.$name.'" name="'.$tab.$name.'">';
+                $html .= '<span class="label-danger text-red" id="'.$tab.$name.'_error"></span>';
+                break;
+            case 'foreignKey':
+                $html = $this->getDropDownList($name, $data, $tab);
+                break;
+            case 'required':
+                $html = '<input yt-validation="yes" yt-check="null" yt-errorMessage="不能为空" yt-target="'.$tab.$name.'_error" class="form-control input-sm" type="text" value="'.$data.'" id="'.$tab.$name.'" name="'.$tab.$name.'">';
+                $html .= '<span class="label-danger text-red" id="'.$tab.$name.'_error"></span>';
+                break;
+            case 'date':
+                $html = '<input yt-validation="yes" yt-check="null" yt-errorMessage="日期格式不正确" yt-target="'.$tab.$name.'_error" class="form-control input-sm laydate-icon"  onclick="laydate()" value="'.$data.'" name="'.$tab.$name.'">';
+                $html .= '<span class="label-danger text-red" id="'.$tab.$name.'_error"></span>';
+                break;
+            case 'bool':
+                $statusYes = 'checked';
+                $statusNo = '';
+                if ($data != '1') {
+                    $statusYes = '';
+                    $statusNo = 'checked';
+                }
+                $html .= '<div class="button-group radio border-green">';
+                $html .= '    <label class="button">';
+                $html .= '        <input name="'.$tab.$name.'" value=1 '.$statusYes.' type="radio"><span class="icon icon-check"></span> '.trans('yes').'</label>';
+                $html .= '    <label class="button active">';
+                $html .= '    <input name="'.$tab.$name.'" value=0 '.$statusNo.' type="radio"><span class="icon icon-times"></span> '.trans('no').'</label>';
+                $html .= '</div>';
+                break;
+            case 'email':
+                $html = '<input yt-validation="yes" yt-check="email" yt-errorMessage="格式不正确" yt-target="'.$tab.$name.'_error" class="form-control input-sm" type="text" value="'.$data.'" id="'.$tab.$name.'" name="'.$tab.$name.'">';
+                $html .= '<span class="label-danger text-red" id="'.$tab.$name.'_error"></span>';
+                break;
+            case 'none':
+                $html = '<input id="'.$tab.$name.'" name="'.$tab.$name.'" value="'.$data.'" class="form-control input-sm" type="text">';
+                break;
+            default:
+                $html = '<input id="'.$tab.$name.'" name="'.$tab.$name.'" value="'.$data.'" class="form-control input-sm" type="text">';
+                break;
+        }
         return $html;
     }
     /**
@@ -258,6 +380,7 @@ class Table
         $rename = $fieldName;
         if(array_key_exists($fieldName, $nameList))
             $rename = $nameList[$fieldName];
+        $rename = trans('cc_admin/table.'.$rename);
         return $rename;
     }
 
@@ -274,52 +397,7 @@ class Table
         $validation = '';
         if(array_key_exists($fieldName, $validationList))
             $validation = $validationList[$fieldName];
-        $html = '';
-        switch ($validation) {
-            case 'readOnly':
-                $html = '<input readonly disabled="true" style="background-color:gary" class="form-control input-sm" type="text" value="'.$data.'" id="'.$fieldName.'" name="'.$fieldName.'">';
-                break;
-            case 'money':
-                $html = '<input yt-validation="yes" yt-check="money" yt-errorMessage="格式不正确" yt-target="'.$fieldName.'_error" class="form-control input-sm" type="text" value="'.$data.'" id="'.$fieldName.'" name="'.$fieldName.'">';
-                $html .= '<span class="label-danger" id="'.$fieldName.'_error"></span>';
-                break;
-            case 'foreignKey':
-                $html = $this->getDropDownList($fieldName, $data);
-                break;
-            case 'required':
-                $html = '<input yt-validation="yes" yt-check="null" yt-errorMessage="不能为空" yt-target="'.$fieldName.'_error" class="form-control input-sm" type="text" value="'.$data.'" id="'.$fieldName.'" name="'.$fieldName.'">';
-                $html .= '<span class="label-danger" id="'.$fieldName.'_error"></span>';
-                break;
-            case 'date':
-                $html = '<input yt-validation="yes" yt-check="null" yt-errorMessage="日期格式不正确" yt-target="'.$fieldName.'_error" class="form-control input-sm laydate-icon"  onclick="laydate()" value="'.$data.'" name="'.$fieldName.'">';
-                $html .= '<span class="label-danger" id="'.$fieldName.'_error"></span>';
-                break;
-            case 'bool':
-                $statusYes = 'checked';
-                $statusNo = '';
-                if ($data != '1') {
-                    $statusYes = '';
-                    $statusNo = 'checked';
-                }
-                $html = '<div class="switch">';
-                $html .= '<input type="radio" class="switch-input" name="'.$fieldName.'" value="0" id="nopay" '.$statusNo.'>';
-                $html .= '<label for="nopay" class="switch-label switch-label-off">NO</label>';
-                $html .= '<input type="radio" class="switch-input" name="'.$fieldName.'" value="1" id="yespay" '.$statusYes.'>';
-                $html .= '<label for="yespay" class="switch-label switch-label-on">YES</label>';
-                $html .= '<span class="switch-selection"></span>';
-                $html .= '</div>';
-                break;
-            case 'email':
-                $html = '<input yt-validation="yes" yt-check="email" yt-errorMessage="格式不正确" yt-target="'.$fieldName.'_error" class="form-control input-sm" type="text" value="'.$data.'" id="'.$fieldName.'" name="'.$fieldName.'">';
-                $html .= '<span class="label-danger" id="'.$fieldName.'_error"></span>';
-                break;
-            case 'none':
-                $html = '<input id="'.$fieldName.'" name="'.$fieldName.'" value="'.$data.'" class="form-control input-sm" type="text">';
-                break;
-            default:
-                $html = '<input id="'.$fieldName.'" name="'.$fieldName.'" value="'.$data.'" class="form-control input-sm" type="text">';
-                break;
-        }
+        $html = $this->getInput($validation, $fieldName, $data);
         return $html;
     }
 
@@ -353,9 +431,10 @@ class Table
      * if this field is foreign key than html will be drop down list
      * @param $columnName - id is foreign key in the database and has to be follow the rule (table name plus '_' plus id such as tableNames_id)
      * @param $foreignId - actually foreign id
+     * @param $tab
      * @return string
      */
-    private function getDropDownList($columnName, $foreignId)
+    private function getDropDownList($columnName, $foreignId, $tab)
     {
         $arr = explode('_', $columnName);
         if (count($arr) <= 1){
@@ -366,7 +445,8 @@ class Table
         //
         $showDropDownName = $this->getDropDownName($tableName);
         $data = DB::table($tableName)->get();
-        $html = '<select class="form-control input-sm" id="'.$columnName.'" name="'.$columnName.'">';
+        $html = '<select class="form-control input-sm" id="'.$tab.$columnName.'" name="'.$tab.$columnName.'">';
+        $html .= '<option value="">'.trans('cc_admin/table.dropList').'</option>';
         foreach ($data as $d) {
             if ($foreignId == $d->id) {
                 $html .= '<option value="'.$d->id.'" selected>'.$d->$showDropDownName.'</option>';

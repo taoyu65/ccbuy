@@ -48,7 +48,7 @@
             <div class="menu i02"  >{{trans('foot.tab2')}}</div>
         </a> <a href="{{url('statistics/2016/profits')}}" >
             <div class="menu i03"  >{{trans('foot.tab3')}}</div>
-        </a> <a href="{{url('cc_admin/main')}}" >
+        </a> <a href="{{url('cc_admin/table/items')}}" >
             <div class="menu i04"  >{{trans('foot.tab4')}}</div>
         </a>
     </div>

@@ -11,6 +11,7 @@
 //example:
 //<span class="label-danger" id="itemName_error"></span>
 //<input yt-validation="yes" yt-check="null" yt-errmessage="不能为空" yt-target="itemName_error" >
+//use checkForm(formId) before submit
 //****************************************************************************************************
 //bool to mark pass the validation or not
 var b = true;

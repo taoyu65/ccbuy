@@ -114,6 +114,22 @@ class ccTableController extends Controller
     }
 
     /**
+     *  search
+     * @param $table
+     * @param $selectTab
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function search($table, $selectTab)
+    {
+        //get the column which will be shown on the page from ccbuy config
+        $showingColumn = Config::get($this->configFileName . '.showColumn.'.$table);
+        //set second para to show column that you want to review
+        $data = new Table($table, $showingColumn);
+        $html = $data->getSearchHtml($selectTab);
+        return view('cc_admin/table', ['html' => $html, 'table' => $table]);
+    }
+
+    /**
      * @param $tableName -
      */
     private function special($tableName)

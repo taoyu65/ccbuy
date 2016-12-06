@@ -2,6 +2,7 @@
 @extends('layouts.ccadmin')
 @section('content1')
     <script type="text/javascript" src='{{url("ui/layer/layer.js")}}'></script>
+    <script type="text/javascript" src='{{url("ui/laydate/laydate.js")}}'></script>
     <script type="text/javascript">
         //change hover css when change different table
         var label = '{{$table}}';
@@ -40,15 +41,6 @@
             });
         }
     </script>
-    <form >
-        <div class="line">
-            <div class="xl1">
-                <label >订单别名</label></div>
-            <div class="xl4">
-                <input class="input" type="text" name="reName" id="reName" placeholder="简单介绍谁买的什么  例如:隔壁老王买的印度神油">
-            </div>
-        </div>
-    </form>
     {!! $html !!}
 
 @endsection

@@ -105,6 +105,7 @@ Route::group(['middleware' => 'web'], function () {
             Route::get('system', 'ccAdminController@closeCartShow');    //结算订单 close cart, recalculate profits
             Route::post('system/close', 'ccAdminController@closeCart');
             Route::get('table/{name}', 'ccTableController@showTable');
+            Route::match(['get','post'],'table/{name}/search/{tab}', 'ccTableController@search');
             #edit
             Route::get('tableEdit/{tableName}/{id}', 'ccTableController@editShow');
             Route::post('tableEdit/{tableName}/{id}', 'ccTableController@edit');
