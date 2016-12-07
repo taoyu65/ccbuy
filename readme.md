@@ -1,4 +1,4 @@
-# Freelance Retail Consultant System
+# Laravel PHP Framework
 
 [![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
 [![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
@@ -6,25 +6,21 @@
 [![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
 [![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
 
-This system is for retailer sell merchandise to another country's people. you can easily submit all the items you sold, check profit by every month or year, manage items and your customers, check the history to take look what items was bought by whom
-#Feature
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
 
-- multi-language supported
-- statistics by profits, customers, and more
-- back end data manage system
+Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
 
-## installation
+## Official Documentation
 
+Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
 
+## Contributing
 
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
 
+## Security Vulnerabilities
 
-
-## screenShot
-
-http://ccbuy.co/public/images/img/ccbuy.png
-http://ccbuy.co/public/images/img/ccbuy1.png
-http://ccbuy.co/public/images/img/ccbuy2.png
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
 
 ## License
 
