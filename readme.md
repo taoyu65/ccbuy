@@ -22,9 +22,9 @@ This system is for retailer sell merchandise to another country's people. you ca
 
 ## screenShot
 
-http://ccbuy.co/public/images/img/ccbuy.png
-http://ccbuy.co/public/images/img/ccbuy1.png
-http://ccbuy.co/public/images/img/ccbuy2.png
+![](http://ccbuy.co/public/images/img/ccbuy.png)
+![](http://ccbuy.co/public/images/img/ccbuy1.png)
+![](http://ccbuy.co/public/images/img/ccbuy2.png)
 
 ## License
 
