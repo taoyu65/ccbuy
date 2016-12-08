@@ -4,24 +4,33 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Mockery\CountValidator\Exception;
 
 class statisticController extends Controller
 {
+    protected $configFileName = 'ccbuy';
+    /**
+     * @param $year
+     * @param $type - profits or customer or ***
+     * @param string $r - refresh
+     * @return string
+     */
     public function index($year, $type, $r = '')
     {
-        $refresh = false;   //if false than use json otherwise to refresh
-        if($r == 'refresh')
+        $refresh = false;   //if false than use json to show the data otherwise to refresh
+        if($r === 'refresh')
             $refresh = true;
         switch ($type) {
             case 'profits':
-                return $this->profits($year, $refresh);
-            case 'customs':
-                break;
+                return $this->profits($year, $refresh, 'profit');
+            case 'customer':
+                return $this->getProfitByCustomer($year, $refresh, 'customer');
             case 'items':
                 break;
+            default:
+                return '';
         }
     }
 
@@ -31,18 +40,18 @@ class statisticController extends Controller
      * @param $refresh - if refresh page to see newest data
      * @return string - data such as '1,2,3,4'
      */
-    private function profits($year, $refresh)
+    private function profits($year, $refresh, $type)
     {
-        if ($year == '2016' || $year == '2017' || $year == 'all') {
+        if ($year == '2016' || $year == '2017' || $year == 'All') {
             //read data from json file but the form of data is 'data,data,data'
-            $path = Config::get('ccbuy.statistic.profitsPath.profit' . $year);
+            $path = Config::get($this->configFileName.'.statistic.profitsPath.'. $type . $year);
             if($refresh) {  //see if the page refresh or not
-                $data = $this->getProfitsByYear($year);
+                $data = $this->getProfitsByYear($year, $type);
                 file_put_contents(public_path($path), $data);
             }else{
                 $profits = file_get_contents(public_path($path));
                 if ($profits == '') {
-                    $data = $this->getProfitsByYear($year);
+                    $data = $this->getProfitsByYear($year, $type);
                     file_put_contents(public_path($path), $data);
                 }
                 else{
@@ -51,10 +60,10 @@ class statisticController extends Controller
             }
             //get all month x axis
             if ($year == 'all') {
-                $month = Config::get('ccbuy.statistic.profitAll');
+                $month = Config::get($this->configFileName.'.statistic.profitAll');
                 $year = trans('statistic.allYear');
             }else{
-                $month = Config::get('ccbuy.statistic.profitMonth');
+                $month = Config::get($this->configFileName.'.statistic.profitMonth');
             }
             $title = $year . trans('statistic.chart');
             return view('statistic', ['data' => $data, 'month' => $month, 'title' => $title]);
@@ -63,40 +72,105 @@ class statisticController extends Controller
         }
     }
 
+    private function getCustomerProfits($year, $refresh)
+    {
+
+    }
+
     /**
      * @param $year - get all data by year
      * @return array - array that show every month data(profits)
      */
-    private function getProfitsByYear ($year)
+    private function getProfitsByYear ($year, $type)
     {
-        if ($year == 'all') {
-            $data = DB::table('carts')->select('profits', 'date')->get();
-        }else{
+        $profits = '';
+        if ($year === 'All') {  //get all data by year
+            //$data = DB::table('carts')->select('profits', 'date')->get();
+            if(!array_key_exists('profitAll',Config::get($this->configFileName.'.statistic')))
+                return false;
+            $allYears = explode(',',Config::get($this->configFileName.'.statistic.profitAll'));
+            switch ($type) {
+                case 'profit':
+                    foreach ($allYears as $year) {
+                        $profits .= DB::table('carts')->whereRaw('year(date)=' . $year)->sum('profits') . ',';
+                    }
+                    break;
+                default:
+                    return '';
+            }
+            $profits = rtrim($profits, ',');
+        }else{      //get all data by month
             $data = DB::table('carts')->select('profits', 'date')->whereRaw('year(date)='.$year)->get();
-        }
-        $arr = array();
-        foreach ($data as $d) {
-            if($d->date != null) {
-                $date = explode('-', $d->date);
-                $monthNum = (int)$date[1];
-                if (array_key_exists($monthNum, $arr)) {
-                    $arr[$monthNum] += $d->profits;
-                } else {
-                    $arr[$monthNum] = $d->profits;
+            $arr = array();
+            foreach ($data as $d) {
+                if($d->date != null) {
+                    $date = explode('-', $d->date);
+                    $monthNum = (int)$date[1];
+                    if (array_key_exists($monthNum, $arr)) {
+                        $arr[$monthNum] += $d->profits;
+                    } else {
+                        $arr[$monthNum] = $d->profits;
+                    }
                 }
             }
+            $profits = $this->getSumByMonth($arr);
         }
-        $profits = $this->getSumByMonth($arr);
         return $profits;
     }
 
+    private function getProfitByCustomer($year, $refresh, $type)
+    {
+        $profitAll = explode(',', Config::get($this->configFileName.'.statistic.profitAll'));
+        $path = Config::get($this->configFileName.'.statistic.profitsPath.'. $type . $year);
+        if(!in_array($year, $profitAll) && $year != 'All')
+            return '';
+        $profits = [];
+        if ($refresh) {     //if refresh
+            $profits = $this->getProfitByCustomer_getData($year);
+            file_put_contents(public_path($path), serialize($profits));
+        }else{
+            $profits = unserialize(file_get_contents($path));
+            if(!$profits){
+                $profits = $this->getProfitByCustomer_getData($year);
+                file_put_contents(public_path($path), serialize($profits));
+            }
+        }
+        $data = $month = '';
+        foreach ($profits as $profit) {     //the return data's format is array. like 'customer' => 'profits'
+            foreach ($profit as $customer => $sum) {
+            }
+            $data .= $sum . ',';
+            $month .= $customer . ',';
+        }
+        $title = $year . $type . trans('statistic.chart');
+        $month = rtrim($month, ',');
+        return view('statistic', ['data' => $data, 'month' => $month, 'title' => $title]);
+    }
+
+    private function getProfitByCustomer_getData($year)
+    {
+        $profits = [];
+        $customers = DB::table('customs')->get();
+        if ($year === 'All') {
+            foreach ($customers as $customer) {
+                $sum = DB::table('carts')->where('customs_id', $customer->id)->sum('profits');
+                array_push($profits,[$customer->customName => $sum]);
+            }
+        } else{
+            foreach ($customers as $customer) {
+                $sum = DB::table('carts')->where('customs_id', $customer->id)->whereRaw('year(date)=' . $year)->sum('profits');
+                array_push($profits,[$customer->customName => $sum]);
+            }
+        }
+        return $profits;
+    }
     /**
      * @param $arr - get all the summary of profits by month
      * @return string - such as '1,2,3 ...'
      */
     private function getSumByMonth($arr)
     {
-        $monthList = explode(',', Config::get('ccbuy.statistic.profitMonth'));
+        $monthList = explode(',', Config::get($this->configFileName.'.statistic.profitMonth'));
         $returnData = [];
         foreach ($monthList as $month) {
             switch ($month) {

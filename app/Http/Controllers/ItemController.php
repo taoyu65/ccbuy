@@ -77,22 +77,30 @@ class ItemController extends Controller
             //set profits for table carts
             $cartId = $item->carts_id;
             $cart = Cart::find($cartId);
-            $profitCurrent = $cart->profits;
-            $postCost = $cart->weight * $cart->postRate;
-            if($postCost == 0) {   //the deal has not been done, post cost or post rate is gonna be 0
-                $profitNow = $item->itemProfit + $profitCurrent;
-            }else{
-                if($cart->profits == 0){    //the first item will be record and the post fee will be minus
-                    $profitNow = $item->itemProfit + $profitCurrent - $postCost;
-                } else {
+            if ($cart != null) {
+                $profitCurrent = $cart->profits;
+                $postCost = $cart->weight * $cart->postRate;
+                if($postCost == 0) {   //the deal has not been done, post cost or post rate is gonna be 0
                     $profitNow = $item->itemProfit + $profitCurrent;
+                }else{
+                    if($cart->profits == 0){    //the first item will be record and the post fee will be minus
+                        $profitNow = $item->itemProfit + $profitCurrent - $postCost;
+                    } else {
+                        $profitNow = $item->itemProfit + $profitCurrent;
+                    }
                 }
-            }
-            DB::table('carts')->where('id', $cartId)->update(['profits' => $profitNow]);
-            if($dm){
-                return redirect('item/create/daimai')->with('status', '添加记录成功');
+                DB::table('carts')->where('id', $cartId)->update(['profits' => $profitNow]);
+                if($dm){
+                    return redirect('item/create/daimai')->with('status', '添加记录成功');
+                }else{
+                    return redirect('item/create')->with('status', '添加记录成功');
+                }
             }else{
-                return redirect('item/create')->with('status', '添加记录成功');
+                if($dm){
+                    return redirect('item/create/daimai')->with('status', '添加记录成功,但是更新利润失败');
+                }else{
+                    return redirect('item/create')->with('status', '添加记录成功,但是更新利润失败,');
+                }
             }
         } else {
             return redirect()->back()->withInput()->withErrors('保存失败！');

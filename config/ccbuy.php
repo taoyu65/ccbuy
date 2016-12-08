@@ -345,13 +345,13 @@ return [
         'profitsPath' => [
             'profit2016'    => 'json/profit2016.json',
             'profit2017'    => 'json/profit2017.json',
-            'profitall'     => 'json/profitAll.json',
-            'custom2016'    => 'json/custom2016.json',
-            'custom2017'    => 'json/custom2017.json',
-            'customAll'     => 'json/customAll.json',
+            'profitAll'     => 'json/profitAll.json',
+            'customer2016'  => 'json/customer2016.json',
+            'customer2017'  => 'json/customer2017.json',
+            'customerAll'   => 'json/customerAll.json',
         ],
         'profitMonth'   => 'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec',
-        'profitAll'     => '2016,2017',
+        'profitAll'     => '2016,2017,2018',
     ]
     #endregion
 ];
