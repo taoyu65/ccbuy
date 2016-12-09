@@ -79,6 +79,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('firstpage', 'ItemController@firstPage');
         #statistics
         Route::get('statistics/{x}/{y}/{refresh?}', 'statisticController@index');
+        Route::get('statisticsAllItem/{refresh?}', 'statisticController@allItem');
         #customs
         Route::get('showcustomwindow', 'CustomController@showWindow');
         Route::post('addcustom', 'CustomController@add');

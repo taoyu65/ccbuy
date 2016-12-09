@@ -72,9 +72,40 @@ class statisticController extends Controller
         }
     }
 
-    private function getCustomerProfits($year, $refresh)
+    public function allItem($refresh = 'dfsa')
     {
+        $path = Config::get($this->configFileName.'.statistic.profitsPath.allItem');
+        if ($refresh === 'refresh') {       //if refresh
+            $profits = $this->getAllItem();
+            file_put_contents(public_path($path), $profits);
+        }else{
+            $profits = file_get_contents($path);
+            if(!$profits || empty($profits)){
+                $profits = $this->getAllItem();
+                file_put_contents(public_path($path), $profits);
+            }
+        }
+        return view('statisticAllItem', ['dataSet' => $profits]);
+    }
 
+    private function getAllItem()
+    {
+        $dataSet = [];
+        $customers = DB::table('customs')->get();
+        foreach ($customers as $customer) {
+            $items = DB::table('items')
+                ->join('carts', 'items.carts_id' , '=', 'carts.id')
+                ->join('customs', 'customs.id', '=', 'carts.customs_id')
+                ->where('customs.id', $customer->id)->get();
+            $xyr = [];
+            foreach ($items as $item) {
+                array_push($xyr, array('x' => (int)$item->costPrice, 'y' => (int)$item->sellPrice, 'r' => (int)$item->itemProfit));
+            }
+            if(count($xyr) > 0)
+                $dataSet[$customer->customName] = $xyr;
+        }
+        //dd($dataSet);
+        return json_encode($dataSet);
     }
 
     /**

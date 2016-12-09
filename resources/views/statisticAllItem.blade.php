@@ -53,8 +53,6 @@
     <script type="text/javascript" src='{{url("js/Chart.min.js")}}'></script>
     <canvas id="myChart" width="600" height="300"></canvas>
     <script>
-
-
         var color = [
             'rgba(255, 99, 132, 1)',
             'rgba(54, 162, 235, 1)',
@@ -69,55 +67,47 @@
             'rgba(165,42,42, 1)',
             'rgba(105,105,105, 1)',
         ];
-        var borderColor = [
-            'rgba(255,99,132,1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)',
-            'rgba(199,21,133, 1)',
-            'rgba(95,158,160, 1)',
-            'rgba(85,107,47, 1)',
-            'rgba(0,255,0, 1)',
-            'rgba(165,42,42, 1)',
-            'rgba(105,105,105, 1)',
-        ];
-        var customers = ("{{$month}}").split(',');
-        for (var i = 12; i < customers.length; i++) {
-            var r = GetRandomNum(0, 250).toString();
-            var g = GetRandomNum(0, 250).toString();
-            var b = GetRandomNum(0, 250).toString();
-            var a = Math.random().toFixed(1).toString();
-            color.push('rgba('+r+', '+g+', '+b+', 0.5)');
-            borderColor.push('rgba('+r+', '+g+', '+b+', 1)');
-        }
 
-        var ctx = $("#myChart");
-        var myChart = new Chart(ctx, {
-            type: 'horizontalBar',
-            display: true,
-            data: {
-                labels: "{{$month}}".split(','),
-                datasets: [{
-                    label: '{{$title}}',
-                    data: "{{$data}}".split(','),
-                    backgroundColor: color,
-                    borderColor: borderColor,
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    xAxes: [{
-                        ticks: {
-                            //beginAtZero:true,
-                            //stepSize: 2
-                        }
-                    }]
-                }
+        var returnData = '{!! $dataSet !!}';
+        var jsonData = eval('(' + returnData + ')');
+        var arr = [];
+        var i = 0;
+        for(var label in jsonData){
+            i++;
+            if(i > 12) {
+                var r = GetRandomNum(0, 250).toString();
+                var g = GetRandomNum(0, 250).toString();
+                var b = GetRandomNum(0, 250).toString();
+                color.push('rgba('+r+', '+g+', '+b+', 0.8)');
             }
-        });
+            var json = {
+                label: label,
+                data: jsonData[label],
+                backgroundColor: color[i],
+                //hoverBackgroundColor: "#FF6384",
+            };
+            arr.push(json);
+        }
+        var bubbleChartData = {
+            datasets: arr
+        };
+        window.onload = function() {
+            var ctx = document.getElementById("myChart").getContext("2d");
+            window.myChart = new Chart(ctx, {
+                type: 'bubble',
+                data: bubbleChartData,
+                options: {
+                    responsive: true,
+                    title:{
+                        display:true,
+                        text:'Chart.js Bubble Chart'
+                    },
+                    tooltips: {
+                        mode: 'point'
+                    }
+                }
+            });
+        };
         //get refresh page
         function refresh() {
             var url = document.URL;
@@ -133,5 +123,6 @@
             return(Min + Math.round(Rand * Range));
         }
     </script>
+
     <button type="button" class="btn btn-default btn-lg btn-block" onclick="refresh();"><strong>{{trans('statistic.refresh')}}</strong></button>
 @endsection

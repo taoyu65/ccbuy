@@ -349,6 +349,7 @@ return [
             'customer2016'  => 'json/customer2016.json',
             'customer2017'  => 'json/customer2017.json',
             'customerAll'   => 'json/customerAll.json',
+            'allItem'       => 'json/allItem.json',
         ],
         'profitMonth'   => 'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec',
         'profitAll'     => '2016,2017,2018',
