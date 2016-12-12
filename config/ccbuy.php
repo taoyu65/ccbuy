@@ -140,15 +140,23 @@ return [
         ]
     ],
     /* on the back end table edit pages , use for located which column will be showing on the drop down list
-       'tableName' => 'showingField'    - if 'id' of table A as a foreign key is showing on table B, than 'showingField' will be showing on the output of drop down list
+     * can be multiple foreign key set up on one table
     */
     'dropDownName'  => [
-        'carts'     => 'rename',
-        'customs'   => 'customName',
-        'incomes'   => '',
-        'items'     => 'itemName',
-        'stores'    => 'storeName',
-        'users'     => 'name'
+        'carts'            => [
+            [
+                'foreignKey'        => 'customs_id',    //foreign key column name
+                'foreignTableName'  => 'customs',       //table's name relative the table that has its foreign key
+                'columnShow'        => 'customName'     //column name use for showing on the web page
+            ],
+        ],
+        'items'            => [
+            [
+                'foreignKey'        => 'stores_id',
+                'foreignTableName'  => 'stores',
+                'columnShow'        => 'storeName'
+            ],
+        ],
     ],
     //show which field(column) will be showing - all the table name array must be present when you new table (class) and showColum as a parameter
     'showColumn'    => [
@@ -167,21 +175,27 @@ return [
     'delete'        => [
         'carts' => [
             'interlock' => [
-                'items' => [
-                    'field' => [    //use for showing on the output page
-                        'id' => 'ID',
-                        'itemName' => '物品名称',
+                'items'     => [
+                    'columnName'=> 'carts_id',    //column name(foreign key) for locating the items will be deleted
+                    'field'     => [              //use for showing on the output page
+                        'id'        => 'ID',
+                        'itemName'  => '物品名称',
                         'sellPrice' => '出售金额',
-                        'date' => '日期'
+                        'date'      => '日期'
                     ]
                 ]
             ]
         ],
         'customs' => [
-            'existing' => 'carts'
+            'existing' => [
+                'carts'     => 'customs_id'      //check if id in the existing table is exist or not
+                //'otherTable' => 'foreignId'
+            ]
         ],
         'stores' => [
-            'existing' => 'items'
+            'existing' => [
+                'items'     => 'stores_id'
+            ]
         ]
     ],
     /*special operation (only focus on the effect of data change) like delete one record from A table, than the data of a record from table B will be changed. the role can be customized

@@ -1,7 +1,6 @@
 
 @extends('layouts.ccadmin')
 @section('content1')
-    <script type="text/javascript" src='{{url("ui/layer/layer.js")}}'></script>
     <script type="text/javascript" src='{{url("ui/laydate/laydate.js")}}'></script>
     <script type="text/javascript">
         //change hover css when change different table

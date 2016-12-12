@@ -1,7 +1,6 @@
 <?php
 namespace App\Foundations;
 
-use App\Http\Requests\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Crypt;
@@ -42,6 +41,8 @@ class Table
             } elseif (is_array($columnName)) {
                 $this->columnName = $columnName;
             }
+            if ($columnName === null)   //if give a wrong table name than return null 
+                return ;
             //making sure has id column in array columnName because of order by
             if (!in_array('id', $this->columnName)) {
                 array_unshift($this->columnName, 'id');
@@ -436,17 +437,21 @@ class Table
      */
     private function getDropDownList($columnName, $foreignId, $tab)
     {
-        $arr = explode('_', $columnName);
-        if (count($arr) <= 1){
-            $tableName = $columnName;
-        }else{
-            $tableName = $arr[0];
+        $configDropDownList = Config::get($this->configFileName . '.dropDownName');
+        if(!array_key_exists($this->tableName, $configDropDownList)){
+            echo '';return false;
         }
-        //
-        $showDropDownName = $this->getDropDownName($tableName);
+        $rules = $configDropDownList[$this->tableName];
+        $tableName = $showDropDownName = '';
+        foreach ($rules as $rule) {
+            if ($rule['foreignKey'] === $columnName) {
+                $tableName = $rule['foreignTableName'];
+                $showDropDownName = $rule['columnShow'];
+            }
+        }
         $data = DB::table($tableName)->get();
         $html = '<select class="form-control input-sm" id="'.$tab.$columnName.'" name="'.$tab.$columnName.'">';
-        $html .= '<option value="">'.trans('cc_admin/table.dropList').'</option>';
+        $html .= '<option value="">请选择</option>';
         foreach ($data as $d) {
             if ($foreignId == $d->id) {
                 $html .= '<option value="'.$d->id.'" selected>'.$d->$showDropDownName.'</option>';
@@ -456,20 +461,6 @@ class Table
         }
         $html .= '</select>';
         return $html;
-    }
-
-    /**
-     * @param $tableName
-     * @return string - return the column name that showing in the drop down list as text will be set up in the ccbuy config
-     */
-    private function getDropDownName($tableName)
-    {
-        $nameList = Config::get($this->configFileName . '.dropDownName');
-        if (array_key_exists($tableName, $nameList)) {
-            return $nameList[$tableName];
-        }
-        //anything happened will be showing id column
-        return 'id';
     }
 
     /**
@@ -504,12 +495,12 @@ class Table
                 switch ($type) {
                     case 'interlock':
                         foreach ($b as $foreignTableName => $field) {
-                            foreach ($field as $f => $fieldShow) {
-                                $warning = $this->getWarningHtml_interlock($foreignTableName, $id, $fieldShow);
-                                $html .= $warning;
-                                if ($warning != '')
-                                    $deleteString .= $foreignTableName . ':' . $this->tableName . '_id=' . $id . ',';
-                            }
+                            $foreignId = $field['columnName'];
+                            $fieldShow = $field['field'];
+                            $warning = $this->getWarningHtml_interlock($foreignTableName, $id, $fieldShow, $foreignId);
+                            $html .= $warning;
+                            if ($warning != '')
+                                $deleteString .= $foreignTableName . ':' . $foreignId . '=' . $id . ',';
                         }
                         break;
                     case 'existing':
@@ -539,18 +530,19 @@ class Table
 
     /**
      * only delete record when no another table's record related this record
-     * @param $foreignTableName - foreign table from config file
+     * @param $rules - foreign table from config file
      * @param $id
      * @return string
      */
-    private function getWarningHtml_existing($foreignTableName, $id)
+    private function getWarningHtml_existing($rules, $id)
     {
-        $html = '';
-        $foreignId = $this->tableName . '_id';
-        $result = DB::table($foreignTableName)->where($foreignId, $id)->first();
-        if ($result)
-            $html = '<script type="application/javascript">$("#btsubmit").attr("disabled",true);</script><div class="alert alert-danger" role="alert"><strong>警告! </strong>不能删除此条记录! 仍然有数据在使用此条记录! 请先删除相关记录</div>';
-        return $html;
+        foreach ($rules as $foreignTableName => $foreignId) {
+            $result = DB::table($foreignTableName)->where($foreignId, $id)->first();
+            if ($result) {
+                $html = '<script type="application/javascript">$("#btsubmit").attr("disabled",true);</script><div class="alert alert-danger" role="alert"><strong>警告! </strong>不能删除此条记录! 表:' . $foreignTableName . ' 仍然有数据在使用此条记录! 请先删除相关记录</div>';
+                return $html;
+            }
+        }
     }
 
     /**
@@ -558,12 +550,13 @@ class Table
      * @param $foreignTableName - foreign table name which is related to
      * @param $id - foreign id
      * @param $showingColumn - title
+     * @param $foreignId
      * @return string
      */
-    private function getWarningHtml_interlock($foreignTableName, $id, $showingColumn)
+    private function getWarningHtml_interlock($foreignTableName, $id, $showingColumn, $foreignId)
     {
-        $foreignKey = $this->tableName . '_id';
-        $data = DB::table($foreignTableName)->where($foreignKey, $id)->get();
+        //$foreignKey = $this->tableName . '_id';
+        $data = DB::table($foreignTableName)->where($foreignId, $id)->get();
         $html = '';
         if (count($data) != 0) {
             $html .= '<div class="form-group">';

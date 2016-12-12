@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Foundations\Table;
-use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Crypt;
@@ -23,15 +22,6 @@ class ccTableController extends Controller
         return view('cc_admin/table', ['html' => $html, 'table' => $table]);
     }
 
-    public function showTableBySearch($table)
-    {
-        //get the column which will be shown on the page from ccbuy config
-        $showingColumn = Config::get($this->configFileName . '.showColumn.'.$table);
-        //set second para to show column that you want to review
-        $data = new Table($table, $showingColumn);
-        $html = $data->getHtml();
-        return view('cc_admin/table', ['html' => $html, 'table' => $table]);
-    }
     /**
      * edit page to show
      * @param $tableName
